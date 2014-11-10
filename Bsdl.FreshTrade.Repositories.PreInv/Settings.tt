@@ -1,0 +1,294 @@
+﻿<#@ import namespace="System.Collections.Generic" #>
+
+<#    
+    
+
+    //
+    // Settings
+    //
+
+
+    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=PFITTER;Password=PFITTER;";
+    string connectionString = "user id=PFITTER;password=PFITTER;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=islands-server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xe)))";
+
+    IDictionary<string, string> lookupTables = new Dictionary<string, string>
+                {
+//                    { "FX_YES_NO", "YesNo"},
+//                    { "FX_STATUS", "StatusEnum"},
+                };
+
+    IDictionary<string, DB_TABLE_INFO> entityTables = new Dictionary<string, DB_TABLE_INFO>
+        {
+// Temporary tables
+            { "AUDITRECORD", new DB_TABLE_INFO {
+                      TABLE_NAME="AUDITRECORD",
+                      CS_CLASS_NAME= "AuditRecord"
+                    }},
+
+            { "DELAUDIT_INT", new DB_TABLE_INFO {
+                      TABLE_NAME="DELAUDIT_INT",
+                      CS_CLASS_NAME= "DelAuditInt"
+                    }},
+
+            { "BATCH", new DB_TABLE_INFO {
+                      TABLE_NAME="BATCH",
+                      CS_CLASS_NAME= "Batch"
+                    }},
+            { "BATCHDET", new DB_TABLE_INFO {
+                      TABLE_NAME="BATCHDET",
+                      CS_CLASS_NAME= "BatchDet"
+                    }},
+
+
+            { "PREINVTEMP_INVDISCTYP", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVDISCTYP",
+                      CS_CLASS_NAME= "INVDISCTYP"
+                    }},
+            { "PREINVTEMP_INVEDI", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVEDI",
+                      CS_CLASS_NAME= "INVEDI"
+                    }},
+            { "PREINVTEMP_INVERR", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVERR",
+                      CS_CLASS_NAME= "INVERR"
+                    }},
+            { "PREINVTEMP_INVPRT", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVPRT",
+                      CS_CLASS_NAME= "INVPRT"
+                    }},
+            { "PREINVTEMP_INVPRT1", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVPRT1",
+                      CS_CLASS_NAME= "INVPRT1"
+                    }},
+            { "PREINVTEMP_INVPRT2", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVPRT2",
+                      CS_CLASS_NAME= "INVPRT2"
+                    }},
+            { "PREINVTEMP_INVTOT", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVTOT",
+                      CS_CLASS_NAME= "INVTOT"
+                    }},
+            { "PREINVTEMP_INVEXTRACTHED", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_INVEXTRACTHED",
+                      CS_CLASS_NAME= "InvExtractHed"
+                    }},
+            { "PREINVTEMP_PREINVPRT", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_PREINVPRT",
+                      CS_CLASS_NAME= "PreINVPRT"
+                    }},
+            { "PREINVTEMP_PREINVPRT2", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_PREINVPRT2",
+                      CS_CLASS_NAME= "PreINVPRT2"
+                    }},
+            { "PREINVTEMP_PREINVTOT", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVTEMP_PREINVTOT",
+                      CS_CLASS_NAME= "PreINVTOT"
+                    }},
+            //source
+            { "PRCNEWCSTS", new DB_TABLE_INFO {
+                      TABLE_NAME="PRCNEWCSTS",
+                      CS_CLASS_NAME= "PRCNEWCSTS"
+                    }},
+            { "HOFCST", new DB_TABLE_INFO {
+                      TABLE_NAME="HOFCST",
+                      CS_CLASS_NAME= "HOFCST"
+                    }},
+            { "GLBRKON", new DB_TABLE_INFO {
+                      TABLE_NAME="GLBRKON",
+                      CS_CLASS_NAME= "GLBRKON"
+                    }},
+
+            { "DELHED", new DB_TABLE_INFO {
+                      TABLE_NAME="DELHED",
+                      CS_CLASS_NAME= "DELHED"
+                    }},
+            { "DELDET", new DB_TABLE_INFO {
+                      TABLE_NAME="DELDET",
+                      CS_CLASS_NAME= "DELDET"
+                    }},
+            { "DELTOIST", new DB_TABLE_INFO {
+                      TABLE_NAME="DELTOIST",
+                      CS_CLASS_NAME= "DELTOIST"
+                    }},
+            { "DELTOCDT", new DB_TABLE_INFO {
+                      TABLE_NAME="DELTOCDT",
+                      CS_CLASS_NAME= "DelToCdt"
+                    }},                    
+            { "CDTNONREL", new DB_TABLE_INFO {
+                      TABLE_NAME="CDTNONREL",
+                      CS_CLASS_NAME= "CreditNoteToDelivery"
+                    }},
+             // common
+            { "ACCRECHG", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCRECHG",
+                      CS_CLASS_NAME= "AccReChg"
+                    }},
+            { "ORDERS", new DB_TABLE_INFO {
+                      TABLE_NAME="ORDERS",
+                      CS_CLASS_NAME= "Order"
+                    }},
+            { "DELPRICE", new DB_TABLE_INFO {
+                      TABLE_NAME="DELPRICE",
+                      CS_CLASS_NAME= "DelPrice"
+                    }},
+            { "DLVTYPE", new DB_TABLE_INFO {
+                      TABLE_NAME="DLVTYPE",
+                      CS_CLASS_NAME= "Dlvtype"
+                    }},
+            { "PRDREC", new DB_TABLE_INFO {
+                      TABLE_NAME="PRDREC",
+                      CS_CLASS_NAME= "Prdrec"
+                    }},
+
+            { "POSTTYPE", new DB_TABLE_INFO {
+                      TABLE_NAME="POSTTYPE",
+                      CS_CLASS_NAME= "PostType"
+                    }},
+
+            { "STOCLOC", new DB_TABLE_INFO {
+                      TABLE_NAME="STOCLOC",
+                      CS_CLASS_NAME= "StocLoc"
+                    }},
+            { "VATLINKS", new DB_TABLE_INFO {
+                      TABLE_NAME="VATLINKS",
+                      CS_CLASS_NAME= "VatLinks"
+                    }},
+            { "VATRATES", new DB_TABLE_INFO {
+                      TABLE_NAME="VATRATES",
+                      CS_CLASS_NAME= "VatRates"
+                    }},
+            { "PRCCSTINFO", new DB_TABLE_INFO {
+                      TABLE_NAME="PRCCSTINFO",
+                      CS_CLASS_NAME= "PrcCstInfo"
+                    }},
+            { "PREINVERRORS", new DB_TABLE_INFO {
+                      TABLE_NAME="PREINVERRORS",
+                      CS_CLASS_NAME= "PreInvError"
+                    }},
+            { "COSUPPNO", new DB_TABLE_INFO {
+                      TABLE_NAME="COSUPPNO",
+                      CS_CLASS_NAME= "EdiCoSuppNo"
+                    }},
+            { "DISCSTS", new DB_TABLE_INFO {
+                      TABLE_NAME="DISCSTS",
+                      CS_CLASS_NAME= "DisCsts"
+                    }},
+            { "DISCPRDS", new DB_TABLE_INFO {
+                      TABLE_NAME="DISCPRDS",
+                      CS_CLASS_NAME= "DiscPrds"
+                    }},
+            { "DISGRPS", new DB_TABLE_INFO {
+                      TABLE_NAME="DISGRPS",
+                      CS_CLASS_NAME= "DisGrps"
+                    }},
+            { "DISRATES", new DB_TABLE_INFO {
+                      TABLE_NAME="DISRATES",
+                      CS_CLASS_NAME= "DisRates"
+                    }},
+                    
+                    
+
+            //destinations
+
+            { "EXPCHA", new DB_TABLE_INFO {
+                      TABLE_NAME="EXPCHA",
+                      CS_CLASS_NAME= "ExpCha"
+                    }},
+
+            { "ITECHG", new DB_TABLE_INFO {
+                      TABLE_NAME="ITECHG",
+                      CS_CLASS_NAME= "IteChg"
+                    }},
+
+            { "ACCVAT", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCVAT",
+                      CS_CLASS_NAME= "AccVAT"
+                    }},
+
+            { "ACCTRNFIL", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCTRNFIL",
+                      CS_CLASS_NAME= "AccTrnFil"
+                    }},
+
+            { "ACCALLOC", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCALLOC",
+                      CS_CLASS_NAME= "AccAlloc"
+                    }},
+
+            { "ACCITE", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCITE",
+                      CS_CLASS_NAME= "Accite"
+                    }},
+
+            { "GLTRANS", new DB_TABLE_INFO {
+                      TABLE_NAME="GLTRANS",
+                      CS_CLASS_NAME= "GLTrans"
+                    }},
+
+
+            { "ACCALLVAL", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCALLVAL",
+                      CS_CLASS_NAME= "AccAllVal"
+                    }},
+
+
+            { "EDIINV", new DB_TABLE_INFO {
+                      TABLE_NAME="EDIINV",
+                      CS_CLASS_NAME= "EdiInv"
+                    }},
+
+
+            { "ICHDISCTYP", new DB_TABLE_INFO {
+                      TABLE_NAME="ICHDISCTYP",
+                      CS_CLASS_NAME= "IchDiscTyp"
+                    }},
+            
+            { "EDILOGHEADER", new DB_TABLE_INFO {
+                      TABLE_NAME="EDILOGHEADER",
+                      CS_CLASS_NAME= "EdiLogHeader"
+                    }},
+
+            { "EDILOGINVOICE", new DB_TABLE_INFO {
+                      TABLE_NAME="EDILOGINVOICE",
+                      CS_CLASS_NAME= "EdiLogInvoice"
+                    }}
+
+
+        };
+
+
+    bool generateDTOCode = true;
+    string dtoNameTemplate = "dto/{0}.dto.cs";
+    string dtoNamespace = "Bsdl.FreshTrade.Repositories.PreInv.dto";
+
+    bool generateEntityTablesOnly= true;
+
+    string entityNameTemplate = "DBModel/{0}.db.cs";
+
+    string configurationNameTemplate = "Configurations/{0}Configuration.cs";
+    string enumNameTemplate = "Enums/{0}.cs";
+
+    bool generateDBStorageCode = false;    
+
+    string dbStorageGenerated = "Storage/DbStorage.generated.cs";
+    string idbStorageGenerated = "Storage/IDbStorage.generated.cs";
+    string dbStorageXml = "DbStorage.xml";
+
+    string entitiesNamespace = "Bsdl.FreshTrade.Repositories.PreInv.DBModel";
+    string configurationsNamespace = "Bsdl.FreshTrade.Repositories.Basic.Configurations";
+    string enumsNamespace = null;
+    string storageNamespace = "Bsdl.FreshTrade.Repositories.Basic.DBModel";
+#>
+
+
+<#+
+    public class DB_TABLE_INFO {
+        public string TABLE_NAME {get;set;}
+        public string CS_CLASS_NAME {get;set;}
+        public string CS_CLASS_KIND {get;set;}
+        public string HAS_AUTO_PK {get;set;}
+        public string PK_SEQUENCE_NAME {get;set;}
+        public string IS_NEW_ID_NEGATIVE {get; set;}
+        public string HIS_TABLE_NAME {get; set;}
+    };
+#>

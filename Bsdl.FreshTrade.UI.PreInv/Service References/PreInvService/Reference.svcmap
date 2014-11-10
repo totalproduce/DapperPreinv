@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="e76701f9-4bf8-47ee-a326-533b156fc1f6" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:61111/PreInvService.svc" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="PreInvService.xsd" MetadataType="Schema" ID="62fe49b8-fe6e-4be9-a054-3df70506d562" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?xsd=xsd4" />
+    <MetadataFile FileName="PreInvService1.xsd" MetadataType="Schema" ID="eb81d1b3-5586-42c1-869c-14e815b25fd6" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?xsd=xsd5" />
+    <MetadataFile FileName="PreInvService.disco" MetadataType="Disco" ID="1a7f92ae-40a5-48a5-be82-6d90df1e0c42" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?disco" />
+    <MetadataFile FileName="PreInvService2.xsd" MetadataType="Schema" ID="f7408f22-7196-4b2a-b540-35780bae9e34" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?xsd=xsd0" />
+    <MetadataFile FileName="PreInvService3.xsd" MetadataType="Schema" ID="e1984b6d-d19a-47b3-a5de-00906d33417d" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?xsd=xsd1" />
+    <MetadataFile FileName="PreInvService4.xsd" MetadataType="Schema" ID="305e7c24-0788-4947-8347-b01702450bf9" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?xsd=xsd2" />
+    <MetadataFile FileName="PreInvService5.xsd" MetadataType="Schema" ID="11dd22d8-a115-4557-a35e-adc551746b3f" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?xsd=xsd3" />
+    <MetadataFile FileName="PreInvService.wsdl" MetadataType="Wsdl" ID="6f1a8b34-b875-4c52-92a4-9280845d46ad" SourceId="1" SourceUrl="http://localhost:61111/PreInvService.svc?wsdl" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

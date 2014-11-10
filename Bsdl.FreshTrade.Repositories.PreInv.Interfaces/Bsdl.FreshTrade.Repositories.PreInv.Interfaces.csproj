@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6B47272B-4043-4AD6-B93E-D7A94E585EA1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Repositories.PreInv.Interfaces</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Repositories.PreInv.Interfaces</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="IAccAllocRepository.cs" />
+    <Compile Include="IAccAllValRepository.cs" />
+    <Compile Include="IAcciteRepository.cs" />
+    <Compile Include="IAccReChgRepository.cs" />
+    <Compile Include="IAccToProcessRepository.cs" />
+    <Compile Include="IAccTrnFilRepository.cs" />
+    <Compile Include="IAccVATRepository.cs" />
+    <Compile Include="IAuditRecordRepository.cs" />
+    <Compile Include="IBatchDetRepository.cs" />
+    <Compile Include="IBatchRepository.cs" />
+    <Compile Include="ICustomerDiscountRatesRepository.cs" />
+    <Compile Include="ICustomerProductInfoRepository.cs" />
+    <Compile Include="IDelAuditRecordRepository.cs" />
+    <Compile Include="IDeliveryDetailRepository.cs" />
+    <Compile Include="IDeliveryHeadRepository.cs" />
+    <Compile Include="IDeliveryPriceRepository.cs" />
+    <Compile Include="IDeliveryPriceToCreditNoteRepository.cs" />
+    <Compile Include="IDeliveryToItemStockRepository.cs" />
+    <Compile Include="IDeliveryTypeRepository.cs" />
+    <Compile Include="IDiscountRatesRepository.cs" />
+    <Compile Include="IEdiCoSuppNoRepository.cs" />
+    <Compile Include="IEdiInvRepository.cs" />
+    <Compile Include="IEdiLogInvoiceRepository.cs" />
+    <Compile Include="IErrorDescriptionRepository.cs" />
+    <Compile Include="IExpChaRepository.cs" />
+    <Compile Include="IGLTransRepository.cs" />
+    <Compile Include="IHeadOfficeRepository.cs" />
+    <Compile Include="IIchDiscTypRepository.cs" />
+    <Compile Include="IInvExtractHedRepository.cs" />
+    <Compile Include="IINVPRT2Repository.cs" />
+    <Compile Include="IIteChgRepository.cs" />
+    <Compile Include="IINVDISCTYPRepository.cs" />
+    <Compile Include="IINVEDIRepository.cs" />
+    <Compile Include="IINVERRRepository.cs" />
+    <Compile Include="IINVPRTRepository.cs" />
+    <Compile Include="IInvTotRepository.cs" />
+    <Compile Include="IOrderRepository.cs" />
+    <Compile Include="IPostTypeRepository.cs" />
+    <Compile Include="IPreINVPRT2Repository.cs" />
+    <Compile Include="IPreINVPRTRepository.cs" />
+    <Compile Include="IPreInvTotRepository.cs" />
+    <Compile Include="IPriceGroupRepository.cs" />
+    <Compile Include="IPriceListVatCheckRepository.cs" />
+    <Compile Include="IProductRepository.cs" />
+    <Compile Include="IStockLocationRepository.cs" />
+    <Compile Include="IVatLinkRepository.cs" />
+    <Compile Include="IVatRateRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.PreInv\Bsdl.FreshTrade.Domain.PreInv.csproj">
+      <Project>{655A8F38-83A5-4BFB-887D-45C0BF1E5A07}</Project>
+      <Name>Bsdl.FreshTrade.Domain.PreInv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic.Interfaces\Bsdl.FreshTrade.Repositories.Basic.Interfaces.csproj">
+      <Project>{11390DF6-D8F3-41E9-BCB4-85B8509EEB5B}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

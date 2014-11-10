@@ -1,0 +1,91 @@
+﻿<#@ import namespace="System.Collections.Generic" #>
+
+<#    
+    
+
+    //
+    // Settings
+    //
+
+
+    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=PFITTER;Password=PFITTER;";
+    string connectionString = "user id=PFITTER;password=PFITTER;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=islands-server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xe)))";
+
+    IDictionary<string, string> lookupTables = new Dictionary<string, string>
+                {
+//                    { "FX_YES_NO", "YesNo"},
+//                    { "FX_STATUS", "StatusEnum"},
+                };
+
+    IDictionary<string, DB_TABLE_INFO> entityTables = new Dictionary<string, DB_TABLE_INFO>
+        {
+            { "ACCOUNTS", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCOUNTS",
+                      CS_CLASS_NAME= "Account"
+                    }},
+            { "ACCCLASS", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCCLASS",
+                      CS_CLASS_NAME= "AccClass"
+                    }},
+            { "ACCCURRDESC", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCCURRDESC",
+                      CS_CLASS_NAME= "AccCurrDesc"
+                    }},
+            { "CSTANREC", new DB_TABLE_INFO {
+                      TABLE_NAME="CSTANREC",
+                      CS_CLASS_NAME= "CstAnRec"
+                    }},
+            { "SALOFFNO", new DB_TABLE_INFO {
+                      TABLE_NAME="SALOFFNO",
+                      CS_CLASS_NAME= "SalesOfficeResultsLineBase"
+                    }},
+		    { "GLBRKON", new DB_TABLE_INFO {
+                      TABLE_NAME="GLBRKON",
+                      CS_CLASS_NAME= "GLBrakedOn"
+                    }},
+		    { "CSTANGRP", new DB_TABLE_INFO {
+                      TABLE_NAME="CSTANGRP",
+                      CS_CLASS_NAME= "CustomerGroup"
+                    }},
+		    { "CSTANDES", new DB_TABLE_INFO {
+                      TABLE_NAME="CSTANDES",
+                      CS_CLASS_NAME= "CustomerCategory"
+                    }},
+			{ "ACCTOSALOFF", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCTOSALOFF",
+                      CS_CLASS_NAME= "AccountToSalesOffice"
+                    }}		
+        };
+
+    bool generateEntityTablesOnly= true;
+    bool generateDTOCode=false;
+
+    string dtoNameTemplate = "dto/{0}.dto.cs";
+    string entityNameTemplate = "DBModel/{0}.db.cs";
+    string configurationNameTemplate = "Configurations/{0}Configuration.cs";
+    string enumNameTemplate = "Enums/{0}.cs";
+
+    bool generateDBStorageCode = false;
+    string dbStorageGenerated = "Storage/DbStorage.generated.cs";
+    string idbStorageGenerated = "Storage/IDbStorage.generated.cs";
+    string dbStorageXml = "DbStorage.xml";
+
+    string entitiesNamespace = "Bsdl.FreshTrade.Repositories.Account.DBModel";
+    string configurationsNamespace = "Bsdl.FreshTrade.Repositories.Basic.Configurations";
+    string enumsNamespace = null;
+    string storageNamespace = "Bsdl.FreshTrade.Repositories.Basic.DBModel";
+    string dtoNamespace = "Bsdl.FreshTrade.Repositories.Basic.dto";
+#>
+
+
+<#+
+    public class DB_TABLE_INFO {
+        public string TABLE_NAME {get;set;}
+        public string CS_CLASS_NAME {get;set;}
+        public string CS_CLASS_KIND {get;set;}
+        public string HAS_AUTO_PK {get;set;}
+        public string PK_SEQUENCE_NAME {get;set;}
+        public string IS_NEW_ID_NEGATIVE {get; set;}
+        public string HIS_TABLE_NAME {get; set;}
+    };
+#>

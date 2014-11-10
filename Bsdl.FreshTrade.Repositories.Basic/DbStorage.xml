@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<map>
+  <Entity Id="WizSysPref">
+    <Table Name="WIZSYSPREF" />
+    <Column Member="Sysprefid" Name="SYSPREFID" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Syslookupbyfld1" Name="SYSLOOKUPBYFLD1" IsNullable="true" Size="30" />
+    <Column Member="Syslookupbyfld2" Name="SYSLOOKUPBYFLD2" IsNullable="true" Size="30" />
+    <Column Member="Syslookupbyval1" Name="SYSLOOKUPBYVAL1" IsNullable="true" Size="30" />
+    <Column Member="Syslookupbyval2" Name="SYSLOOKUPBYVAL2" IsNullable="true" Size="30" />
+    <Column Member="Syslookupdesc" Name="SYSLOOKUPDESC" IsNullable="true" Size="30" />
+    <Column Member="Syslookuptable" Name="SYSLOOKUPTABLE" IsNullable="true" Size="30" />
+    <Column Member="Syslookupvalue" Name="SYSLOOKUPVALUE" IsNullable="true" Size="30" />
+    <Column Member="Sysprefdefault" Name="SYSPREFDEFAULT" IsNullable="true" Size="30" />
+    <Column Member="Sysprefdescription" Name="SYSPREFDESCRIPTION" IsNullable="true" Size="175" />
+    <Column Member="Sysprefdetail" Name="SYSPREFDETAIL" IsNullable="true" Size="75" />
+    <Column Member="Sysprefheader" Name="SYSPREFHEADER" IsNullable="true" Size="75" />
+    <Column Member="Sysprefmax" Name="SYSPREFMAX" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Sysprefmin" Name="SYSPREFMIN" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Sysprefname" Name="SYSPREFNAME" Size="30" />
+    <Column Member="Sysprefsubdetail" Name="SYSPREFSUBDETAIL" IsNullable="true" Size="75" />
+    <Column Member="Syspreftype" Name="SYSPREFTYPE" Size="1" />
+    <Column Member="Sysprefvalue" Name="SYSPREFVALUE" IsNullable="true" Size="30" />
+  </Entity>
+  <Entity Id="SalesPerson">
+    <Table Name="SMN" />
+    <Column Member="Smnno" Name="SMNNO" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Enttype1" Name="ENTTYPE1" Precision="1" Scale="0" />
+    <Column Member="Enttype2" Name="ENTTYPE2" Precision="1" Scale="0" />
+    <Column Member="Enttype3" Name="ENTTYPE3" Precision="1" Scale="0" />
+    <Column Member="Smnactive" Name="SMNACTIVE" Precision="1" Scale="0" />
+    <Column Member="Smnextno" Name="SMNEXTNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Smngrpname" Name="SMNGRPNAME" IsNullable="true" Size="15" />
+    <Column Member="Smnid" Name="SMNID" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Smnname" Name="SMNNAME" IsNullable="true" Size="30" />
+    <Column Member="Smntouched" Name="SMNTOUCHED" Precision="1" Scale="0" />
+    <Column Member="Smntype" Name="SMNTYPE" IsNullable="true" Size="4" />
+  </Entity>
+  <Entity Id="LogToSalOff">
+    <Table Name="LOGTOSALOFF" />
+    <Column Member="Logonno" Name="LOGONNO" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Saloffno" Name="SALOFFNO" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Logcanaccts" Name="LOGCANACCTS" Precision="1" Scale="0" />
+    <Column Member="Logcanchngstc" Name="LOGCANCHNGSTC" Precision="1" Scale="0" />
+    <Column Member="Logcansell" Name="LOGCANSELL" Precision="1" Scale="0" />
+  </Entity>
+  <Entity Id="Logons">
+    <Table Name="LOGONS" />
+    <Column Member="Logonname" Name="LOGONNAME" IsPrimaryKey="true" Size="40" />
+    <Column Member="Active" Name="ACTIVE" IsNullable="true" Precision="1" Scale="0" />
+    <Column Member="Authno" Name="AUTHNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Availtomkthandheld" Name="AVAILTOMKTHANDHELD" IsNullable="true" Precision="1" Scale="0" />
+    <Column Member="Canseeallsups" Name="CANSEEALLSUPS" IsNullable="true" Precision="1" Scale="0" />
+    <Column Member="Companyno" Name="COMPANYNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Dept" Name="DEPT" IsNullable="true" Size="30" />
+    <Column Member="Emailaddress" Name="EMAILADDRESS" IsNullable="true" Size="40" />
+    <Column Member="Fax" Name="FAX" IsNullable="true" Size="30" />
+    <Column Member="HandheldmenusMenuid" Name="HANDHELDMENUS_MENUID" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Handheldpassword" Name="HANDHELDPASSWORD" IsNullable="true" Size="35" />
+    <Column Member="Langno" Name="LANGNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Loggrpno" Name="LOGGRPNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Logonno" Name="LOGONNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Phone" Name="PHONE" IsNullable="true" Size="30" />
+    <Column Member="Usergroupno" Name="USERGROUPNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Username" Name="USERNAME" IsNullable="true" Size="50" />
+  </Entity>
+  <Entity Id="Company">
+    <Table Name="COMPANY" />
+    <Column Member="Compglbrecno" Name="COMPGLBRECNO" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="AgressoBranchid" Name="AGRESSO_BRANCHID" IsNullable="true" Size="4" />
+    <Column Member="Compadd1" Name="COMPADD1" IsNullable="true" Size="40" />
+    <Column Member="Compadd2" Name="COMPADD2" IsNullable="true" Size="40" />
+    <Column Member="Compadd3" Name="COMPADD3" IsNullable="true" Size="40" />
+    <Column Member="Compadd4" Name="COMPADD4" IsNullable="true" Size="40" />
+    <Column Member="Companano" Name="COMPANANO" IsNullable="true" Size="13" />
+    <Column Member="Companyname" Name="COMPANYNAME" IsNullable="true" Size="40" />
+    <Column Member="Compcountryno" Name="COMPCOUNTRYNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Compemail" Name="COMPEMAIL" IsNullable="true" Size="30" />
+    <Column Member="Compfax" Name="COMPFAX" IsNullable="true" Size="15" />
+    <Column Member="Compphone" Name="COMPPHONE" IsNullable="true" Size="15" />
+    <Column Member="Comppostcode" Name="COMPPOSTCODE" IsNullable="true" Size="9" />
+    <Column Member="Compshortcode" Name="COMPSHORTCODE" IsNullable="true" Size="20" />
+    <Column Member="Compvatno" Name="COMPVATNO" IsNullable="true" Size="15" />
+    <Column Member="Intrataxidentifier" Name="INTRATAXIDENTIFIER" IsNullable="true" Size="20" />
+    <Column Member="Intratraderbranchid" Name="INTRATRADERBRANCHID" IsNullable="true" Size="3" />
+    <Column Member="Intratradername" Name="INTRATRADERNAME" IsNullable="true" Size="30" />
+    <Column Member="Packhousecode" Name="PACKHOUSECODE" IsNullable="true" Size="2" />
+    <Column Member="Prophetediextract" Name="PROPHETEDIEXTRACT" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Saloffno" Name="SALOFFNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Ssccanano" Name="SSCCANANO" IsNullable="true" Size="10" />
+    <Column Member="Tradacomidentity" Name="TRADACOMIDENTITY" IsNullable="true" Size="20" />
+  </Entity>
+  <Entity Id="CurrencyRate">
+    <Table Name="ACCCURRRATE" />
+    <Column Member="Ratcurno" Name="RATCURNO" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Ratusefor" Name="RATUSEFOR" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Ratratefrombase" Name="RATRATEFROMBASE" IsNullable="true" Precision="126" />
+    <Column Member="Ratratefromeuro" Name="RATRATEFROMEURO" IsNullable="true" Precision="126" />
+    <Column Member="Ratratetobase" Name="RATRATETOBASE" IsNullable="true" Precision="126" />
+    <Column Member="Ratratetoeuro" Name="RATRATETOEURO" IsNullable="true" Precision="126" />
+  </Entity>
+  <Entity Id="AccCurrDesc">
+    <Table Name="ACCCURRDESC" />
+    <Column Member="Curno" Name="CURNO" IsPrimaryKey="true" Precision="5" Scale="0" />
+    <Column Member="Curcode" Name="CURCODE" IsNullable="true" Size="3" />
+    <Column Member="Curdecimalplaces" Name="CURDECIMALPLACES" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Curdecimalpoint" Name="CURDECIMALPOINT" IsNullable="true" Size="1" />
+    <Column Member="Curdefbanrecno" Name="CURDEFBANRECNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Curdesc" Name="CURDESC" IsNullable="true" Size="30" />
+    <Column Member="Curextnnumpicture" Name="CUREXTNNUMPICTURE" IsNullable="true" Size="30" />
+    <Column Member="Cursymbol" Name="CURSYMBOL" IsNullable="true" Size="4" />
+    <Column Member="Cursymbolatfront" Name="CURSYMBOLATFRONT" Precision="1" Scale="0" />
+    <Column Member="Curthousandseparator" Name="CURTHOUSANDSEPARATOR" IsNullable="true" Size="1" />
+    <Column Member="Curtriangreq" Name="CURTRIANGREQ" Precision="1" Scale="0" />
+    <Column Member="Curunitnumpicture" Name="CURUNITNUMPICTURE" IsNullable="true" Size="30" />
+  </Entity>
+</map>
