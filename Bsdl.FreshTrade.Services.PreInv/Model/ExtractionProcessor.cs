@@ -2334,7 +2334,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     var origItemCharges = _context.DeliveryPrice.CreditNoteOriginalDeliveryPrice.ItemCharges.Where(z => z.CtyNo >= 96 && z.CtyNo <= 98).ToList();
                     foreach (var origItemCharge in origItemCharges)
                     {
-                        if (origItemCharge.IchDisType.HasValue || (origItemCharge.IchDiscTypRecord == null))
+                        if (!origItemCharge.IchDisType.HasValue || (origItemCharge.IchDiscTypRecord == null))
                         {
                             RegisterExtractionError(PreInvExtractionErrorTypes.UnableToLocateDeductionType);
                             return false;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,6 +35,25 @@ namespace Bsdl.FreshTrade.UI.PreInv.View
             if(DataContext is PreInvMainViewModel)
             {
                 (DataContext as PreInvMainViewModel).IsChanged = true;
+            }
+        }
+
+        private void DatePicker_OnLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var dp = sender as DatePicker;
+            if (dp == null) return;
+            DateTime dt;
+
+            if (DateTime.TryParseExact(dp.Text, "d", new DateTimeFormatInfo { ShortDatePattern = "ddMMyy" },
+                DateTimeStyles.None, out dt))
+            {
+                dp.SelectedDate = dt;
+            }
+
+            if (DateTime.TryParseExact(dp.Text, "d", new DateTimeFormatInfo { ShortDatePattern = "ddMMyyyy" }, 
+                DateTimeStyles.None, out dt))
+            {
+                dp.SelectedDate = dt;
             }
         }
     }

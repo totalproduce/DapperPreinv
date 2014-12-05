@@ -130,8 +130,8 @@
                                     <Label Content="Cut-off Dlvry Date" HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" Grid.Column="0" Grid.Row="0"/>
                                     <Label Content="Tax Point Date" HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
 
-                                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding Path=CutOffDate, Mode=TwoWay}" Width="140" Grid.Column="0" Grid.Row="1" />
-                                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding Path=TaxDate, Mode=TwoWay}" Width="140" Grid.Column="1" Grid.Row="1" />
+                                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding Path=CutOffDate, Mode=TwoWay}" Width="140" Grid.Column="0" Grid.Row="1" LostKeyboardFocus="DatePicker_OnLostKeyboardFocus" />
+                                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding Path=TaxDate, Mode=TwoWay}" Width="140" Grid.Column="1" Grid.Row="1" LostKeyboardFocus="DatePicker_OnLostKeyboardFocus"/>
                                 </Grid>
                             </Border>
 

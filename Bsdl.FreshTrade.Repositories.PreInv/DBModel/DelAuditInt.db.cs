@@ -76,7 +76,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          true, //isNullable
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
-         16,       // int size   
+         255,       // int size   
                   null, // int? prec
                    
          null // int? Scale
@@ -105,7 +105,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          true, //isNullable
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
-         16,       // int size   
+         255,       // int size   
                   null, // int? prec
                    
          null // int? Scale

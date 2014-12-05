@@ -209,7 +209,7 @@
     <Column Member="Sort1" Name="SORT1" IsNullable="true" Size="50" />
     <Column Member="Sort2" Name="SORT2" IsNullable="true" Size="50" />
     <Column Member="Sort3" Name="SORT3" IsNullable="true" Size="50" />
-    <Column Member="Stinvtotal" Name="STINVTOTAL" IsNullable="true" Precision="126" />
+    <Column Member="Stinvtotal" Name="STINVTOTAL" IsNullable="true" Size="20" />
     <Column Member="Triangreq" Name="TRIANGREQ" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Twovatratescust" Name="TWOVATRATESCUST" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Vat1" Name="VAT1" IsNullable="true" Precision="126" />
@@ -411,6 +411,7 @@
     <Column Member="Offinvonpay" Name="OFFINVONPAY" IsNullable="true" Precision="126" />
     <Column Member="Offinvrbt" Name="OFFINVRBT" IsNullable="true" Precision="126" />
     <Column Member="Oninvdscnt" Name="ONINVDSCNT" IsNullable="true" Precision="126" />
+    <Column Member="Originalinvoiceno" Name="ORIGINALINVOICENO" IsNullable="true" Size="50" />
     <Column Member="Prcglbrecno" Name="PRCGLBRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Qtytotal" Name="QTYTOTAL" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Rawhandcommamt" Name="RAWHANDCOMMAMT" IsNullable="true" Precision="126" />
@@ -424,7 +425,7 @@
     <Column Member="Sort1" Name="SORT1" IsNullable="true" Size="50" />
     <Column Member="Sort2" Name="SORT2" IsNullable="true" Size="50" />
     <Column Member="Sort3" Name="SORT3" IsNullable="true" Size="50" />
-    <Column Member="Stinvtotal" Name="STINVTOTAL" IsNullable="true" Precision="126" />
+    <Column Member="Stinvtotal" Name="STINVTOTAL" IsNullable="true" Size="20" />
     <Column Member="Triangreq" Name="TRIANGREQ" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Twovatratescust" Name="TWOVATRATESCUST" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Vat1" Name="VAT1" IsNullable="true" Precision="126" />
@@ -1206,9 +1207,9 @@
     <Column Member="Delaudintrecno" Name="DELAUDINTRECNO" IsPrimaryKey="true" Precision="10" Scale="0" />
     <Column Member="Delaudintdate" Name="DELAUDINTDATE" IsNullable="true" />
     <Column Member="Delaudintdelrecno" Name="DELAUDINTDELRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delaudintfrom" Name="DELAUDINTFROM" IsNullable="true" Size="16" />
+    <Column Member="Delaudintfrom" Name="DELAUDINTFROM" IsNullable="true" Size="255" />
     <Column Member="Delaudintgrpno" Name="DELAUDINTGRPNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delaudintto" Name="DELAUDINTTO" IsNullable="true" Size="16" />
+    <Column Member="Delaudintto" Name="DELAUDINTTO" IsNullable="true" Size="255" />
     <Column Member="Delaudinttyp" Name="DELAUDINTTYP" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Dprrecnoint" Name="DPRRECNOINT" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Formintno" Name="FORMINTNO" IsNullable="true" Precision="5" Scale="0" />

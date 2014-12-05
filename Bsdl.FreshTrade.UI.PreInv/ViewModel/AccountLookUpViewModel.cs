@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Bsdl.FreshTrade.Domain.Account.Entities;
-using Bsdl.FreshTrade.Domain.Account.Enums;
-using Bsdl.FreshTrade.Domain.Account.Interfaces;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
+﻿using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Exceptions;
 using Bsdl.FreshTrade.Domain.PreInv.WideObjects;
 using Bsdl.FreshTrade.UI.PreInv.Annotations;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
 {

@@ -77,6 +77,7 @@
     <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic\Bsdl.FreshTrade.Repositories.Basic.csproj">
       <Project>{A804F48A-006F-4F3A-8B12-8AA12E76DAF5}</Project>
       <Name>Bsdl.FreshTrade.Repositories.Basic</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\Bsdl.FreshTrade.Server.Base\Bsdl.FreshTrade.Server.Basic.csproj">
       <Project>{ECDF022D-E47C-408B-8249-5DE1278FD6BA}</Project>

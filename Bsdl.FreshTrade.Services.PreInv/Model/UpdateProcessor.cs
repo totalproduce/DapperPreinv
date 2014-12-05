@@ -72,9 +72,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         private readonly IRequestContextCache<int> _localCache = new RequestContextCache<int>();
         private UpdateExecutionContext _context;
-    
-      public event UpdateProgressDelegate ProgressChanged;
-    
+		
+	    public event UpdateProgressDelegate ProgressChanged;
+		
         protected void WriteAccite(
             List<DTOAccite> accites,
             int? liIteRecNo,
@@ -838,7 +838,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             _user = user;
 
-          ProgressChanged += (x) => { };
+	        ProgressChanged += (x) => { };
         }
 
         private void ValidateInvTempData
@@ -949,7 +949,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 EDIFilesDyAr = new List<Tuple<string, int>>()                
             };
 
-      ProgressChanged(0);
+			ProgressChanged(0);
 
             _context.InvExtractHead = _invExtractHedRepository.GetInvExtractHeadByExtractionSessionId(extractSessionID);
 
@@ -983,7 +983,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _context.EdiLogRecords = _ediLogInvoiceRepository.GetEdiLogHeaderWideRecordsByInvoiceIds(_context.EIInvoiceIDs).ToList();
 
 
-      ProgressChanged(10);
+			ProgressChanged(10);
 
             // progress logic skipped
 
@@ -1007,7 +1007,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var allInvPrt2Records = _invPrt2Repository.GetByExtractSessionID(extractSessionID);
             var allInvDiscTypRecords = _invDiscTypRepository.GetByExtractSessionID(extractSessionID);
 
-      ProgressChanged(20);
+			ProgressChanged(20);
 
             ValidateInvTempData(updateParams, _context.InvTotRecords, allInvPrtRecords, allInvPrt2Records, allInvDiscTypRecords);
 
@@ -1030,9 +1030,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _auditRecordRepository.ReserveSequenceRange(allIteChgItems.Count); //In UpdateItechg for each IteChgItems audit record is created
             _context.ExpChaKeysReserved = false;
 
-      _accTrnFilRepository.ReserveSequenceRange(_context.InvTotRecords.Count);
+			_accTrnFilRepository.ReserveSequenceRange(_context.InvTotRecords.Count);
 
-      ProgressChanged(30);
+			ProgressChanged(30);
 
             foreach (DTOInvTot invTot in _context.InvTotRecords)
             {
@@ -1793,9 +1793,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 //It was agreed to skip following library call
                 //FinanceLib.InterDepartmentContra(liAtrRecNo, stErrMsg)
-      } // /foreach invTot in _context.InvTotRecords
+			} // /foreach invTot in _context.InvTotRecords
 
-      ProgressChanged(50);
+			ProgressChanged(50);
 
             _context.InvTotRecord = null;
             _context.InvPrtRecord = null;
@@ -1840,9 +1840,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     lastDebitBatchNo = newBatchNo;
                 }
                 var liBatRecNo = UpdateBatch(updateInfo, extractSessionID, updateParams.MergeLikePrices, invoiceType, invoiceGroup.Key.BatchType, invoiceGroup.Value, newBatchNo);
-      }
+			}
 
-      ProgressChanged(70);
+			ProgressChanged(70);
 
 
             //EDI IS EXCLUDED FOR NOW, SO validate EDI file re: "the following invoice amounts differ" is skipped
@@ -2002,7 +2002,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             }
             catch (Exception)
             {
-        ProgressChanged(100);
+				ProgressChanged(100);
                 _unitOfWorkCurrent.Rollback();
 
                 _unitOfWorkCurrent.BeginTransaction();

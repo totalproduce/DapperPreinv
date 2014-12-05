@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.IO;
-using System.Net;
-using Bsdl.FreshTrade.Domain.Account.Entities;
+﻿using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Entities;
 using Bsdl.FreshTrade.Domain.Basic.Exceptions;
@@ -9,7 +6,7 @@ using Bsdl.FreshTrade.Domain.PreInv.Entities;
 using Bsdl.FreshTrade.Domain.PreInv.Enums;
 using Bsdl.FreshTrade.Domain.PreInv.Utilities;
 using Bsdl.FreshTrade.Domain.PreInv.WideObjects;
-using Bsdl.FreshTrade.UI.Basic.Utilities;
+using Bsdl.FreshTrade.UI.Basic.Utilities.WpfControls;
 using Bsdl.FreshTrade.UI.PreInv.AccountService;
 using Bsdl.FreshTrade.UI.PreInv.Helpers;
 using Bsdl.FreshTrade.UI.PreInv.Model;
@@ -17,12 +14,13 @@ using Bsdl.FreshTrade.UI.PreInv.PreInvReportService;
 using Bsdl.FreshTrade.UI.PreInv.PreInvService;
 using Bsdl.FreshTrade.UI.PreInv.SalesOfficeService;
 using Bsdl.FreshTrade.UI.PreInv.View;
-using Bsdl.FreshTrade.UI.Basic.Utilities.WpfControls;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -684,12 +682,6 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
 
         #endregion
 
-        #region SalesOffice Retrieve routine
-
-        public delegate DTOSalesOffice OnGetSalesOffice();
-
-        #endregion
-
         #region Initialization
 
         public PreInvMainViewModel()
@@ -870,8 +862,21 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
 
         private void SelectCustomerAccountExecute(object param)
         {
-            var accountLookUp = new AccountLookUp { RequiredAccountType = DTOAccountType.Customer, SalesOfficeNo = _selectedSalesOffice.SalesOfficeNumber };
-            accountLookUp.ShowDialog();
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            AccountLookUp accountLookUp;
+            try
+            {
+                accountLookUp = new AccountLookUp
+                {
+                    RequiredAccountType = DTOAccountType.Customer,
+                    SalesOfficeNo = _selectedSalesOffice.SalesOfficeNumber
+                };
+                accountLookUp.ShowDialog();
+            }
+            finally
+            {
+                Mouse.OverrideCursor = null;
+            }
             var selAccounts = accountLookUp.GetSelected();
             if (selAccounts.Count > 0)
             {
