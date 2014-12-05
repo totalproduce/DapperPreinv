@@ -1,7 +1,7 @@
 /*
 REM @ECHO OFF
 SET hgPath=U:\Sources\Bsdl.FreshTrade
-SET destfilePath="..\..\Properties\AssemblyInfo.cs"
+SET destfilePath="..\..\..\Properties\AssemblyInfo.cs"
 
 IF NOT EXIST %hgPath%\NUL exit
 
