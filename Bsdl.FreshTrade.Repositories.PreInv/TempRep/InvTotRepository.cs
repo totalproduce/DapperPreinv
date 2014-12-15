@@ -183,6 +183,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
             result.Writeaccrechg = (short?)(item.WriteAccReChg?1:0);
             result.Invoicetype = (int)item.InvoiceType;
             result.Batchtype = (int)item.BatchType;
+            result.Batchno = item.BatchNo;
             result.Originalinvoiceno = item.OriginalInvoiceNo;
             return result;
         }
@@ -275,6 +276,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                                 WriteAccReChg = item.Writeaccrechg > 0,
                                 InvoiceType = Enums<PreInvInvoiceType>.GetValue(item.Invoicetype),
                                 BatchType = Enums<PreInvBatchType>.GetValue(item.Batchtype),
+                                BatchNo = item.Batchno,
                                 OriginalInvoiceNo = item.Originalinvoiceno
                             };
 

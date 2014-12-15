@@ -382,6 +382,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <INVTOT>.GetProperty(x => x.Batchno),
+         "BATCHNO", // columnName
+         false,                    //isKey
+         false, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  10, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(INVTOT)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <INVTOT>.GetProperty(x => x.Batchtype),
          "BATCHTYPE", // columnName
          false,                    //isKey
@@ -1926,6 +1940,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private int _fBatchno;
+        public int Batchno
+        {
+            get { return _fBatchno; }
+            set
+            {
+                if (_fBatchno != value)
+                {
+                    Modify();
+                    _fBatchno = value;
+                }
+            }
+        }
+
         private int _fBatchtype;
         public int Batchtype
         {
@@ -3103,6 +3131,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Basevat32 = Basevat32,
                     Basevatonchgs = Basevatonchgs,
                     Basevattotal = Basevattotal,
+                    Batchno = Batchno,
                     Batchtype = Batchtype,
                     Cancelledinv = Cancelledinv,
                     Cde1 = Cde1,
@@ -3217,6 +3246,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  BASEVAT3_2 = "BASEVAT3_2";
             public const string  BASEVATONCHGS = "BASEVATONCHGS";
             public const string  BASEVATTOTAL = "BASEVATTOTAL";
+            public const string  BATCHNO = "BATCHNO";
             public const string  BATCHTYPE = "BATCHTYPE";
             public const string  CANCELLEDINV = "CANCELLEDINV";
             public const string  CDE1 = "CDE1";

@@ -19,7 +19,9 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Reports
 @"SELECT
   SORT1,
   INVOICENO,
+  BATCHNO,
   INVOICETYPE,
+  BATCHTYPE,
   HOFCSTCODE,
   QTYTOTAL,
   GOODSTOTAL,

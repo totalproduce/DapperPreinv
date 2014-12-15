@@ -66,5 +66,23 @@ namespace Bsdl.FreshTrade.Domain.Basic.Utilities.DataTypeHandling
 
             return true;
         }
+
+        public static int Max(int val1, int? val2, int? val3 = null, int? val4 = null)
+        {
+            int max = val1;
+            if (val2.HasValue && (val2.Value > max))
+            {
+                max = val2.Value;
+            }
+            if (val3.HasValue && (val3.Value > max))
+            {
+                max = val3.Value;
+            }
+            if (val4.HasValue && (val4.Value > max))
+            {
+                max = val4.Value;
+            }
+            return max;
+        }
     }
 }

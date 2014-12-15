@@ -80,6 +80,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public decimal? Prcpriceisper {get;set;}
+
+    
+       [DataMember]              
         public string Productedicode {get;set;}
 
     }
@@ -101,6 +105,7 @@ result.Ppccltrecno = item.Ppccltrecno;
   result.Ppcunitcount = item.Ppcunitcount;
   result.Ppcwgtdeclaredbox = item.Ppcwgtdeclaredbox;
   result.Ppcwgtdeclaredpack = item.Ppcwgtdeclaredpack;
+  result.Prcpriceisper = item.Prcpriceisper;
   result.Productedicode = item.Productedicode;
 
 
@@ -124,6 +129,7 @@ Ppctradedunit = item.Ppctradedunit,
 Ppcunitcount = item.Ppcunitcount,
 Ppcwgtdeclaredbox = item.Ppcwgtdeclaredbox,
 Ppcwgtdeclaredpack = item.Ppcwgtdeclaredpack,
+Prcpriceisper = item.Prcpriceisper,
 Productedicode = item.Productedicode,
 
 

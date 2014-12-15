@@ -56,7 +56,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _invPrtRepository = _unitOfWorkCurrent.GetRepository<IINVPRTRepository>();
             _invPrt2Repository = _unitOfWorkCurrent.GetRepository<IInvPrt2Repository>();
             _invDiscTypRepository = _unitOfWorkCurrent.GetRepository<IInvDiscTypRepository>();
-
         }
 
         private DTOInvTotVatInfo RoundVatInfo(DTOInvTotVatInfo vatInfo, int curNo)
@@ -79,6 +78,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 BaseVat2 = _dictionaryService.RoundCurrency(vatInfo.BaseVat2, DTOCurrency.BaseCurrencyNo)
             };
 
+        }
+
+        public IDictionary<DTOInvTotGroup, int> GetInvoiceBatchNumbers(IList<DTOInvTot> preInvTotals, int? lastBatchNo)
+        {
+            int newBatchNo = lastBatchNo ?? 0;
+            var result = preInvTotals.GroupBy(i => new DTOInvTotGroup(i.InvoiceType, i.BatchType)).OrderBy(i => i.Key.InvoiceType).ThenBy(i => i.Key.BatchType).ToDictionary(i => i.Key, i => ++newBatchNo);
+            return result;
         }
 
         public Dictionary<string, string> Process(DTOPreInvUpdateParams preparePrintParams, int extractSessionId)
@@ -105,10 +111,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             var lstInvNo = salesOffice.NextInvoiceNo;
             var curNo = DTOCurrency.BaseCurrencyNo; // Should be read from db Invoice table
+            var invBatchNos = GetInvoiceBatchNumbers(preInvTotals, salesOffice.LastBatchNo);
 
             foreach (var preInvTotal in preInvTotals)
             {
                 var invTotal = ObjectHandling.CloneDTO(preInvTotal, false);
+                invTotal.BatchNo = invBatchNos[new DTOInvTotGroup(preInvTotal.InvoiceType, preInvTotal.BatchType)];
                 invTotal.OriginalInvoiceNo = preInvTotal.InvoiceNo;
                 var currInvoiceNo = preInvTotal.InvoiceNo;
 

@@ -261,6 +261,21 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <PrcCstInfo>.GetProperty(x => x.Prcpriceisper),
+         "PRCPRICEISPER", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  null, // int? prec
+                   
+         null // int? Scale
+         ,
+         typeof(PrcCstInfo)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <PrcCstInfo>.GetProperty(x => x.Productedicode),
          "PRODUCTEDICODE", // columnName
          false,                    //isKey
@@ -504,6 +519,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private decimal? _fPrcpriceisper;
+        public decimal? Prcpriceisper
+        {
+            get { return _fPrcpriceisper; }
+            set
+            {
+                if (_fPrcpriceisper != value)
+                {
+                    Modify();
+                    _fPrcpriceisper = value;
+                }
+            }
+        }
+
         private string _fProductedicode;
         public string Productedicode
         {
@@ -547,6 +576,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Ppcunitcount = Ppcunitcount,
                     Ppcwgtdeclaredbox = Ppcwgtdeclaredbox,
                     Ppcwgtdeclaredpack = Ppcwgtdeclaredpack,
+                    Prcpriceisper = Prcpriceisper,
                     Productedicode = Productedicode,
                 };
 
@@ -572,6 +602,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  PPCUNITCOUNT = "PPCUNITCOUNT";
             public const string  PPCWGTDECLAREDBOX = "PPCWGTDECLAREDBOX";
             public const string  PPCWGTDECLAREDPACK = "PPCWGTDECLAREDPACK";
+            public const string  PRCPRICEISPER = "PRCPRICEISPER";
             public const string  PRODUCTEDICODE = "PRODUCTEDICODE";
  // ReSharper restore InconsistentNaming
         }

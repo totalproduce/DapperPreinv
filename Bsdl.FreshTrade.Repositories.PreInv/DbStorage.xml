@@ -361,6 +361,7 @@
     <Column Member="Basevat32" Name="BASEVAT3_2" IsNullable="true" Precision="126" />
     <Column Member="Basevatonchgs" Name="BASEVATONCHGS" IsNullable="true" Precision="126" />
     <Column Member="Basevattotal" Name="BASEVATTOTAL" IsNullable="true" Precision="126" />
+    <Column Member="Batchno" Name="BATCHNO" Precision="10" Scale="0" />
     <Column Member="Batchtype" Name="BATCHTYPE" Precision="5" Scale="0" />
     <Column Member="Cancelledinv" Name="CANCELLEDINV" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Cde1" Name="CDE1" IsNullable="true" Precision="10" Scale="0" />
@@ -776,6 +777,7 @@
     <Column Member="Ppcunitcount" Name="PPCUNITCOUNT" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Ppcwgtdeclaredbox" Name="PPCWGTDECLAREDBOX" IsNullable="true" Size="10" />
     <Column Member="Ppcwgtdeclaredpack" Name="PPCWGTDECLAREDPACK" IsNullable="true" Size="10" />
+    <Column Member="Prcpriceisper" Name="PRCPRICEISPER" IsNullable="true" />
     <Column Member="Productedicode" Name="PRODUCTEDICODE" IsNullable="true" Size="6" />
   </Entity>
   <Entity Id="PostType">

@@ -272,6 +272,9 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public PreInvBatchType BatchType { get; set; }
 
         [DataMember]
+        public int BatchNo { get; set; }
+
+        [DataMember]
         public string OriginalInvoiceNo { get; set; }
 
         #region IDeepClonableDTO implementation

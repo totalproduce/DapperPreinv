@@ -41,5 +41,30 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Enums
             return result;
         }
 
+        public static string ConvertToString(this PreInvInvoiceType accountInvoiceType)
+        {
+            var result = new StringBuilder();
+            if ((accountInvoiceType & PreInvInvoiceType.Invoice) != 0)
+            {
+                result.Append("Invoice");
+            }
+            if ((accountInvoiceType & PreInvInvoiceType.CreditNote) != 0)
+            {
+                if (result.Length > 0)
+                {
+                    result.Append(", ");
+                }
+                result.Append("Credit Note");
+            }
+            if ((accountInvoiceType & PreInvInvoiceType.DebitNote) != 0)
+            {
+                if (result.Length > 0)
+                {
+                    result.Append(", ");
+                }
+                result.Append("Debit Note");
+            }
+            return result.ToString();
+        }
     }
 }

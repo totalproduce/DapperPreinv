@@ -76,6 +76,7 @@
     <Compile Include="Entities\DTOInvPrt2.cs" />
     <Compile Include="Entities\DTOInvTot.cs" />
     <Compile Include="Entities\DTOHeadOffice.cs" />
+    <Compile Include="Entities\DTOInvTotGroup.cs" />
     <Compile Include="Entities\DTOInvTotVatInfo.cs" />
     <Compile Include="Entities\DTOIteChg.cs" />
     <Compile Include="Entities\DTOOrder.cs" />

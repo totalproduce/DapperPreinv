@@ -113,6 +113,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public int Batchno {get;set;}
+
+    
+       [DataMember]              
         public int Batchtype {get;set;}
 
     
@@ -466,6 +470,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
   result.Basevat32 = item.Basevat32;
   result.Basevatonchgs = item.Basevatonchgs;
   result.Basevattotal = item.Basevattotal;
+  result.Batchno = item.Batchno;
   result.Batchtype = item.Batchtype;
   result.Cancelledinv = item.Cancelledinv;
   result.Cde1 = item.Cde1;
@@ -578,6 +583,7 @@ Basevat3 = item.Basevat3,
 Basevat32 = item.Basevat32,
 Basevatonchgs = item.Basevatonchgs,
 Basevattotal = item.Basevattotal,
+Batchno = item.Batchno,
 Batchtype = item.Batchtype,
 Cancelledinv = item.Cancelledinv,
 Cde1 = item.Cde1,

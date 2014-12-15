@@ -275,6 +275,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                             WriteAccReChg = item.Writeaccrechg > 0,
                             InvoiceType = Enums<PreInvInvoiceType>.GetValue(item.Invoicetype),
                             BatchType = Enums<PreInvBatchType>.GetValue(item.Batchtype)
+
                         };
 
                     invTot.VatInfo.Add //At least single (with possibly 0 key) item is always in the list

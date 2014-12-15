@@ -20,6 +20,11 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
 
         public string Sort1 { get; set; }
         public string InvoiceNo { get; set; }
+        public int BatchNo { get; set; }
+        public int InvoiceType { get; set; }
+        public int BatchType { get; set; }
+        public string InvoiceTypeAsStr { get; set; }
+        public string BatchTypeAsStr { get; set; }
         public string HofCstCode { get; set; }
         public int QtyTotal { get; set; }
         public decimal GoodsTotal { get; set; }
@@ -37,6 +42,11 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
 
         public string Sort1 { get; set; }
         public string InvoiceNo { get; set; }
+        public int BatchNo { get; set; }
+        public int InvoiceType { get; set; }
+        public int BatchType { get; set; }
+        public string InvoiceTypeAsStr { get; set; }
+        public string BatchTypeAsStr { get; set; }
         public string HofCstCode { get; set; }
         public int QtyTotal { get; set; }
         public decimal GoodsTotal { get; set; }

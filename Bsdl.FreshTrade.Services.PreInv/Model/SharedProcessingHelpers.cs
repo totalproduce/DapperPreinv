@@ -22,8 +22,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         PreInvInvoicePeriodType GetInvoicePeriodType(int accountInvoicePeriod);
 
         string GetInvoicePeriodTypeAsString(PreInvInvoicePeriodType accountInvoicePeriod, string dailyOnlyText = "Daily", string dailyAndWeeklyText = "Daily and Weekly");
-        string GetInvoiceBatchTypeAsString(PreInvBatchType accountInvoicePeriod);
-        string GetInvoiceTypeAsString(PreInvInvoiceType accountInvoiceType);
         EnumPostType GetPostTypeByInvoiceType(PreInvInvoiceType invoiceType);
     }
 
@@ -216,60 +214,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         public string GetInvoicePeriodTypeAsString(PreInvInvoicePeriodType accountInvoicePeriod, string dailyOnlyText = "Daily", string dailyAndWeeklyText = "Daily and Weekly")
         {
             return accountInvoicePeriod == PreInvInvoicePeriodType.DailyOnly ? dailyOnlyText : dailyAndWeeklyText;
-        }
-
-        public string GetInvoiceBatchTypeAsString(PreInvBatchType batchType)
-        {
-            //TODO: decide the grouping of strings
-            var result = new StringBuilder();
-            if ((batchType & PreInvBatchType.PerCustomer) != 0) 
-            {
-                result.Append("Customer");
-            }
-            if ((batchType & PreInvBatchType.PerDelivery) != 0)
-            {
-                if (result.Length > 0)
-                {
-                    result.Append(", ");
-                }
-                result.Append("Delivery");
-            }
-            if ((batchType & PreInvBatchType.PerOrder) != 0)
-            {
-                if (result.Length > 0)
-                {
-                    result.Append(", ");
-                }
-                result.Append("Order");
-            }
-            return "Per "+result.ToString();
-        }
-
-
-        public string GetInvoiceTypeAsString(PreInvInvoiceType accountInvoiceType)
-        {
-            var result = new StringBuilder();
-            if ((accountInvoiceType & PreInvInvoiceType.Invoice) != 0)
-            {
-                result.Append("Invoice");
-            }
-            if ((accountInvoiceType & PreInvInvoiceType.CreditNote) != 0)
-            {
-                if (result.Length > 0)
-                {
-                    result.Append(", ");
-                }
-                result.Append("Credit Note");
-            }
-            if ((accountInvoiceType & PreInvInvoiceType.DebitNote) != 0)
-            {
-                if (result.Length > 0)
-                {
-                    result.Append(", ");
-                }
-                result.Append("Debit Note");
-            }
-            return result.ToString();
         }
 
         public EnumPostType GetPostTypeByInvoiceType(PreInvInvoiceType invoiceType)
