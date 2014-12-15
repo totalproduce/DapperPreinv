@@ -200,7 +200,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 BatchNo = batchNo,
                 BatchPstRecNo = batchPstRecNo,
                 BatchInvPeriod = _sharedProcessingHelpers.GetInvoicePeriodTypeAsString(_context.InvExtractHead.InvoicePeriod, "Daily", "Daily+Wkly"),
-                BatchInvType = _sharedProcessingHelpers.GetInvoiceBatchTypeAsString(batchType),
+                BatchInvType = batchType.ConvertToString(),
                 BatchCutOffDate = _context.InvExtractHead.CutOffDeliveryDate,
                 BatchTaxDate = _context.InvExtractHead.TaxPointDate,
                 BatchMergeTrans = mergeLikePrices,
@@ -248,7 +248,27 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return batch.BatRecNo;
         }
 
-        protected void UpdateStatus(DTOUpdateInfo updateContext, List<DTOOrder> allOrders, List<DTOInvPrt> allInvPrtRecords, List<DTODeliveryHead> allAffectedDelHeds, List<DTODeliveryDetail> allAffectedDelDetails)
+        private void MarkDeliveryPriceAsInvoiced(DTOUpdateInfo updateContext, DTODeliveryPrice delPrice)
+        {
+            if (delPrice.DeliveryPriceStatus.IsInvoiced())
+            {
+                return;
+            }
+            var newStatus = delPrice.DeliveryPriceStatus.ToInvoiced();
+            var delPriceUpdates = updateContext.DeliveryPriceUpdates.FirstOrDefault(x => x.New.Id == delPrice.Id);
+            if (delPriceUpdates != null)
+            {
+                delPriceUpdates.New.DeliveryPriceStatus = newStatus;
+            }
+            else
+            {
+                DTODeliveryPrice originalDeliveryPriceRecord = ObjectHandling.CloneDTO(delPrice);
+                delPrice.DeliveryPriceStatus = newStatus;
+                updateContext.DeliveryPriceUpdates.Add(new UpdatePair<DTODeliveryPrice>(originalDeliveryPriceRecord, delPrice));
+            }
+        }
+
+        protected void UpdateStatus(DTOUpdateInfo updateContext, List<DTOOrder> allOrders, List<DTOInvPrt> allInvPrtRecords, List<DTODeliveryHead> allAffectedDelHeds, List<DTODeliveryDetail> allAffectedDelDetails, List<DTODeliveryPrice> allDeliveryPrices)
         {
             var orderIds = allInvPrtRecords.Select(z => z.OrdRecNo != null ? z.OrdRecNo.Value : 0).Distinct().ToList();
             var affectedDelHeds = allAffectedDelHeds.Where(i => i.OrderId.HasValue && orderIds.Contains(i.OrderId.Value)).ToList();
@@ -273,7 +293,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     bool lAllDeldetsInvoiced = true;
                     foreach (DTODeliveryDetail delDetail in delDetails)
                     {
-                          var delPrices = updateContext.DeliveryPriceUpdates.Where(z => z.New.DeliveryDetailId.Equals(delDetail.Id)).Select(z => z.New).ToList();
+                          var delPrices = allDeliveryPrices.Where(z => z.DeliveryDetailId.Equals(delDetail.Id)).ToList();
                           if ((delDetail.Quantity == 0) && (delDetail.DeliveryStatus == DTODeliveryStatus.Released))
                           {
                               UpdateDeliveryDetail(updateContext, delDetail);
@@ -298,8 +318,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                      )
                                   {
                                       // Go thru each Delprice for Deldet.
-                                      var delAuditCounts = delPrices.Where(z => z.DeliveryPriceStatus.IsInvoiced()).Count();
-                                      _delAuditRecordRepository.ReserveSequenceRange(delAuditCounts);
+                                      //var delAuditCounts = delPrices.Where(z => !z.DeliveryPriceStatus.IsInvoiced()).Count();
+                                      //_delAuditRecordRepository.ReserveSequenceRange(delAuditCounts); These delPrice Autils should be rather seldom, so no need to reserve range here
                                       foreach (DTODeliveryPrice delPriceItem in delPrices)
                                       {
                                           if (
@@ -324,8 +344,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                                   LogonIntNo = _user.Id
                                                               }
                                                       );
-                                                  delPriceItem.DeliveryPriceStatus = delPriceItem.DeliveryPriceStatus.ToInvoiced();
-                                                  //No need to add delPriceItem to update list here, as it was laredy taken from update list
+                                                  MarkDeliveryPriceAsInvoiced(updateContext, delPriceItem);
+                                                  //No need to add delPriceItem to update list here, as it was alredy taken from update list
                                               }
                                           }
                                           else
@@ -1021,13 +1041,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var allAffectedDelHeds = _deliveryHeadRepository.GetDeliveryHeadByOrderIDs(invPrtOrderRecNos).ToList();
             var allAffectedDelHedIds = allAffectedDelHeds.Select(z => z.Id).ToList();
             var allAffectedDelDetails = _deliveryDetailRepository.GetDeliveryDetailByDeliveryHeadIDs(allAffectedDelHedIds);
+            var allAffectedDelDetailIds = allAffectedDelDetails.Select(z => z.Id).ToList();
 
             var allDprRecNos = allInvPrt2Records.Select(i => i.DprRecNo != null ? i.DprRecNo.Value : 0).Distinct().ToList();
             allDprRecNos.Remove(0); //remove 0 key if present
-            var allDeliveryPrices = _deliveryPriceRepository.GetDeliveryPriceByDprRecNos(allDprRecNos);
+            var allDeliveryPrices = _deliveryPriceRepository.GetDeliveryPriceByDeliveryDetailIDs(allAffectedDelDetailIds);
             var allIteChgItems = _iteChgRepository.GetItemChargeByDeliveryPriceIds(allDprRecNos);
 
-            _auditRecordRepository.ReserveSequenceRange(allIteChgItems.Count); //In UpdateItechg for each IteChgItems audit record is created
+            _auditRecordRepository.ReserveSequenceRange(allIteChgItems.Count + allDprRecNos.Count); //In UpdateItechg for each IteChgItems audit record is created; For each delPrice delAudit is created as well
             _context.ExpChaKeysReserved = false;
 
 			_accTrnFilRepository.ReserveSequenceRange(_context.InvTotRecords.Count);
@@ -1729,9 +1750,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 var deliveryPrices = allDeliveryPrices.Where(i => invPrt2RecordsToDelpriceProcessDrpRecNos.Contains(i.Id)).ToDictionary(z => z.Id, z => z);
                 foreach (var invPrt2Record in invPrt2RecordsToDelpriceProcess)
                 {
-                    DTODeliveryPrice originalDeliveryPriceRecord;
+                    DTODeliveryPrice deliveryPriceRecord;
                     //; write the details ie invoice# to the DelPrice records.
-                    if (!deliveryPrices.TryGetValue(invPrt2Record.DprRecNo.Value, out originalDeliveryPriceRecord))
+                    if (!deliveryPrices.TryGetValue(invPrt2Record.DprRecNo.Value, out deliveryPriceRecord))
                     {
                         throw new FreshTradeException(
                             String.Format("Can't find Delivery No : {0} Delprice No : {1} lUpdate.tcDelPrice 1st",
@@ -1739,7 +1760,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                           invPrt2Record.DprRecNo));
                     }
 
-                    DTODeliveryPrice deliveryPriceRecord = ObjectHandling.CloneDTO(originalDeliveryPriceRecord);
+                    DTODeliveryPrice originalDeliveryPriceRecord = ObjectHandling.CloneDTO(deliveryPriceRecord);
                     deliveryPriceRecord.DelToEuroRate = _context.InvTotRecord.EuroRate;
                     deliveryPriceRecord.DelToBaseRate = _context.InvTotRecord.BaseRate;
                     deliveryPriceRecord.DelTriangulate = _context.InvTotRecord.TriangReq;
@@ -1772,6 +1793,20 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         auditRecord.DelaudIntFrom = originalDeliveryPriceRecord.DeliveryPriceStatus.ToString();
                         auditRecord.DelAudIntTo = originalDeliveryPriceRecord.DeliveryPriceStatus.ToInvoiced().ToString();
                         deliveryPriceRecord.DeliveryPriceStatus = originalDeliveryPriceRecord.DeliveryPriceStatus.ToInvoiced();
+
+                        updateInfo.DelAuditRecordAdditions.Add
+                            (
+                                new DTODelAuditRecord
+                                    {
+                                        DelAudIntRecno = (int) _delAuditRecordRepository.GetNextSequence(),
+                                        DelAudIntTyp = 128,
+                                        DelAudIntDelRecNo = originalDeliveryPriceRecord.DeliveryDetailId,
+                                        DprRecNoInt = originalDeliveryPriceRecord.Id,
+                                        DelAudIntDate = DateTime.Now,
+                                        FormIntNo = _systemPreferences.FormNo,
+                                        LogonIntNo = _user.Id
+                                    }
+                            );
                     }
                     else
                     {
@@ -1802,47 +1837,50 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _context.AccTrnFil = null;
             //LastPreinvUpdateOk is processed below, when real data insert/updates are performed
 
-            UpdateStatus(updateInfo, allOrders, allInvPrtRecords, allAffectedDelHeds, allAffectedDelDetails);
+            UpdateStatus(updateInfo, allOrders, allInvPrtRecords, allAffectedDelHeds, allAffectedDelDetails, allDeliveryPrices);
 
             WriteAccReChg(updateInfo); //Original if clause is checked inside of the method
 
-            int newBatchNo = _context.SalesOffice.LastBatchNo ?? 0;
+            int lastBatchNo = _context.SalesOffice.LastBatchNo ?? 0;
 
             int?
                 lastInvoiceBatchNo = null,
                 lastCreditBatchNo = null,
                 lastDebitBatchNo = null;
 
-
-
             //var invoiceTypes = (PreInvInvoiceType.Invoice | PreInvInvoiceType.CreditNote | PreInvInvoiceType.DebitNote).GetAsListOfSimpleValues();
             //var batchTypes = (PreInvInvoiceType.Invoice | PreInvInvoiceType.CreditNote | PreInvInvoiceType.DebitNote).GetAsListOfSimpleValues();
 
-            var invoiceGroups = _context.InvTotRecords.GroupBy(i => new {i.InvoiceType, i.BatchType}).OrderBy(i => i.Key.InvoiceType).ThenBy(i => i.Key.BatchType).ToDictionary(i => i.Key, i => i.ToList());
+            if ((lastBatchNo + 1) != _context.InvTotRecords.Min(i => i.BatchNo))
+            {
+                throw new FreshTradeException(string.Format("Salesoffice last batch number was modified since extraction. Expected last batch number was {0}.", lastBatchNo));
+            }
+
+            var invoiceGroups = _context.InvTotRecords.GroupBy(i => new DTOInvTotGroup(i.InvoiceType, i.BatchType)).OrderBy(i => i.Key.InvoiceType).ThenBy(i => i.Key.BatchType).ToDictionary(i => i.Key, i => i.ToList());
             _batchRepository.ReserveSequenceRange(invoiceGroups.Count);
             _batchDetRepository.ReserveSequenceRange(_context.InvTotRecords.Count);
-            foreach(var invoiceGroup in invoiceGroups)
+            foreach (var invoiceGroup in invoiceGroups)
             {
-                newBatchNo++;
+                var newBatchNo = invoiceGroup.Value.First().BatchNo;
                 var invoiceType = invoiceGroup.Key.InvoiceType;
                 if (invoiceType == PreInvInvoiceType.Invoice)
                 {
-                    lastInvoiceBatchNo = newBatchNo;
+                    lastInvoiceBatchNo = IntegerHandling.Max(newBatchNo, lastInvoiceBatchNo);
                 }
                 else
-                if (invoiceType == PreInvInvoiceType.CreditNote)
-                {
-                    lastCreditBatchNo = newBatchNo;
-                }
-                else
-                if (invoiceType == PreInvInvoiceType.DebitNote)
-                {
-                    lastDebitBatchNo = newBatchNo;
-                }
+                    if (invoiceType == PreInvInvoiceType.CreditNote)
+                    {
+                        lastCreditBatchNo = IntegerHandling.Max(newBatchNo, lastCreditBatchNo);
+                    }
+                    else
+                        if (invoiceType == PreInvInvoiceType.DebitNote)
+                        {
+                            lastDebitBatchNo = IntegerHandling.Max(newBatchNo, lastDebitBatchNo);
+                        }
                 var liBatRecNo = UpdateBatch(updateInfo, extractSessionID, updateParams.MergeLikePrices, invoiceType, invoiceGroup.Key.BatchType, invoiceGroup.Value, newBatchNo);
-			}
+            }
 
-			ProgressChanged(70);
+            ProgressChanged(70);
 
 
             //EDI IS EXCLUDED FOR NOW, SO validate EDI file re: "the following invoice amounts differ" is skipped
@@ -1892,7 +1930,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             {
                 updatedSalesOffice.NextInvoiceNo = lastInvNo;
             }
-            updatedSalesOffice.LastBatchNo = newBatchNo;
+            updatedSalesOffice.LastBatchNo = IntegerHandling.Max(lastBatchNo, lastInvoiceBatchNo, lastCreditBatchNo, lastDebitBatchNo);
             updatedSalesOffice.LastPreInvUpdateOK = true;
             updatedSalesOffice.InUse = false;
 
@@ -1996,8 +2034,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
-        ProgressChanged(100);
-                _unitOfWorkCurrent.Commit();// Rollback();
+				ProgressChanged(100);
+                _unitOfWorkCurrent.Rollback();
                 return PreInvUpdateStatusType.OK;
             }
             catch (Exception)
