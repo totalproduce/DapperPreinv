@@ -116,11 +116,11 @@ namespace Bsdl.FreshTrade.UI.PreInv.Model
 
         public void RecalculateCancel(bool allowOneLineCancel, bool setValue)
         {
-            if (allowOneLineCancel)
-            {
+/*            if (allowOneLineCancel)
+            {*/
                 var oneChecked = !Children.Exists(c => !c.CancelledDlv);
                 base.CancelledInv = oneChecked;
-            }
+/*            }
             else
             {
                 base.CancelledInv = setValue;
@@ -129,7 +129,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.Model
                 {
                     child.SetCancelledDlv(CancelledInv);
                 }
-            }
+            }*/
 
             RecalculateSum();
         }
