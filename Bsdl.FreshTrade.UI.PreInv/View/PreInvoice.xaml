@@ -36,8 +36,23 @@
                                     <Grid Background="#FFE5E5E5" Margin="4,2,4,2">
                                         <Label x:Name="lblCustCode" Content="Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-1,5,0,0"
                                                IsEnabled="{Binding Path=FilterByCustomer, Mode=OneWay}" />
-                                        <toolkit:AutoCompleteBox HorizontalAlignment="Left" Height="23" VerticalAlignment="Top" Width="90" Margin="42,7,0,0" Helpers:AutoCompleteBoxBehaviour.RightClickCommand="{Binding SelectCustomerAccount}"
-                                                                 SelectedItem="{Binding Path=FilterCustomer, Mode=TwoWay}" ItemsSource="{Binding Customers}" ValueMemberPath="LocalAccountCode" IsEnabled="{Binding Path=FilterByCustomer, Mode=OneWay}" Text="{Binding CustomerCodeText, Mode=TwoWay}">
+                                        <toolkit:AutoCompleteBox 
+                                            HorizontalAlignment="Left" 
+                                            Height="23" 
+                                            VerticalAlignment="Top" 
+                                            Width="90" 
+                                            Margin="42,7,0,0" 
+                                            Helpers:AutoCompleteBoxBehaviour.RightClickCommand="{Binding SelectCustomerAccount}"
+                                            SelectedItem="{Binding Path=FilterCustomer, Mode=TwoWay}" 
+                                            ItemsSource="{Binding Customers}" 
+                                            ValueMemberPath="LocalAccountCode" 
+                                            IsEnabled="{Binding Path=FilterByCustomer, Mode=OneWay}" 
+                                            Text="{Binding CustomerCodeText, Mode=TwoWay}">
+                                            <toolkit:AutoCompleteBox.TextBoxStyle>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="CharacterCasing" Value="Upper"/>
+                                                </Style>
+                                            </toolkit:AutoCompleteBox.TextBoxStyle>
                                             <toolkit:AutoCompleteBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding LocalAccountCode}"/>
@@ -367,7 +382,7 @@
                             </Style>
                         </DataGrid.Resources>
                     </DataGrid>
-                    <TextBlock Text="Products" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Text="Products" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5.2,393.2,-6"/>
                     <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,17,3,3" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" ItemsSource="{Binding ExtractInvoicePart2List}"
                             EnableColumnVirtualization="True"
                               EnableRowVirtualization="True"

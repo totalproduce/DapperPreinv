@@ -190,7 +190,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
             get { return _customerCodeText; }
             set
             {
-                _customerCodeText = value.ToUpper();
+                _customerCodeText = value;
                 RaisePropertyChanged("CustomerCodeText");
 
                 //Loading new list of customers for specific sales office

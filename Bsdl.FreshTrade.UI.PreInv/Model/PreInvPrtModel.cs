@@ -47,7 +47,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.Model
             }
             else
             {
-                base.CancelledDlv = setValue;
+                CancelledDlv = setValue;
             }
             
 
