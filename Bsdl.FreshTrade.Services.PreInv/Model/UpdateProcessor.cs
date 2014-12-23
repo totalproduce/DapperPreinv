@@ -940,11 +940,15 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _delAudToDoRecordRepository.Add(delAuditToDoItems);
             _delAudToDoRecordRepository.Debug("post");
 
-            var delPricesForCostingIds =
-                updateInfo.DelAuditRecordAdditions.Where(a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
-                    .Select(i => i.DprRecNo.Value)
-                    .ToList();
-            _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
+            if (_systemPreferences.UseAutoCosting)
+            {
+                var delPricesForCostingIds =
+                    updateInfo.DelAuditRecordAdditions.Where(
+                        a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
+                        .Select(i => i.DprRecNo.Value)
+                        .ToList();
+                _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
+            }
         }
 
         public PreInvUpdateStatusType Update(DTOPreInvUpdateParams updateParams, int extractSessionID)

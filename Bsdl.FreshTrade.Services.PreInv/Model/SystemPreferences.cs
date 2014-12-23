@@ -178,6 +178,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                            InvPrtSortKey1 = GetSettingValue(i => i.InvPrtSortKey1, settingList).ToUpper(),
                                 // dynSysPrefs["InvprtSortKey1"].upper()        
 
+                           UseAutoCosting = GetBooleanValue(i => i.UseAutoCosting, settingList),
+
                           /*Other settings*/
                            FormName = settingList[settingsKeyFormName],
                            FormNo = int.Parse(settingList[settingsKeyFormNo]),
