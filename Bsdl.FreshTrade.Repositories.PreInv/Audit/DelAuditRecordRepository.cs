@@ -45,7 +45,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Audit
             var result = new DelAudit();
             result.Delaudrecno = item.Id;
             result.Delauddate = item.DelAudDate;
-            result.Delaudtime = item.DelAudDate.HasValue ? item.DelAudDate.Value.ToString("hh:mm:ss") : "";
+            result.Delaudtime = item.DelAudDate.HasValue ? item.DelAudDate.Value.ToString("HH:mm:ss") : "";
             result.Delauddelrecno = item.DelAudDelRecNo;
             result.Delaudfrom = item.DelAudFrom;
             result.Delaudgrpno = item.DelAudGrpNo;
