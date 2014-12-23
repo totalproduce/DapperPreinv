@@ -2066,7 +2066,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
 				ProgressChanged(100);
-                _unitOfWorkCurrent.Rollback();
+                _unitOfWorkCurrent.Commit(); //Rollback();
                 return PreInvUpdateStatusType.OK;
             }
             catch (Exception)
