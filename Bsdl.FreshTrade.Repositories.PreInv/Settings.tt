@@ -8,8 +8,8 @@
     //
 
 
-    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=PFITTER;Password=PFITTER;";
-    string connectionString = "user id=PFITTER;password=PFITTER;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=islands-server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xe)))";
+    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=LOCALTPIE;Password=LOCALTPIE;";
+    string connectionString = "user id=LOCALTPIE;password=LOCALTPIE;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=totalproducedb)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TOTALPRODUCE)))";
 
     IDictionary<string, string> lookupTables = new Dictionary<string, string>
                 {
@@ -25,9 +25,13 @@
                       CS_CLASS_NAME= "AuditRecord"
                     }},
 
-            { "DELAUDIT_INT", new DB_TABLE_INFO {
-                      TABLE_NAME="DELAUDIT_INT",
-                      CS_CLASS_NAME= "DelAuditInt"
+            { "DELAUDIT", new DB_TABLE_INFO {
+                      TABLE_NAME="DELAUDIT",
+                      CS_CLASS_NAME= "DelAudit"
+                    }},
+            { "DELAUDTODO", new DB_TABLE_INFO {
+                      TABLE_NAME="DELAUDTODO",
+                      CS_CLASS_NAME= "DelAudToDo"
                     }},
 
             { "BATCH", new DB_TABLE_INFO {

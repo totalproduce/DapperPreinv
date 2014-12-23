@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bsdl.FreshTrade.Domain.Basic.Exceptions.DataAccess;
 using Bsdl.FreshTrade.Domain.Basic.Interfaces;
 using Bsdl.FreshTrade.Domain.PreInv.Entities;
@@ -11,12 +8,15 @@ using Bsdl.FreshTrade.Repositories.Basic.Persistance;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Interfaces;
 using Bsdl.FreshTrade.Repositories.PreInv.DBModel;
 using Bsdl.FreshTrade.Repositories.PreInv.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bsdl.FreshTrade.Repositories.PreInv.Audit
 {
     public class DelAuditRecordRepository : DapperRepositoryBase<DTODelAuditRecord>, IDelAuditRecordRepository
     {
-        private const string _sqlQuery = @"SELECT * FROM DELAUDIT_INT";
+        private const string _sqlQuery = @"SELECT * FROM DELAUDIT";
 
         public DelAuditRecordRepository(IUnitOfWork unitOfWorkCurrent, ICacheManagerFactory cacheManagerFactory)
             : base
@@ -32,27 +32,30 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Audit
 
         public override IList<EntityPropDef> GetTableFieldsDefs()
         {
-            return DelAuditInt.GetPropDefs();
+            return DelAudit.GetPropDefs();
         }
 
         public override string GetTableName()
         {
-            return "DELAUDIT_INT";
+            return "DELAUDIT";
         }
 
         public override IBaseModel ToDbModel(DTODelAuditRecord item)
         {
-            var result = new DelAuditInt();
-            result.Delaudintrecno = item.DelAudIntRecno;
-            result.Delaudintdate = item.DelAudIntDate;
-            result.Delaudintdelrecno = item.DelAudIntDelRecNo;
-            result.Delaudintfrom = item.DelaudIntFrom;
-            result.Delaudintgrpno = item.DelAudIntGrpNo;
-            result.Delaudintto = item.DelAudIntTo;
-            result.Delaudinttyp = item.DelAudIntTyp;
-            result.Dprrecnoint = item.DprRecNoInt;
-            result.Formintno = item.FormIntNo;
-            result.Logonintno = item.LogonIntNo; 
+            var result = new DelAudit();
+            result.Delaudrecno = item.Id;
+            result.Delauddate = item.DelAudDate;
+            result.Delaudtime = item.DelAudDate.HasValue ? item.DelAudDate.Value.ToString("hh:mm:ss") : "";
+            result.Delauddelrecno = item.DelAudDelRecNo;
+            result.Delaudfrom = item.DelAudFrom;
+            result.Delaudgrpno = item.DelAudGrpNo;
+            result.Delaudto = item.DelAudTo;
+            result.Delaudtyp = item.DelAudTyp;
+            result.Dprrecno = item.DprRecNo;
+            result.Formno = item.FormNo;
+            result.Formname = item.FormName;
+            result.Logonno = item.LogonNo;
+            result.Dprtoaction = item.DprRecNo == null ? 1 : 0;
             return result;
         }
 
@@ -61,11 +64,11 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Audit
         {
             string query = ConstructSimpleQuery(_sqlQuery, searchFields, true, topRows);
 
-            IEnumerable<DelAuditInt> results = null;
+            IEnumerable<DelAudit> results = null;
 
             try
             {
-                results = UnitOfWorkCurrent.Query<DelAuditInt>(query);
+                results = UnitOfWorkCurrent.Query<DelAudit>(query);
             }
             catch (Exception ex)
             {
@@ -76,24 +79,24 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Audit
                 .Select(item =>
                     new DTODelAuditRecord
                     {
-                        DelAudIntRecno = item.Delaudintrecno,
-                        DelAudIntDate = item.Delaudintdate,
-                        DelAudIntDelRecNo = item.Delaudintdelrecno,
-                        DelaudIntFrom = item.Delaudintfrom,
-                        DelAudIntGrpNo = item.Delaudintgrpno,
-                        DelAudIntTo = item.Delaudintto,
-                        DelAudIntTyp = item.Delaudinttyp??0,
-                        DprRecNoInt = item.Dprrecnoint,
-                        FormIntNo = item.Formintno,
-                        LogonIntNo = item.Logonintno,
+                        Id = item.Delaudrecno,
+                        DelAudDate = item.Delauddate,
+                        DelAudDelRecNo = item.Delauddelrecno,
+                        DelAudFrom = item.Delaudfrom,
+                        DelAudGrpNo = item.Delaudgrpno,
+                        DelAudTo = item.Delaudto,
+                        DelAudTyp = item.Delaudtyp??0,
+                        DprRecNo = item.Dprrecno,
+                        FormNo = item.Formno,
+                        FormName = item.Formname,
+                        LogonNo = item.Logonno,
                     })
                 .ToList();
         }
 
         protected override long ReserveSequenceRangeInternal(int? keyNumber = 1)
         {
-           var ids = UnitOfWorkCurrent.GenNextSequenceIDs("DELAUDIT_INT", keyNumber??1);
-           return ids.FirstOrDefault();   
+            return UnitOfWorkCurrent.GetNextIdentity("DaudLstRefNo", keyNumber ?? 1);
         }
 
     }

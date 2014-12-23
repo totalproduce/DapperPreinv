@@ -102,6 +102,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <VatRates>.GetProperty(x => x.Slpltype),
+         "SLPLTYPE", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  5, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(VatRates)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <VatRates>.GetProperty(x => x.Vatdesc),
          "VATDESC", // columnName
          false,                    //isKey
@@ -235,6 +249,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private int? _fSlpltype;
+        public int? Slpltype
+        {
+            get { return _fSlpltype; }
+            set
+            {
+                if (_fSlpltype != value)
+                {
+                    Modify();
+                    _fSlpltype = value;
+                }
+            }
+        }
+
         private string _fVatdesc;
         public string Vatdesc
         {
@@ -309,6 +337,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Formno = Formno,
                     Intercee = Intercee,
                     Lstlogonno = Lstlogonno,
+                    Slpltype = Slpltype,
                     Vatdesc = Vatdesc,
                     Vatganrecno = Vatganrecno,
                     Vatrate = Vatrate,
@@ -326,6 +355,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  FORMNO = "FORMNO";
             public const string  INTERCEE = "INTERCEE";
             public const string  LSTLOGONNO = "LSTLOGONNO";
+            public const string  SLPLTYPE = "SLPLTYPE";
             public const string  VATDESC = "VATDESC";
             public const string  VATGANRECNO = "VATGANRECNO";
             public const string  VATRATE = "VATRATE";

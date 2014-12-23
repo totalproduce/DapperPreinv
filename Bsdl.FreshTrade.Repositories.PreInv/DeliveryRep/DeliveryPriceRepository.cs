@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Bsdl.FreshTrade.Domain.Basic.Enums;
@@ -14,12 +15,15 @@ using Bsdl.FreshTrade.Repositories.Basic.Persistance;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Interfaces;
 using Bsdl.FreshTrade.Repositories.PreInv.DBModel;
 using Bsdl.FreshTrade.Repositories.PreInv.Interfaces;
+using Dapper;
 
 namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
 {
     public class DeliveryPriceRepository : DapperRepositoryBase<DTODeliveryPrice>, IDeliveryPriceRepository
     {
         private const string _sqlQuery = @"SELECT * FROM DELPRICE";
+
+        private const string _sqlEnqueForCostingStoredProcedure = @"FT_AUTOCOSTING.ENQUEUE_DPRRECS_AA";
 
         public DeliveryPriceRepository(IUnitOfWork unitOfWorkCurrent, ICacheManagerFactory cacheManagerFactory)
             : base
@@ -141,5 +145,23 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
         {
             return GetDataInChunks(i => i.Id, recnos);
         }
+
+        public void EnqueueForCosting(List<int> deliveryPriceIds)
+        {
+            ExecuteCustomSqlWithArrayBinding
+                (
+                    _sqlEnqueForCostingStoredProcedure,
+                    deliveryPriceIds,
+                    i =>
+                        {
+                            var parameters = new DynamicParameters();
+                            GenSqlScriptHelper.GenStoredProcedureParam(parameters, "DPRRECS_IN", typeof(int), i.ToArray());
+                            GenSqlScriptHelper.GenStoredProcedureParam(parameters, "COSTCHNGTYPE_IN", typeof(int), 2);
+                            return parameters;
+                        },
+                        CommandType.StoredProcedure
+                );
+        }
+
     }
 }

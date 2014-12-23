@@ -53,6 +53,7 @@
     <Compile Include="ICustomerDiscountRatesRepository.cs" />
     <Compile Include="ICustomerProductInfoRepository.cs" />
     <Compile Include="IDelAuditRecordRepository.cs" />
+    <Compile Include="IDelAudToDoRecordRepository.cs" />
     <Compile Include="IDeliveryDetailRepository.cs" />
     <Compile Include="IDeliveryHeadRepository.cs" />
     <Compile Include="IDeliveryPriceRepository.cs" />

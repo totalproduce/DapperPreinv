@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Audit\AuditRecordRepository.cs" />
     <Compile Include="Audit\DelAuditRecordRepository.cs" />
+    <Compile Include="Audit\DelAudToDoRecordRepository.cs" />
     <Compile Include="ControlTablesRegister.cs" />
     <Compile Include="CreateDBModels.cs">
       <DependentUpon>CreateDBModels.tt</DependentUpon>
@@ -49,7 +50,8 @@
       <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="DBModel\AuditRecord.db.cs" />
-    <Compile Include="DBModel\DelAuditInt.db.cs" />
+    <Compile Include="DBModel\DelAudit.db.cs" />
+    <Compile Include="DBModel\DelAudToDo.db.cs" />
     <Compile Include="DBModel\DiscPrds.db.cs" />
     <Compile Include="DBModel\DisCsts.db.cs" />
     <Compile Include="DBModel\DisGrps.db.cs" />
@@ -180,6 +182,10 @@
     <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.PreInv.Interfaces\Bsdl.FreshTrade.Repositories.PreInv.Interfaces.csproj">
       <Project>{6B47272B-4043-4AD6-B93E-D7A94E585EA1}</Project>
       <Name>Bsdl.FreshTrade.Repositories.PreInv.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DapperNET40.Modified\DapperNET40.Modified.csproj">
+      <Project>{4286FA07-C85B-4CD2-9BD8-12799DF19829}</Project>
+      <Name>DapperNET40.Modified</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

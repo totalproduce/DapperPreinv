@@ -44,6 +44,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public int? Dissaloffno {get;set;}
+
+    
+       [DataMember]              
         public short Isactive {get;set;}
 
     }
@@ -56,6 +60,7 @@ result.Disgrprecno = item.Disgrprecno;
   result.Disdesc = item.Disdesc;
   result.Dishancommvatcode = item.Dishancommvatcode;
   result.Dishanddesc = item.Dishanddesc;
+  result.Dissaloffno = item.Dissaloffno;
   result.Isactive = item.Isactive;
 
 
@@ -70,6 +75,7 @@ Discstsup = item.Discstsup,
 Disdesc = item.Disdesc,
 Dishancommvatcode = item.Dishancommvatcode,
 Dishanddesc = item.Dishanddesc,
+Dissaloffno = item.Dissaloffno,
 Isactive = item.Isactive,
 
 

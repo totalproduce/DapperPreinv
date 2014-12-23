@@ -317,6 +317,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public short? Suppressoverallocmsg {get;set;}
+
+    
+       [DataMember]              
         public int? Transhipbayrecno {get;set;}
 
     
@@ -404,6 +408,7 @@ result.Stcrecno = item.Stcrecno;
   result.Stclocdesc = item.Stclocdesc;
   result.Stclocfifo = item.Stclocfifo;
   result.Stoclocananumber = item.Stoclocananumber;
+  result.Suppressoverallocmsg = item.Suppressoverallocmsg;
   result.Transhipbayrecno = item.Transhipbayrecno;
   result.TshipSplitatnew = item.TshipSplitatnew;
   result.Usealternateproddescs = item.Usealternateproddescs;
@@ -484,6 +489,7 @@ Restrictpalstostocloc = item.Restrictpalstostocloc,
 Stclocdesc = item.Stclocdesc,
 Stclocfifo = item.Stclocfifo,
 Stoclocananumber = item.Stoclocananumber,
+Suppressoverallocmsg = item.Suppressoverallocmsg,
 Transhipbayrecno = item.Transhipbayrecno,
 TshipSplitatnew = item.TshipSplitatnew,
 Usealternateproddescs = item.Usealternateproddescs,

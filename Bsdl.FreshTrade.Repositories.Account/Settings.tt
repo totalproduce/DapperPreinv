@@ -7,9 +7,8 @@
     // Settings
     //
 
-
-    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=PFITTER;Password=PFITTER;";
-    string connectionString = "user id=PFITTER;password=PFITTER;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=islands-server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xe)))";
+    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=LOCALTPIE;Password=LOCALTPIE;";
+    string connectionString = "user id=LOCALTPIE;password=LOCALTPIE;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=totalproducedb)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TOTALPRODUCE)))";
 
     IDictionary<string, string> lookupTables = new Dictionary<string, string>
                 {
@@ -39,22 +38,22 @@
                       TABLE_NAME="SALOFFNO",
                       CS_CLASS_NAME= "SalesOfficeResultsLineBase"
                     }},
-		    { "GLBRKON", new DB_TABLE_INFO {
+        { "GLBRKON", new DB_TABLE_INFO {
                       TABLE_NAME="GLBRKON",
                       CS_CLASS_NAME= "GLBrakedOn"
                     }},
-		    { "CSTANGRP", new DB_TABLE_INFO {
+        { "CSTANGRP", new DB_TABLE_INFO {
                       TABLE_NAME="CSTANGRP",
                       CS_CLASS_NAME= "CustomerGroup"
                     }},
-		    { "CSTANDES", new DB_TABLE_INFO {
+        { "CSTANDES", new DB_TABLE_INFO {
                       TABLE_NAME="CSTANDES",
                       CS_CLASS_NAME= "CustomerCategory"
                     }},
-			{ "ACCTOSALOFF", new DB_TABLE_INFO {
+      { "ACCTOSALOFF", new DB_TABLE_INFO {
                       TABLE_NAME="ACCTOSALOFF",
                       CS_CLASS_NAME= "AccountToSalesOffice"
-                    }}		
+                    }}    
         };
 
     bool generateEntityTablesOnly= true;

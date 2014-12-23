@@ -288,7 +288,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          true, //isNullable
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
-         8,       // int size   
+         10,       // int size   
                   null, // int? prec
                    
          null // int? Scale
@@ -1017,6 +1017,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                   null, // int? prec
                    
          null // int? Scale
+         ,
+         typeof(StocLoc)
+         ));
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <StocLoc>.GetProperty(x => x.Suppressoverallocmsg),
+         "SUPPRESSOVERALLOCMSG", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
          ,
          typeof(StocLoc)
          ));
@@ -2083,6 +2097,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fSuppressoverallocmsg;
+        public short? Suppressoverallocmsg
+        {
+            get { return _fSuppressoverallocmsg; }
+            set
+            {
+                if (_fSuppressoverallocmsg != value)
+                {
+                    Modify();
+                    _fSuppressoverallocmsg = value;
+                }
+            }
+        }
+
         private int? _fTranshipbayrecno;
         public int? Transhipbayrecno
         {
@@ -2222,6 +2250,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Stclocdesc = Stclocdesc,
                     Stclocfifo = Stclocfifo,
                     Stoclocananumber = Stoclocananumber,
+                    Suppressoverallocmsg = Suppressoverallocmsg,
                     Transhipbayrecno = Transhipbayrecno,
                     TshipSplitatnew = TshipSplitatnew,
                     Usealternateproddescs = Usealternateproddescs,
@@ -2304,6 +2333,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  STCLOCDESC = "STCLOCDESC";
             public const string  STCLOCFIFO = "STCLOCFIFO";
             public const string  STOCLOCANANUMBER = "STOCLOCANANUMBER";
+            public const string  SUPPRESSOVERALLOCMSG = "SUPPRESSOVERALLOCMSG";
             public const string  TRANSHIPBAYRECNO = "TRANSHIPBAYRECNO";
             public const string  TSHIP_SPLITATNEW = "TSHIP_SPLITATNEW";
             public const string  USEALTERNATEPRODDESCS = "USEALTERNATEPRODDESCS";

@@ -37,6 +37,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public int? Slpltype {get;set;}
+
+    
+       [DataMember]              
         public string Vatdesc {get;set;}
 
     
@@ -59,6 +63,7 @@ result.Vatrecno = item.Vatrecno;
   result.Formno = item.Formno;
   result.Intercee = item.Intercee;
   result.Lstlogonno = item.Lstlogonno;
+  result.Slpltype = item.Slpltype;
   result.Vatdesc = item.Vatdesc;
   result.Vatganrecno = item.Vatganrecno;
   result.Vatrate = item.Vatrate;
@@ -74,6 +79,7 @@ Exclfromvatextract = item.Exclfromvatextract,
 Formno = item.Formno,
 Intercee = item.Intercee,
 Lstlogonno = item.Lstlogonno,
+Slpltype = item.Slpltype,
 Vatdesc = item.Vatdesc,
 Vatganrecno = item.Vatganrecno,
 Vatrate = item.Vatrate,

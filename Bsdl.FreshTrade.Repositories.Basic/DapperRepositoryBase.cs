@@ -521,7 +521,7 @@ namespace Bsdl.FreshTrade.Repositories.Basic
                 );
         }
 
-        protected void ExecuteCustomSqlWithArrayBinding<K>(string sql, ICollection<K> entities, Func<ICollection<K>, DynamicParameters> initializeParams)
+        protected void ExecuteCustomSqlWithArrayBinding<K>(string sql, ICollection<K> entities, Func<ICollection<K>, DynamicParameters> initializeParams, CommandType? commandType = null)
         {
             if (entities.Count == 0)
             {
@@ -529,10 +529,19 @@ namespace Bsdl.FreshTrade.Repositories.Basic
             }
 
             DynamicParameters parameters;
+            Action<IDbCommand> onCommandCreated = 
+                i =>
+                {
+                    if (commandType != CommandType.StoredProcedure)
+                    {
+                        ((OracleCommand) i).ArrayBindCount = entities.Count();
+                    }
+                };
+
             if (entities.Count <= _maxArrayBindBatch)
             {
                 parameters = initializeParams(entities);
-                UnitOfWorkCurrent.Execute(sql, parameters, null, null, i => { ((OracleCommand)i).ArrayBindCount = entities.Count(); });
+                UnitOfWorkCurrent.Execute(sql, parameters, null, commandType, onCommandCreated);
             }
             else
             {
@@ -547,7 +556,7 @@ namespace Bsdl.FreshTrade.Repositories.Basic
                     }
 
                     parameters = initializeParams(entitiesList.GetRange(currentIndex, numberOfElements));
-                    UnitOfWorkCurrent.Execute(sql, parameters, null, null, i => { ((OracleCommand)i).ArrayBindCount = numberOfElements; });
+                    UnitOfWorkCurrent.Execute(sql, parameters, null, commandType, onCommandCreated);
 
                     currentIndex += numberOfElements;
                 }

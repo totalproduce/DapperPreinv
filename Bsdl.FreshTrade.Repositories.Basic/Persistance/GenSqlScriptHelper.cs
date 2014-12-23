@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
@@ -162,6 +163,28 @@ namespace Bsdl.FreshTrade.Repositories.Basic.Persistance
             return parameters;
         }
 
+        private static bool IsValuesList(object data)
+        {
+            return !(data is string) && ((data as IEnumerable) != null);
+        }
+
+        public static void GenStoredProcedureParam(DynamicParameters parameters, string paramName, Type paramType, object paramValues)
+        {
+            var dbType = GetDbType(paramType);
+            bool isArray = IsValuesList(paramValues);
+            parameters.Add(paramName, paramValues, isArray ? DynamicParameters.EnumerableMultiParameter : dbType, ParameterDirection.Input, null,
+                i =>
+                {
+                    var param = (OracleParameter) i;
+                    if (isArray)
+                    {
+                        param.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
+                        param.Size = 2;
+                    }
+                    param.DbType = dbType;
+                }
+            );
+        }
         /*
         public static string GenInsertSqlWithParams<TBaseEntity>(string tableName, IList<EntityPropDef> propDefs, IList<TBaseEntity> entities)
             where TBaseEntity : IBaseModel

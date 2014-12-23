@@ -268,9 +268,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
          0,       // int size   
-                  null, // int? prec
-                   
-         null // int? Scale
+                  5, // int? prec
+                           0  // int? Scale
          ,
          typeof(PrcCstInfo)
          ));
@@ -519,8 +518,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
-        private decimal? _fPrcpriceisper;
-        public decimal? Prcpriceisper
+        private int? _fPrcpriceisper;
+        public int? Prcpriceisper
         {
             get { return _fPrcpriceisper; }
             set

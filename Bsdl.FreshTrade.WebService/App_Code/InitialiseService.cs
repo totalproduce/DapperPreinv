@@ -149,6 +149,7 @@ namespace Bsdl.FreshTrade.WebService.App_Code
             result.RegisterType<BatchDetRepository>().As<IBatchDetRepository>();
             result.RegisterType<AuditRecordRepository>().As<IAuditRecordRepository>();
             result.RegisterType<DelAuditRecordRepository>().As<IDelAuditRecordRepository>();
+            result.RegisterType<DelAudToDoRecordRepository>().As<IDelAudToDoRecordRepository>();
             result.RegisterType<IchDiscTypRepository>().As<IIchDiscTypRepository>();
             
             //reports

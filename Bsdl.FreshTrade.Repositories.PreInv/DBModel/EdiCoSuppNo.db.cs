@@ -434,6 +434,21 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Discountcondition),
+         "DISCOUNTCONDITION", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         100,       // int size   
+                  null, // int? prec
+                   
+         null // int? Scale
+         ,
+         typeof(EdiCoSuppNo)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Duplicateorders),
          "DUPLICATEORDERS", // columnName
          false,                    //isKey
@@ -1326,6 +1341,36 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Paymentmethod),
+         "PAYMENTMETHOD", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         5,       // int size   
+                  null, // int? prec
+                   
+         null // int? Scale
+         ,
+         typeof(EdiCoSuppNo)
+         ));
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Penaltycondition),
+         "PENALTYCONDITION", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         100,       // int size   
+                  null, // int? prec
+                   
+         null // int? Scale
+         ,
+         typeof(EdiCoSuppNo)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Qtychangelog),
          "QTYCHANGELOG", // columnName
          false,                    //isKey
@@ -1935,6 +1980,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                 {
                     Modify();
                     _fCrossdockupload = value;
+                }
+            }
+        }
+
+        private string _fDiscountcondition;
+        public string Discountcondition
+        {
+            get { return _fDiscountcondition; }
+            set
+            {
+                if (_fDiscountcondition != value)
+                {
+                    Modify();
+                    _fDiscountcondition = value;
                 }
             }
         }
@@ -2793,6 +2852,34 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private string _fPaymentmethod;
+        public string Paymentmethod
+        {
+            get { return _fPaymentmethod; }
+            set
+            {
+                if (_fPaymentmethod != value)
+                {
+                    Modify();
+                    _fPaymentmethod = value;
+                }
+            }
+        }
+
+        private string _fPenaltycondition;
+        public string Penaltycondition
+        {
+            get { return _fPenaltycondition; }
+            set
+            {
+                if (_fPenaltycondition != value)
+                {
+                    Modify();
+                    _fPenaltycondition = value;
+                }
+            }
+        }
+
         private string _fQtychangelog;
         public string Qtychangelog
         {
@@ -3053,6 +3140,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Caselabelprtor = Caselabelprtor,
                     Combinedeliveries = Combinedeliveries,
                     Crossdockupload = Crossdockupload,
+                    Discountcondition = Discountcondition,
                     Duplicateorders = Duplicateorders,
                     Edidbtcdtfileext = Edidbtcdtfileext,
                     Edidbtcdtfileprefix = Edidbtcdtfileprefix,
@@ -3114,6 +3202,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Ordernostartposition = Ordernostartposition,
                     Palletlabelprtnm = Palletlabelprtnm,
                     Palletlabelprtor = Palletlabelprtor,
+                    Paymentmethod = Paymentmethod,
+                    Penaltycondition = Penaltycondition,
                     Qtychangelog = Qtychangelog,
                     Qtychanges = Qtychanges,
                     Retrieveby = Retrieveby,
@@ -3165,6 +3255,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  CASELABELPRTOR = "CASELABELPRTOR";
             public const string  COMBINEDELIVERIES = "COMBINEDELIVERIES";
             public const string  CROSSDOCKUPLOAD = "CROSSDOCKUPLOAD";
+            public const string  DISCOUNTCONDITION = "DISCOUNTCONDITION";
             public const string  DUPLICATEORDERS = "DUPLICATEORDERS";
             public const string  EDIDBTCDTFILEEXT = "EDIDBTCDTFILEEXT";
             public const string  EDIDBTCDTFILEPREFIX = "EDIDBTCDTFILEPREFIX";
@@ -3226,6 +3317,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  ORDERNOSTARTPOSITION = "ORDERNOSTARTPOSITION";
             public const string  PALLETLABELPRTNM = "PALLETLABELPRTNM";
             public const string  PALLETLABELPRTOR = "PALLETLABELPRTOR";
+            public const string  PAYMENTMETHOD = "PAYMENTMETHOD";
+            public const string  PENALTYCONDITION = "PENALTYCONDITION";
             public const string  QTYCHANGELOG = "QTYCHANGELOG";
             public const string  QTYCHANGES = "QTYCHANGES";
             public const string  RETRIEVEBY = "RETRIEVEBY";

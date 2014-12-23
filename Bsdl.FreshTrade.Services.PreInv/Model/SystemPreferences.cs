@@ -71,6 +71,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         [SysPref(Name = "INVPRTSORTKEY1")]
         public string InvPrtSortKey1 { get; set; } // dynSysPrefs["InvprtSortKey1"].upper()
 
+        [SysPref(Name = "USEAUTOCOSTING")]
+        public bool UseAutoCosting { get; set; } // Logical(GetSysPref("USEAUTOCOSTING", True, False))
+
         /*Other properties*/
         public string FormName { get; set; }
         public int FormNo { get; set; }

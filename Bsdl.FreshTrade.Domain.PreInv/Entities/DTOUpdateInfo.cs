@@ -21,7 +21,7 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public List<DTOIchDiscTyp> IchDiscTypAdditions { get; set; }
         public List<DTOIteChg> IteChgAdditions { get; set; }
 
-        public List<DTODelAuditRecord> DelAuditRecordAdditions { get; set; }
+        public List<DTODelAuditRecord> DelAuditRecordAdditions { get; set; }        
         public List<DTOAuditRecord> AuditRecordAdditions { get; set; }
 
         public List<UpdatePair<DTODeliveryPrice>> DeliveryPriceUpdates { get; set; }

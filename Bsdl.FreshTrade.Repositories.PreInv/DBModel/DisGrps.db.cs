@@ -128,6 +128,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <DisGrps>.GetProperty(x => x.Dissaloffno),
+         "DISSALOFFNO", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  5, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(DisGrps)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <DisGrps>.GetProperty(x => x.Isactive),
          "ISACTIVE", // columnName
          false,                    //isKey
@@ -244,6 +258,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private int? _fDissaloffno;
+        public int? Dissaloffno
+        {
+            get { return _fDissaloffno; }
+            set
+            {
+                if (_fDissaloffno != value)
+                {
+                    Modify();
+                    _fDissaloffno = value;
+                }
+            }
+        }
+
         private short _fIsactive;
         public short Isactive
         {
@@ -278,6 +306,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Disdesc = Disdesc,
                     Dishancommvatcode = Dishancommvatcode,
                     Dishanddesc = Dishanddesc,
+                    Dissaloffno = Dissaloffno,
                     Isactive = Isactive,
                 };
 
@@ -294,6 +323,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  DISDESC = "DISDESC";
             public const string  DISHANCOMMVATCODE = "DISHANCOMMVATCODE";
             public const string  DISHANDDESC = "DISHANDDESC";
+            public const string  DISSALOFFNO = "DISSALOFFNO";
             public const string  ISACTIVE = "ISACTIVE";
  // ReSharper restore InconsistentNaming
         }

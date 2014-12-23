@@ -127,6 +127,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public string Discountcondition {get;set;}
+
+    
+       [DataMember]              
         public string Duplicateorders {get;set;}
 
     
@@ -371,6 +375,14 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public string Paymentmethod {get;set;}
+
+    
+       [DataMember]              
+        public string Penaltycondition {get;set;}
+
+    
+       [DataMember]              
         public string Qtychangelog {get;set;}
 
     
@@ -460,6 +472,7 @@ result.Coglbno = item.Coglbno;
   result.Caselabelprtor = item.Caselabelprtor;
   result.Combinedeliveries = item.Combinedeliveries;
   result.Crossdockupload = item.Crossdockupload;
+  result.Discountcondition = item.Discountcondition;
   result.Duplicateorders = item.Duplicateorders;
   result.Edidbtcdtfileext = item.Edidbtcdtfileext;
   result.Edidbtcdtfileprefix = item.Edidbtcdtfileprefix;
@@ -521,6 +534,8 @@ result.Coglbno = item.Coglbno;
   result.Ordernostartposition = item.Ordernostartposition;
   result.Palletlabelprtnm = item.Palletlabelprtnm;
   result.Palletlabelprtor = item.Palletlabelprtor;
+  result.Paymentmethod = item.Paymentmethod;
+  result.Penaltycondition = item.Penaltycondition;
   result.Qtychangelog = item.Qtychangelog;
   result.Qtychanges = item.Qtychanges;
   result.Retrieveby = item.Retrieveby;
@@ -570,6 +585,7 @@ Caselabelprtnm = item.Caselabelprtnm,
 Caselabelprtor = item.Caselabelprtor,
 Combinedeliveries = item.Combinedeliveries,
 Crossdockupload = item.Crossdockupload,
+Discountcondition = item.Discountcondition,
 Duplicateorders = item.Duplicateorders,
 Edidbtcdtfileext = item.Edidbtcdtfileext,
 Edidbtcdtfileprefix = item.Edidbtcdtfileprefix,
@@ -631,6 +647,8 @@ Ordernolength = item.Ordernolength,
 Ordernostartposition = item.Ordernostartposition,
 Palletlabelprtnm = item.Palletlabelprtnm,
 Palletlabelprtor = item.Palletlabelprtor,
+Paymentmethod = item.Paymentmethod,
+Penaltycondition = item.Penaltycondition,
 Qtychangelog = item.Qtychangelog,
 Qtychanges = item.Qtychanges,
 Retrieveby = item.Retrieveby,

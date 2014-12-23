@@ -8,8 +8,8 @@
     //
 
 
-    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=PFITTER;Password=PFITTER;";
-    string connectionString = "user id=SYSTEM;password=gfhfifdcbv;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=islands-server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=xe)))";
+    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=LOCALTPIE;Password=LOCALTPIE;";
+    string connectionString = "user id=LOCALTPIE;password=LOCALTPIE;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=totalproducedb)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TOTALPRODUCE)))";
 
     IDictionary<string, string> lookupTables = new Dictionary<string, string>
                 {

@@ -80,7 +80,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
-        public decimal? Prcpriceisper {get;set;}
+        public int? Prcpriceisper {get;set;}
 
     
        [DataMember]              

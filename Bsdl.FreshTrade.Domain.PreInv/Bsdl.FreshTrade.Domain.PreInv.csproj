@@ -53,6 +53,7 @@
     <Compile Include="Entities\DTOBatch.cs" />
     <Compile Include="Entities\DTOCustDiscountRates.cs" />
     <Compile Include="Entities\DTOCustomerProductInfo.cs" />
+    <Compile Include="Entities\DTODelAudToDo.cs" />
     <Compile Include="Entities\DTODeliveryDetail.cs" />
     <Compile Include="Entities\DTODeliveryHead.cs" />
     <Compile Include="Entities\DTODeliveryPrice.cs" />

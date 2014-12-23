@@ -66,6 +66,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private readonly IEdiLogInvoiceRepository _ediLogInvoiceRepository;
         private readonly IAuditRecordRepository _auditRecordRepository;
         private readonly IDelAuditRecordRepository _delAuditRecordRepository;
+        private readonly IDelAudToDoRecordRepository _delAudToDoRecordRepository;
         private readonly IINVEDIRepository _invediRepository;
         private readonly IIchDiscTypRepository _ichDiscTypRepository;
         private readonly IDTOUser _user;
@@ -333,15 +334,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                       (
                                                           new DTODelAuditRecord
                                                               {
-                                                                  DelAudIntRecno = (int)_delAuditRecordRepository.GetNextSequence(),
-                                                                  DelAudIntTyp = 32,
-                                                                  DelaudIntFrom = delPriceItem.DeliveryPriceStatus.ToString(),
-                                                                  DelAudIntTo = delPriceItem.DeliveryPriceStatus.ToInvoiced().ToString(),
-                                                                  DelAudIntDelRecNo = delPriceItem.DeliveryDetailId,
-                                                                  DprRecNoInt = delPriceItem.Id,
-                                                                  DelAudIntDate = DateTime.Now,
-                                                                  FormIntNo = _systemPreferences.FormNo,
-                                                                  LogonIntNo = _user.Id
+                                                                  Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                                                                  DelAudTyp = 32,
+                                                                  DelAudFrom = ((int?)delPriceItem.DeliveryPriceStatus).ToString(),
+                                                                  DelAudTo = ((int?)delPriceItem.DeliveryPriceStatus.ToInvoiced()).ToString(),
+                                                                  DelAudDelRecNo = delPriceItem.DeliveryDetailId,
+                                                                  DprRecNo = delPriceItem.Id,
+                                                                  DelAudDate = DateTime.Now,
+                                                                  FormNo = _systemPreferences.FormNo,
+                                                                  FormName = _systemPreferences.FormName,
+                                                                  LogonNo = _user.Id
                                                               }
                                                       );
                                                   MarkDeliveryPriceAsInvoiced(updateContext, delPriceItem);
@@ -397,15 +399,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                             (
                                 new DTODelAuditRecord 
                                 {
-                                    DelAudIntRecno = (int)_delAuditRecordRepository.GetNextSequence(),
-                                    DelAudIntTyp = 15,
-                                    DelaudIntFrom = delHedItem.DeliveryStatus.ToString(),
-                                    DelAudIntTo = DTODeliveryStatus.Invoiced.ToString(),
-                                    DelAudIntDelRecNo = firstDetailInSeq.Id,
-                                    DprRecNoInt = null,
-                                    DelAudIntDate = DateTime.Now,
-                                    FormIntNo = _systemPreferences.FormNo,
-                                    LogonIntNo = _user.Id
+                                    Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                                    DelAudTyp = 15,
+                                    DelAudFrom = ((int?)delHedItem.DeliveryStatus).ToString(),
+                                    DelAudTo = ((int?)DTODeliveryStatus.Invoiced).ToString(),
+                                    DelAudDelRecNo = firstDetailInSeq.Id,
+                                    DprRecNo = null,
+                                    DelAudDate = DateTime.Now,
+                                    FormNo = _systemPreferences.FormNo,
+                                    FormName = _systemPreferences.FormName,
+                                    LogonNo = _user.Id
                                 }
                             );
                         }
@@ -443,15 +446,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 (
                     new DTODelAuditRecord
                         {
-                            DelAudIntRecno = (int)_delAuditRecordRepository.GetNextSequence(),
-                            DelAudIntTyp = 5,
-                            DelaudIntFrom = delDetail.DeliveryStatus.ToString(),
-                            DelAudIntTo = DTODeliveryStatus.Invoiced.ToString(),
-                            DelAudIntDelRecNo = delDetail.Id,
-                            DprRecNoInt = null,
-                            DelAudIntDate = DateTime.Now,
-                            FormIntNo = _systemPreferences.FormNo,
-                            LogonIntNo = _user.Id
+                            Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                            DelAudTyp = 5,
+                            DelAudFrom = ((int?)delDetail.DeliveryStatus).ToString(),
+                            DelAudTo = ((int?)DTODeliveryStatus.Invoiced).ToString(),
+                            DelAudDelRecNo = delDetail.Id,
+                            DprRecNo = null,
+                            DelAudDate = DateTime.Now,
+                            FormNo = _systemPreferences.FormNo,
+                            FormName = _systemPreferences.FormName,
+                            LogonNo = _user.Id
                         }
                 );
             // 2) Update DelDet
@@ -660,15 +664,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     (
                         new DTODelAuditRecord
                         {
-                            DelAudIntRecno = (int)_delAuditRecordRepository.GetNextSequence(),
-                            DelAudIntTyp = 36,
-                            DelaudIntFrom = nuTotDsc.ToString(CultureInfo.InvariantCulture),
-                            DelAudIntTo = nuTotNewDsc.ToString(CultureInfo.InvariantCulture),
-                            DelAudIntDelRecNo = invPrt2Record.DelRecNo,
-                            DprRecNoInt = invPrt2Record.DprRecNo,
-                            DelAudIntDate = DateTime.Now,
-                            FormIntNo = _systemPreferences.FormNo,
-                            LogonIntNo = _user.Id
+                            Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                            DelAudTyp = 36,
+                            DelAudFrom = nuTotDsc.ToString(CultureInfo.InvariantCulture),
+                            DelAudTo = nuTotNewDsc.ToString(CultureInfo.InvariantCulture),
+                            DelAudDelRecNo = invPrt2Record.DelRecNo,
+                            DprRecNo = invPrt2Record.DprRecNo,
+                            DelAudDate = DateTime.Now,
+                            FormNo = _systemPreferences.FormNo,
+                            FormName = _systemPreferences.FormName,
+                            LogonNo = _user.Id
                         }
                     );
                 }
@@ -679,15 +684,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     (
                         new DTODelAuditRecord
                         {
-                            DelAudIntRecno = (int)_delAuditRecordRepository.GetNextSequence(),
-                            DelAudIntTyp = 37,
-                            DelaudIntFrom = nuTotRbt.ToString(CultureInfo.InvariantCulture),
-                            DelAudIntTo = nuTotNewRbt.ToString(CultureInfo.InvariantCulture),
-                            DelAudIntDelRecNo = invPrt2Record.DelRecNo,
-                            DprRecNoInt = invPrt2Record.DprRecNo,
-                            DelAudIntDate = DateTime.Now,
-                            FormIntNo = _systemPreferences.FormNo,
-                            LogonIntNo = _user.Id
+                            Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                            DelAudTyp = 37,
+                            DelAudFrom = nuTotRbt.ToString(CultureInfo.InvariantCulture),
+                            DelAudTo = nuTotNewRbt.ToString(CultureInfo.InvariantCulture),
+                            DelAudDelRecNo = invPrt2Record.DelRecNo,
+                            DprRecNo = invPrt2Record.DprRecNo,
+                            DelAudDate = DateTime.Now,
+                            FormNo = _systemPreferences.FormNo,
+                            FormName = _systemPreferences.FormName,
+                            LogonNo = _user.Id
                         }
                     );
                 }
@@ -853,6 +859,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _delAuditRecordRepository = _unitOfWorkCurrent.GetRepository<IDelAuditRecordRepository>();
             _invediRepository = _unitOfWorkCurrent.GetRepository <IINVEDIRepository>();
             _ichDiscTypRepository = _unitOfWorkCurrent.GetRepository<IIchDiscTypRepository>();
+            _delAudToDoRecordRepository = _unitOfWorkCurrent.GetRepository<IDelAudToDoRecordRepository>();
             _sharedProcessingHelpers = new SharedProcessingHelpers(_glInfoRepository);
             _invoiceTypeToBatchTypeMapping = _sharedProcessingHelpers.GetInvoiceTypeToBatchTypeMapping();
 
@@ -918,6 +925,26 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             {
                 throw new FreshTradeException("Update data differs to the printed data");
             }
+        }
+
+        private void StoreDeliveryAudits(DTOUpdateInfo updateInfo)
+        {
+            _delAuditRecordRepository.Debug("pre");
+            _delAuditRecordRepository.Add(updateInfo.DelAuditRecordAdditions);
+            _delAuditRecordRepository.Debug("post");
+
+            var delAuditToDoItems = updateInfo.DelAuditRecordAdditions.Where(a => a.DprRecNo > 0)
+                .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true}).ToList();
+
+            _delAudToDoRecordRepository.Debug("pre");
+            _delAudToDoRecordRepository.Add(delAuditToDoItems);
+            _delAudToDoRecordRepository.Debug("post");
+
+            var delPricesForCostingIds =
+                updateInfo.DelAuditRecordAdditions.Where(a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
+                    .Select(i => i.DprRecNo.Value)
+                    .ToList();
+            _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
         }
 
         public PreInvUpdateStatusType Update(DTOPreInvUpdateParams updateParams, int extractSessionID)
@@ -1780,38 +1807,40 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                     var auditRecord = new DTODelAuditRecord
                         {
-                            DelAudIntRecno = (int)_delAuditRecordRepository.GetNextSequence(),
-                            DelAudIntTyp = 32,
-                            DelAudIntDelRecNo = originalDeliveryPriceRecord.DeliveryDetailId,
-                            DprRecNoInt = originalDeliveryPriceRecord.Id,
-                            DelAudIntDate = DateTime.Now,
-                            FormIntNo = _systemPreferences.FormNo,
-                            LogonIntNo = _user.Id
+                            Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                            DelAudTyp = 32,
+                            DelAudDelRecNo = originalDeliveryPriceRecord.DeliveryDetailId,
+                            DprRecNo = originalDeliveryPriceRecord.Id,
+                            DelAudDate = DateTime.Now,
+                            FormNo = _systemPreferences.FormNo,
+                            FormName = _systemPreferences.FormName,
+                            LogonNo = _user.Id
                         };
                     if (!originalDeliveryPriceRecord.DeliveryPriceStatus.IsInvoiced()) // < 11
                     {
-                        auditRecord.DelaudIntFrom = originalDeliveryPriceRecord.DeliveryPriceStatus.ToString();
-                        auditRecord.DelAudIntTo = originalDeliveryPriceRecord.DeliveryPriceStatus.ToInvoiced().ToString();
+                        auditRecord.DelAudFrom = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus).ToString();
+                        auditRecord.DelAudTo = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus.ToInvoiced()).ToString();
                         deliveryPriceRecord.DeliveryPriceStatus = originalDeliveryPriceRecord.DeliveryPriceStatus.ToInvoiced();
 
                         updateInfo.DelAuditRecordAdditions.Add
                             (
                                 new DTODelAuditRecord
                                     {
-                                        DelAudIntRecno = (int) _delAuditRecordRepository.GetNextSequence(),
-                                        DelAudIntTyp = 128,
-                                        DelAudIntDelRecNo = originalDeliveryPriceRecord.DeliveryDetailId,
-                                        DprRecNoInt = originalDeliveryPriceRecord.Id,
-                                        DelAudIntDate = DateTime.Now,
-                                        FormIntNo = _systemPreferences.FormNo,
-                                        LogonIntNo = _user.Id
+                                        Id = (int) _delAuditRecordRepository.GetNextSequence(),
+                                        DelAudTyp = 128,
+                                        DelAudDelRecNo = originalDeliveryPriceRecord.DeliveryDetailId,
+                                        DprRecNo = originalDeliveryPriceRecord.Id,
+                                        DelAudDate = DateTime.Now,
+                                        FormNo = _systemPreferences.FormNo,
+                                        FormName = _systemPreferences.FormName,
+                                        LogonNo = _user.Id
                                     }
                             );
                     }
                     else
                     {
-                        auditRecord.DelaudIntFrom = originalDeliveryPriceRecord.DeliveryPriceStatus.ToString();
-                        auditRecord.DelAudIntTo   = originalDeliveryPriceRecord.DeliveryPriceStatus.ToString();
+                        auditRecord.DelAudFrom = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus).ToString();
+                        auditRecord.DelAudTo   = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus).ToString();
                     }
                     updateInfo.DelAuditRecordAdditions.Add(auditRecord);
                     updateInfo.DeliveryPriceUpdates.Add(new UpdatePair<DTODeliveryPrice>(originalDeliveryPriceRecord, deliveryPriceRecord));
@@ -2000,9 +2029,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _auditRecordRepository.Add(updateInfo.AuditRecordAdditions);
                 _auditRecordRepository.Debug("post");
 
-                _delAuditRecordRepository.Debug("pre");
-                _delAuditRecordRepository.Add(updateInfo.DelAuditRecordAdditions);
-                _delAuditRecordRepository.Debug("post");
+                StoreDeliveryAudits(updateInfo);
 
                 //2 updates                
                 _deliveryHeadRepository.Debug("pre");
@@ -2035,7 +2062,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
 				ProgressChanged(100);
-                _unitOfWorkCurrent.Commit();
+                _unitOfWorkCurrent.Rollback();
                 return PreInvUpdateStatusType.OK;
             }
             catch (Exception)

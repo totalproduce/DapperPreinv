@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Bsdl.FreshTrade.Domain.PreInv.Entities
 {
@@ -10,40 +7,42 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
     public class DTODelAuditRecord
     {
         [DataMember]
-        public int DelAudIntTyp { get; set; }
+        public int DelAudTyp { get; set; }
 
         [DataMember]
-        public int DelAudIntRecno { get; set; }
+        public int Id { get; set; }
 
         [DataMember]
-        public DateTime? DelAudIntDate { get; set; }
-
-
-        [DataMember]
-        public int? DelAudIntDelRecNo { get; set; }
+        public DateTime? DelAudDate { get; set; }
 
 
         [DataMember]
-        public string DelaudIntFrom { get; set; }
+        public int? DelAudDelRecNo { get; set; }
 
 
         [DataMember]
-        public int? DelAudIntGrpNo { get; set; }
+        public string DelAudFrom { get; set; }
 
 
         [DataMember]
-        public string DelAudIntTo { get; set; }
-
-        [DataMember]
-        public int? DprRecNoInt { get; set; }
+        public int? DelAudGrpNo { get; set; }
 
 
         [DataMember]
-        public int? FormIntNo { get; set; }
+        public string DelAudTo { get; set; }
+
+        [DataMember]
+        public int? DprRecNo { get; set; }
 
 
         [DataMember]
-        public int? LogonIntNo { get; set; }
+        public int? FormNo { get; set; }
+
+        [DataMember]
+        public string FormName { get; set; }
+
+        [DataMember]
+        public int? LogonNo { get; set; }
     }
 
 }
