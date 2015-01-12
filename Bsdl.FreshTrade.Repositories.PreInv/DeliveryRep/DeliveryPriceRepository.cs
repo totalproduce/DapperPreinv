@@ -128,7 +128,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
                             Dprmanwgtchg = item.Dprmanwgtchg,
                             Dprisprcccdtdbt = item.Dprisprcccdtdbt > 0,
                             Dprpreas = item.Dprpreas,
-                            DelVatRate = item.Delvatrate,
+                            DelVatRate = item.Delvatrate ?? 0,
                             DelVatRate2 = item.Delvatrate2 ?? 0,
                             DelVatRecNo = item.Delvatrecno
 
