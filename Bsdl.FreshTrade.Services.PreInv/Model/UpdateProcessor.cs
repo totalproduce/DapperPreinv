@@ -1800,13 +1800,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     deliveryPriceRecord.DelBaseNettVal = invPrt2Record.BaseGds;
                     deliveryPriceRecord.DelBaseVatValue = invPrt2Record.BaseVat;
                     deliveryPriceRecord.DelVatValue = invPrt2Record.Vat;
-                    deliveryPriceRecord.DelVatRate = invPrt2Record.VatVatRate;
-                    deliveryPriceRecord.DelVatRecNo = invPrt2Record.VatRecNo;
+                    deliveryPriceRecord.VatRate = invPrt2Record.VatVatRate;
+                    deliveryPriceRecord.VatRecNo = invPrt2Record.VatRecNo;
                     deliveryPriceRecord.InvoiceId = _context.AccTrnFil.AtrRecNo;
 
                     if (_context.InvTotRecord.TwoVatRatesCust)
                     {
-                        deliveryPriceRecord.DelVatRate2 = invPrt2Record.VatVatRate2;
+                        deliveryPriceRecord.VatRate2 = invPrt2Record.VatVatRate2;
                     }
 
                     var auditRecord = new DTODelAuditRecord

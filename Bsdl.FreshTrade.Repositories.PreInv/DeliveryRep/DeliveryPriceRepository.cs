@@ -107,8 +107,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
                             IsPriceAdjustment = item.Dprispriceadjonly.HasValue && item.Dprispriceadjonly.Value >= 1,
                             AdjustedBy = item.Adjby,
                             InvoiceId = item.Delinvrecno,
-                            VatRate = item.Delvatrate ?? 0,
-                            VatRate2 = item.Delvatrate2 ?? 0,
+                            VatRate = item.Delvatrate,
+                            VatRate2 = item.Delvatrate2,
                             VatRecNo = item.Delvatrecno,
                             PriceWeight = item.Delprcweight ?? 0,
                             DelToEuroRate = item.Deltoeurorate ?? 0,
@@ -127,11 +127,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
                             Dprnominalprice = item.Dprnominalprice ?? 0,
                             Dprmanwgtchg = item.Dprmanwgtchg,
                             Dprisprcccdtdbt = item.Dprisprcccdtdbt > 0,
-                            Dprpreas = item.Dprpreas,
-                            DelVatRate = item.Delvatrate ?? 0,
-                            DelVatRate2 = item.Delvatrate2 ?? 0,
-                            DelVatRecNo = item.Delvatrecno
-
+                            Dprpreas = item.Dprpreas
                         })
                     .ToList();
         }

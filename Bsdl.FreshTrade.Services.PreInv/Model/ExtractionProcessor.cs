@@ -2367,18 +2367,18 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     var origDelPrice = _context.DeliveryPrice.CreditNoteOriginalDeliveryPrice;
                     vatVeaRecNoGds = null;
                     vatRecNoGds = origDelPrice.VatRecNo;
-                    vatRateGds1 = origDelPrice.VatRate;
-                    vatRateGds2 = _context.Account.IsTwoVatRatesCustomer ? origDelPrice.VatRate2 : 0;
+                    vatRateGds1 = origDelPrice.VatRate.GetValueOrDefault();
+                    vatRateGds2 = _context.Account.IsTwoVatRatesCustomer ? origDelPrice.VatRate2.GetValueOrDefault() : 0;
                     reqVatLnkRecNo = null;
                     if (origDelPrice.AccVAT != null)
                     {
                         reqVatLnkRecNo = origDelPrice.AccVAT.VatLnkRecNo;
                     }
-                    if (!origDelPrice.DelVatRate.HasValue) //"0" value does not generate ExtractionError in original code.
-                    {
-                        RegisterExtractionError(PreInvExtractionErrorTypes.BlankVATRate);
-                        return false;
-                    }
+                    //if (!origDelPrice.DelVatRate.HasValue) //"0" value does not generate ExtractionError in original code.
+                    //{
+                    //    RegisterExtractionError(PreInvExtractionErrorTypes.BlankVATRate);
+                    //    return false;
+                    //}
                     if (!_sharedProcessingHelpers.LookupGLCode(new DTOGLLookupParams
                     {
                         LookupType = PreInvGLLookupType.VAT,

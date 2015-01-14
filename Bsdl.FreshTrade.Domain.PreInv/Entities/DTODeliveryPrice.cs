@@ -48,8 +48,8 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public int? InvoiceId { get; set; }
 
         public int? VatRecNo { get; set; }
-        public decimal VatRate { get; set; }
-        public decimal VatRate2 { get; set; }
+        public decimal? VatRate { get; set; }
+        public decimal? VatRate2 { get; set; }
 
         public decimal DelToEuroRate {get; set;}
         public decimal DelToBaseRate {get; set;}
@@ -59,9 +59,6 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public decimal DelBaseNettVal {get;set;}
         public decimal DelBaseVatValue {get;set;}
         public decimal DelVatValue {get;set;}
-        public decimal? DelVatRate {get;set;}
-        public int? DelVatRecNo {get;set;}
-        public decimal DelVatRate2 {get;set;}
         public int? Delallwkrecno { get; set; }
         public bool Delisguideprice { get; set; }
         public int? Delprccomno { get; set; }
