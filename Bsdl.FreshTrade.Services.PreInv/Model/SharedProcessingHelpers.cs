@@ -53,6 +53,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             int? value1 = DTOSalesOffice.GetUnsignedSalesOfficeNumber(parameters.SalesOfficeNo), value2 = null, value3 = null;
             Func<DTOGLBrakedOn, int?> criteria1 = i => i.SalesOfficeNo, criteria2 = i => null, criteria3 = i => null;
+            bool rebateCalculation = false;
 
             switch (parameters.LookupType)
             {
@@ -70,6 +71,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                         value3 = parameters.DiscountRebateGLNo;
                         criteria3 = i => i.DiscountRebateGLGroup;
+                        rebateCalculation = true;
                         break;
                     }
                 case PreInvGLLookupType.Discount:
@@ -115,13 +117,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     int currentScore = 0, currentRef = -1;
 
                     bool currentIsExactMatch = true;
-                    if (CompareGLParams(value1, criteria1(glBrakedOn), glBrakedOn.GlbGanRec, 3, ref currentScore, ref currentRef, ref currentIsExactMatch))
+                    if (CompareGLParams(value1, criteria1(glBrakedOn), glBrakedOn.GlbGanRec, 3, ref currentScore, ref currentRef, ref currentIsExactMatch, rebateCalculation))
                         continue;
 
-                    if (CompareGLParams(value2, criteria2(glBrakedOn), glBrakedOn.GlbGanRec, 2, ref currentScore, ref currentRef, ref currentIsExactMatch))
+                    if (CompareGLParams(value2, criteria2(glBrakedOn), glBrakedOn.GlbGanRec, 2, ref currentScore, ref currentRef, ref currentIsExactMatch, rebateCalculation))
                         continue;
 
-                    if (CompareGLParams(value3, criteria3(glBrakedOn), glBrakedOn.GlbGanRec, 1, ref currentScore, ref currentRef, ref currentIsExactMatch))
+                    if (CompareGLParams(value3, criteria3(glBrakedOn), glBrakedOn.GlbGanRec, 1, ref currentScore, ref currentRef, ref currentIsExactMatch, rebateCalculation))
                         continue;
 
                     if (currentScore <= bestScore) continue;
@@ -150,12 +152,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         }
 
         private bool CompareGLParams(int? inData, int? compareData, int recNo, int step,
-            ref int currentScore, ref int currentRef, ref bool isExactMatch)
+            ref int currentScore, ref int currentRef, ref bool isExactMatch,
+            bool passInNull)
         {
             const int weightBlank = 2;
             const int weightMatch = 3;
 
-            if (!inData.HasValue) return false;
+            if (!passInNull && !inData.HasValue)
+            {
+                return false;
+            }
 
             if (!compareData.HasValue)
             {
@@ -166,7 +172,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             else
             {
 
-                if (compareData.Value == inData.Value)
+                if (inData.HasValue && compareData.Value == inData.Value)
                 {
                     currentScore = currentScore + (int)Math.Pow(weightMatch, step);
                     currentRef = recNo;

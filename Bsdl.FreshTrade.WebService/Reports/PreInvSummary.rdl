@@ -25,7 +25,7 @@
         </QueryParameters>
         <CommandText>&lt;Query&gt;
     &lt;Method Name="GenerateExtractionReportHeader" Namespace="http://tempuri.org/" /&gt;    &lt;SoapAction&gt;http://tempuri.org/IPreInvReportService/GenerateExtractionReportHeader&lt;/SoapAction&gt;
-    &lt;ElementPath IgnoreNamespaces="true"&gt;GenerateExtractionReportHeaderResponse{}/GenerateExtractionReportHeaderResult{ExtractSessionId, SalesOfficeNo, SalesOfficeName, InvoiceTypeName, CutOffDeliveryDate, TaxPointDate, InvoicePeriodAsStr, InvoiceOrderType}&lt;/ElementPath&gt;
+    &lt;ElementPath IgnoreNamespaces="true"&gt;GenerateExtractionReportHeaderResponse{}/GenerateExtractionReportHeaderResult{ExtractSessionId, SalesOfficeNo, SalesOfficeName, InvoiceTypeName, CutOffDeliveryDate, TaxPointDate, InvoicePeriodAsStr, InvoiceOrderType, LogonName}&lt;/ElementPath&gt;
 &lt;/Query&gt;</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
@@ -60,6 +60,10 @@
         </Field>
         <Field Name="InvoiceOrderType">
           <DataField>InvoiceOrderType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LogonName">
+          <DataField>LogonName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
       </Fields>
@@ -320,7 +324,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=FormatDateTime(First(Fields!CutOffDeliveryDate.Value, "Header"), DateFormat.ShortDate)</Value>
+                                                <Value>=FORMAT(DateTime.Parse(First(Fields!CutOffDeliveryDate.Value, "Header")), "dd/MM/yyyy")</Value>
                                                 <Style>
                                                   <FontWeight>Bold</FontWeight>
                                                 </Style>
@@ -462,7 +466,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=Fields!InvoiceTypeAsStr.Value</Value>
+                                                <Value>=First(Fields!InvoiceOrderType.Value, "Header")</Value>
                                                 <Style>
                                                   <FontWeight>Bold</FontWeight>
                                                 </Style>
@@ -532,7 +536,7 @@
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>=FormatDateTime(First(Fields!TaxPointDate.Value, "Header"), DateFormat.ShortDate)</Value>
+                                                <Value>=FORMAT(DateTime.Parse(First(Fields!TaxPointDate.Value, "Header")), "dd/MM/yyyy")</Value>
                                                 <Style>
                                                   <FontWeight>Bold</FontWeight>
                                                 </Style>
@@ -561,7 +565,7 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox98">
+                                      <Textbox Name="Textbox2">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
@@ -572,10 +576,12 @@
                                                 <Style />
                                               </TextRun>
                                             </TextRuns>
-                                            <Style />
+                                            <Style>
+                                              <TextAlign>Right</TextAlign>
+                                            </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox98</rd:DefaultName>
+                                        <rd:DefaultName>Textbox2</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -592,43 +598,11 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <ColSpan>2</ColSpan>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
-                                  <TablixCell>
-                                    <CellContents>
-                                      <Textbox Name="Textbox94">
-                                        <CanGrow>true</CanGrow>
-                                        <KeepTogether>true</KeepTogether>
-                                        <Paragraphs>
-                                          <Paragraph>
-                                            <TextRuns>
-                                              <TextRun>
-                                                <Value />
-                                                <Style />
-                                              </TextRun>
-                                            </TextRuns>
-                                            <Style />
-                                          </Paragraph>
-                                        </Paragraphs>
-                                        <rd:DefaultName>Textbox94</rd:DefaultName>
-                                        <Style>
-                                          <Border>
-                                            <Style>None</Style>
-                                          </Border>
-                                          <BottomBorder>
-                                            <Color>Black</Color>
-                                            <Style>Solid</Style>
-                                            <Width>1pt</Width>
-                                          </BottomBorder>
-                                          <VerticalAlign>Middle</VerticalAlign>
-                                          <PaddingLeft>2pt</PaddingLeft>
-                                          <PaddingRight>2pt</PaddingRight>
-                                          <PaddingTop>2pt</PaddingTop>
-                                          <PaddingBottom>2pt</PaddingBottom>
-                                        </Style>
-                                      </Textbox>
-                                    </CellContents>
-                                  </TablixCell>
+                                  <TablixCell />
                                 </TablixCells>
                               </TablixRow>
                               <TablixRow>
@@ -881,7 +855,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2980,7 +2953,7 @@
           </Border>
         </Style>
       </Body>
-      <Width>169.77212mm</Width>
+      <Width>169.84556mm</Width>
       <Page>
         <PageHeader>
           <Height>20.09699mm</Height>
@@ -3114,6 +3087,39 @@
                 <Border>
                   <Style>None</Style>
                 </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=First(Fields!LogonName.Value, "Header")</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Top>1.27068cm</Top>
+              <Left>13.27564cm</Left>
+              <Height>0.45695cm</Height>
+              <Width>3.6569cm</Width>
+              <ZIndex>4</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
                 <PaddingLeft>2pt</PaddingLeft>
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>

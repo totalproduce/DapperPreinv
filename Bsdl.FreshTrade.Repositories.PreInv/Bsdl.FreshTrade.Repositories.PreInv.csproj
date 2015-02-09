@@ -57,6 +57,7 @@
     <Compile Include="DBModel\DisGrps.db.cs" />
     <Compile Include="DBModel\DisRates.db.cs" />
     <Compile Include="DBModel\EdiLogHeader.db.cs" />
+    <Compile Include="DBModel\InvExtractHedEx.cs" />
     <Compile Include="DBModel\INVPRT2.db.cs" />
     <Compile Include="DBModel\IchDiscTyp.db.cs" />
     <Compile Include="DBModel\PreINVPRT.db.cs" />

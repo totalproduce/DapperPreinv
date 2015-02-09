@@ -18,7 +18,9 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
 {
     public class InvExtractHedRepository : DapperRepositoryBase<DTOInvExtractHead>, IInvExtractHedRepository
     {
-        private const string _sqlQuery = @"SELECT * FROM PREINVTEMP_INVEXTRACTHED";
+        private const string _sqlQuery = @"SELECT LOWER(TRIM(L.LOGONNAME)) LOGONNAME, H.*
+FROM PREINVTEMP_INVEXTRACTHED H
+  INNER JOIN LOGONS L on L.LOGONNO = H.LOGONNO";
 
         private const string _sqlDeleteQuery = @"DELETE FROM PREINVTEMP_INVEXTRACTHED WHERE EXTRACTSESSIONID = {0}";
 
@@ -48,7 +50,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
 
         public override IBaseModel ToDbModel(DTOInvExtractHead item)
         {
-            return new InvExtractHed
+            return new InvExtractHedEx
                              {
                                  Extractsessionid = item.ExtractSessionId,
                                  Logonno = item.UserId,
@@ -64,14 +66,15 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                                  Invoiceperiodasstr = item.InvoicePeriodAsStr,
                                  Isintercompanytransfer = item.IsInterCompanyTransfer ? (short)1 : (short)0,
                                  Companyno = item.CompanyNo,
-                                 Lastinvoiceno = item.LastInvoiceNo
+                                 Lastinvoiceno = item.LastInvoiceNo,
+                                 LogonName = item.LogonName
                              };
         }
 
         protected override List<DTOInvExtractHead> GetDataInternal(List<ISearchField> searchFields, CachingStrategy allowFromCache, uint? topRows)
         {
             string query = ConstructSimpleQuery(_sqlQuery, searchFields, true, topRows);
-            var results = UnitOfWorkCurrent.Query<InvExtractHed>(query);
+            var results = UnitOfWorkCurrent.Query<InvExtractHedEx>(query);
 
             return results.Select(i => new DTOInvExtractHead
                                            {
@@ -89,7 +92,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                                                InvoiceOrderType = i.Invoiceordertype,
                                                IsInterCompanyTransfer = i.Isintercompanytransfer > 0,
                                                CompanyNo = i.Companyno,
-                                               LastInvoiceNo = i.Lastinvoiceno
+                                               LastInvoiceNo = i.Lastinvoiceno,
+                                               LogonName = i.LogonName
                                            }
                                  ).ToList();
         }

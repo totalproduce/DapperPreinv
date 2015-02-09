@@ -24,5 +24,6 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public bool IsInterCompanyTransfer { get; set; }
         public int CompanyNo { get; set; }
         public int LastInvoiceNo { get; set; }
+        public string LogonName { get; set; }
     }
 }
