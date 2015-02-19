@@ -24,7 +24,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Reports.Model
                 item.BatchTypeAsStr = ((PreInvBatchType)item.BatchType).ConvertToString();
                 item.InvoiceTypeAsStr = ((PreInvInvoiceType)item.InvoiceType).ConvertToString();
             }
-            return data;
+            return data.OrderBy(sr => sr.HofCstCode).ToList();
         }
 
         public override bool IsReportTypeSupported(string reportType)

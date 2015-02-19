@@ -30,7 +30,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Reports
   OFFINVRBT + OFFINVONPAY as REBATE,
   INVOICETOTAL,
   RAWHANDCOMMAMT,
-  RAWVATONCHGS
+  RAWVATONCHGS,
+  CURDESC
 FROM PREINVTEMP_INVTOT";
 
         public SummaryReportRepository(IUnitOfWork unitOfWorkCurrent, ICacheManagerFactory cacheManagerFactory, IEnumerable<ISearchFieldDef> validSearchFields)

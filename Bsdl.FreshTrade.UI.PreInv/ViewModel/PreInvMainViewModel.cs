@@ -81,9 +81,9 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
         private bool _preinvIsMergeLikePrices = true;
         private bool _preinvIsSummaryPrint = true;
         private bool _preinvIsDetailPrint = false;
-        private bool _printToPrinter = false;
+        private bool _printToPrinter = true;
         private bool _printToScreen = false;
-        private bool _printToFile = true;
+        private bool _printToFile = false;
 
         #endregion Fields
 
@@ -639,7 +639,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                 _updateInProgress = value;
                 OnPropertyChanged(() => UpdateInProgress);
             }
-        }        
+        }
 
         public int CurrentProgress
         {
@@ -941,10 +941,10 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
 
             var viewer = new ReportViewer();
             viewer.ProcessingMode = ProcessingMode.Local;
-            var localReport  = viewer.LocalReport;            
+            var localReport = viewer.LocalReport;
             var baseUrl = serviceUrl.AbsoluteUri.Replace(serviceUrl.AbsolutePath, string.Empty);
             localReport.LoadReportDefinition(GetReportDefinition(reportName, baseUrl));
-            foreach(var table in data)
+            foreach (var table in data)
             {
                 var dataSource = new ReportDataSource(table.TableName, table);
                 localReport.DataSources.Add(dataSource);
@@ -1438,13 +1438,18 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
             {
                 if (_requestWasSent)
                 {
-                    using (var preInvService = new PreInvServiceClient())
+                    try
                     {
-                        try
+                        using (var preInvService = new PreInvServiceClient())
                         {
                             preInvService.CleanUp();
                         }
-                        catch (Exception) { }
+                    }
+                    catch (Exception er)
+                    {
+                        MessageBox.Show(
+                            "Error on the server: " + Environment.NewLine + er.Message, 
+                            "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }

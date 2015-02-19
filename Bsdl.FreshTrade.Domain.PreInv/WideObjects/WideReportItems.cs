@@ -34,6 +34,7 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
         public decimal RawVatOnChgs { get; set; }
         public decimal Rebate { get; set; }
         public decimal InvoiceTotal { get; set; }
+        public string CurDesc { get; set; }
     }
 
     public class WideDetailReportItem
@@ -56,6 +57,7 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
         public decimal InvoiceTotal { get; set; }
         public decimal RawHandCommAmt { get; set; }
         public decimal RawVatOnChgsTotal { get; set; }
+        public string CurDesc { get; set; }
         public decimal S1TotQtytotal { get; set; }
         public decimal S1TotGoodsTotal { get; set; }
         public decimal S1TotVatTotal { get; set; }

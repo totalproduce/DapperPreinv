@@ -1,4 +1,6 @@
-﻿using Bsdl.FreshTrade.Domain.Account.Entities;
+﻿using System.Text;
+using System.Web.Configuration;
+using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Exceptions;
 using Bsdl.FreshTrade.Domain.Basic.Interfaces;
@@ -11,6 +13,8 @@ using Bsdl.FreshTrade.Repositories.Basic;
 using Bsdl.FreshTrade.Repositories.Basic.Interfaces;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Interfaces;
 using Bsdl.FreshTrade.Repositories.PreInv.Interfaces;
+using Bsdl.FreshTrade.Server.Basic.Interfaces;
+using Bsdl.FreshTrade.Server.Basic.Logger;
 using Bsdl.FreshTrade.Services.PreInv.Model.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,13 +26,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 {
     public class UpdateProcessor
     {
+        private readonly ILogger _logger;
         private const int NumVatFlds = 3;
         //TODO: Check for FormName and FormNo sources.
 
-// ReSharper disable InconsistentNaming
+        // ReSharper disable InconsistentNaming
         private const int AtrStatInd_NewRecord = 100;
         private const int AtrStatInd_NewRecordZeroBalance = 110;
-// ReSharper restore InconsistentNaming
+        // ReSharper restore InconsistentNaming
 
         private readonly IUnitOfWork _unitOfWorkCurrent;
 
@@ -62,7 +67,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private readonly IDeliveryDetailRepository _deliveryDetailRepository;
         private readonly IAccReChgRepository _accReChgRepository;
         private readonly IBatchRepository _batchRepository;
-        private readonly IBatchDetRepository _batchDetRepository;       
+        private readonly IBatchDetRepository _batchDetRepository;
         private readonly IEdiLogInvoiceRepository _ediLogInvoiceRepository;
         private readonly IAuditRecordRepository _auditRecordRepository;
         private readonly IDelAuditRecordRepository _delAuditRecordRepository;
@@ -73,9 +78,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         private readonly IRequestContextCache<int> _localCache = new RequestContextCache<int>();
         private UpdateExecutionContext _context;
-		
-	    public event UpdateProgressDelegate ProgressChanged;
-		
+
+        public event UpdateProgressDelegate ProgressChanged;
+
         protected void WriteAccite(
             List<DTOAccite> accites,
             int? liIteRecNo,
@@ -115,12 +120,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             {
                 updateContext.AccReChgAdditions.Add
                 (
-                    new DTOAccReChg 
+                    new DTOAccReChg
                     {
                         ReChgRecNo = (int)_accReChgRepository.GetNextSequence(),
                         FromSalOffNo = _context.SalesOffice.SalesOfficeNumber,
                         ToSalOffNo = invTotRecord.AccntSalOffNo,
-                        OrigAtrRecNo =  invTotRecord.InvRecNo,
+                        OrigAtrRecNo = invTotRecord.InvRecNo,
                         BatRecNo = -1
                     }
                 );
@@ -161,10 +166,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     DiscGrpGlRecNo = _context.InvDiscTypRecord.DiscGlRecNo
                 }
             );
-       
+
             updateContext.AuditRecordAdditions.Add
             (
-                new DTOAuditRecord 
+                new DTOAuditRecord
                 {
                     AuditRecordNo = (int)_auditRecordRepository.GetNextSequence(),
                     AuditTypeNo = 26,
@@ -191,7 +196,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             Enums<EnumPostType>.TryGetItem(siPstRecNo, out pstRecNoItem);
             if (pstRecNoItem != null)
             {
-              batchPstRecNo = (int) pstRecNoItem.IntValue;
+                batchPstRecNo = (int)pstRecNoItem.IntValue;
             }
 
             var batch = new DTOBatch
@@ -217,12 +222,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             {
                 if (invTotRecord.IsEdiCst && invTotRecord.EIInvoiceId.HasValue)
                 {
-                   DTOEdiLogHeaderWide headerRecord = _context.EdiLogRecords.FirstOrDefault(z=>z.EHHeadId.Equals(invTotRecord.EIInvoiceId));
-                   if (headerRecord == null)
-                   {
-                       throw new FreshTradeException("Cannot identify the EdiLogHeader record");
-                   }
-                   _context.EHHeaderAr.Add(headerRecord.EHHeadId, batch.BatRecNo);
+                    DTOEdiLogHeaderWide headerRecord = _context.EdiLogRecords.FirstOrDefault(z => z.EHHeadId.Equals(invTotRecord.EIInvoiceId));
+                    if (headerRecord == null)
+                    {
+                        throw new FreshTradeException("Cannot identify the EdiLogHeader record");
+                    }
+                    _context.EHHeaderAr.Add(headerRecord.EHHeadId, batch.BatRecNo);
                 }
 
                 DTOInvEdi invEdi = null;
@@ -241,7 +246,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     };
 
                 updateContext.BatchDetAdditions.Add(batchDet);
-                
+
             }
 
             // post validation logic skiipped due to transactional approach
@@ -273,9 +278,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         {
             var orderIds = allInvPrtRecords.Select(z => z.OrdRecNo != null ? z.OrdRecNo.Value : 0).Distinct().ToList();
             var affectedDelHeds = allAffectedDelHeds.Where(i => i.OrderId.HasValue && orderIds.Contains(i.OrderId.Value)).ToList();
-            var affectedDelHedIds = affectedDelHeds.Select(z=>z.Id).ToList();
+            var affectedDelHedIds = affectedDelHeds.Select(z => z.Id).ToList();
             var affectedDelDetails = allAffectedDelDetails.Where(i => i.DeliveryHeadId.HasValue && affectedDelHedIds.Contains(i.DeliveryHeadId.Value)).ToList();
-            
+
             /*
              Go thru each extracted Delhed and see if this
              Orders rec no exists in the dyn array. If it does
@@ -294,101 +299,101 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     bool lAllDeldetsInvoiced = true;
                     foreach (DTODeliveryDetail delDetail in delDetails)
                     {
-                          var delPrices = allDeliveryPrices.Where(z => z.DeliveryDetailId.Equals(delDetail.Id)).ToList();
-                          if ((delDetail.Quantity == 0) && (delDetail.DeliveryStatus == DTODeliveryStatus.Released))
-                          {
-                              UpdateDeliveryDetail(updateContext, delDetail);
-                          }
-                          else
-                          {
-                              if (
-                                      (delDetail.DeliveryStatus != DTODeliveryStatus.Invoiced) &&
-                                      (delDetail.DeliveryStatus != DTODeliveryStatus.Released) &&
-                                      (!delHedItem.IsOpenPriceDelivery)
-                                 ) 
-                              {
-                                  lAllDeldetsInvoiced = false;
-                                  lAllDelhedsInvoiced = false;
-                              } 
-                              else 
-                              {
-                                  bool lAllDelPricesInvoiced = true;
-                                  if (
-                                          (delDetail.DeliveryStatus == DTODeliveryStatus.Released) ||
-                                          ((delDetail.DeliveryStatus == DTODeliveryStatus.Delivered) && delHedItem.IsOpenPriceDelivery)
-                                     )
-                                  {
-                                      // Go thru each Delprice for Deldet.
-                                      //var delAuditCounts = delPrices.Where(z => !z.DeliveryPriceStatus.IsInvoiced()).Count();
-                                      //_delAuditRecordRepository.ReserveSequenceRange(delAuditCounts); These delPrice Autils should be rather seldom, so no need to reserve range here
-                                      foreach (DTODeliveryPrice delPriceItem in delPrices)
-                                      {
-                                          if (
-                                                (delPriceItem.Quantity == 0) &&
-                                                (Math.Abs(delPriceItem.NettValue) < 0.001M)
-                                             )
-                                          {
-                                              if (!delPriceItem.DeliveryPriceStatus.IsInvoiced()) // < 11
-                                              {
-                                                  updateContext.DelAuditRecordAdditions.Add
-                                                      (
-                                                          new DTODelAuditRecord
-                                                              {
-                                                                  Id = (int)_delAuditRecordRepository.GetNextSequence(),
-                                                                  DelAudTyp = 32,
-                                                                  DelAudFrom = ((int?)delPriceItem.DeliveryPriceStatus).ToString(),
-                                                                  DelAudTo = ((int?)delPriceItem.DeliveryPriceStatus.ToInvoiced()).ToString(),
-                                                                  DelAudDelRecNo = delPriceItem.DeliveryDetailId,
-                                                                  DprRecNo = delPriceItem.Id,
-                                                                  DelAudDate = DateTime.Now,
-                                                                  FormNo = _systemPreferences.FormNo,
-                                                                  FormName = _systemPreferences.FormName,
-                                                                  LogonNo = _user.Id
-                                                              }
-                                                      );
-                                                  MarkDeliveryPriceAsInvoiced(updateContext, delPriceItem);
-                                                  //No need to add delPriceItem to update list here, as it was alredy taken from update list
-                                              }
-                                          }
-                                          else
-                                          {
-                                              // ;This code moved to else so zero value delprices would not
-                                              // ;trigger a Bad Status (cos they have no invoice number) TV 16Dec99
+                        var delPrices = allDeliveryPrices.Where(z => z.DeliveryDetailId.Equals(delDetail.Id)).ToList();
+                        if ((delDetail.Quantity == 0) && (delDetail.DeliveryStatus == DTODeliveryStatus.Released))
+                        {
+                            UpdateDeliveryDetail(updateContext, delDetail);
+                        }
+                        else
+                        {
+                            if (
+                                    (delDetail.DeliveryStatus != DTODeliveryStatus.Invoiced) &&
+                                    (delDetail.DeliveryStatus != DTODeliveryStatus.Released) &&
+                                    (!delHedItem.IsOpenPriceDelivery)
+                               )
+                            {
+                                lAllDeldetsInvoiced = false;
+                                lAllDelhedsInvoiced = false;
+                            }
+                            else
+                            {
+                                bool lAllDelPricesInvoiced = true;
+                                if (
+                                        (delDetail.DeliveryStatus == DTODeliveryStatus.Released) ||
+                                        ((delDetail.DeliveryStatus == DTODeliveryStatus.Delivered) && delHedItem.IsOpenPriceDelivery)
+                                   )
+                                {
+                                    // Go thru each Delprice for Deldet.
+                                    //var delAuditCounts = delPrices.Where(z => !z.DeliveryPriceStatus.IsInvoiced()).Count();
+                                    //_delAuditRecordRepository.ReserveSequenceRange(delAuditCounts); These delPrice Autils should be rather seldom, so no need to reserve range here
+                                    foreach (DTODeliveryPrice delPriceItem in delPrices)
+                                    {
+                                        if (
+                                              (delPriceItem.Quantity == 0) &&
+                                              (Math.Abs(delPriceItem.NettValue) < 0.001M)
+                                           )
+                                        {
+                                            if (!delPriceItem.DeliveryPriceStatus.IsInvoiced()) // < 11
+                                            {
+                                                updateContext.DelAuditRecordAdditions.Add
+                                                    (
+                                                        new DTODelAuditRecord
+                                                            {
+                                                                Id = (int)_delAuditRecordRepository.GetNextSequence(),
+                                                                DelAudTyp = 32,
+                                                                DelAudFrom = ((int?)delPriceItem.DeliveryPriceStatus).ToString(),
+                                                                DelAudTo = ((int?)delPriceItem.DeliveryPriceStatus.ToInvoiced()).ToString(),
+                                                                DelAudDelRecNo = delPriceItem.DeliveryDetailId,
+                                                                DprRecNo = delPriceItem.Id,
+                                                                DelAudDate = DateTime.Now,
+                                                                FormNo = _systemPreferences.FormNo,
+                                                                FormName = _systemPreferences.FormName,
+                                                                LogonNo = _user.Id
+                                                            }
+                                                    );
+                                                MarkDeliveryPriceAsInvoiced(updateContext, delPriceItem);
+                                                //No need to add delPriceItem to update list here, as it was alredy taken from update list
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // ;This code moved to else so zero value delprices would not
+                                            // ;trigger a Bad Status (cos they have no invoice number) TV 16Dec99
 
-                                              bool isDelPriceInvoiced = delPriceItem.DeliveryPriceStatus.IsInvoiced();
-                                              if (
-                                                  (((delPriceItem.InvoiceId??0) != 0) && !isDelPriceInvoiced) || // < 11
-                                                  (((delPriceItem.InvoiceId??0) == 0) && isDelPriceInvoiced) // > 10
-                                                  )
-                                              {
-                                                  throw new FreshTradeException(String.Format("Bad Status for {0}", delPriceItem.Id));
-                                              }
-                                              if (!isDelPriceInvoiced) // < 11
-                                              {
-                                                  lAllDelPricesInvoiced = false;
-                                                  lAllDeldetsInvoiced = false;
-                                                  lAllDelhedsInvoiced = false;
-                                                  break;
-                                              }
-                                          }
-                                      } // / DTODeliveryPrice delPriceItem in delPrices
-                                  }
-                                  if (lAllDelPricesInvoiced)
-                                  {
-                                      UpdateDeliveryDetail(updateContext, delDetail);
-                                  }
-                              }
-                         }
+                                            bool isDelPriceInvoiced = delPriceItem.DeliveryPriceStatus.IsInvoiced();
+                                            if (
+                                                (((delPriceItem.InvoiceId ?? 0) != 0) && !isDelPriceInvoiced) || // < 11
+                                                (((delPriceItem.InvoiceId ?? 0) == 0) && isDelPriceInvoiced) // > 10
+                                                )
+                                            {
+                                                throw new FreshTradeException(String.Format("Bad Status for {0}", delPriceItem.Id));
+                                            }
+                                            if (!isDelPriceInvoiced) // < 11
+                                            {
+                                                lAllDelPricesInvoiced = false;
+                                                lAllDeldetsInvoiced = false;
+                                                lAllDelhedsInvoiced = false;
+                                                break;
+                                            }
+                                        }
+                                    } // / DTODeliveryPrice delPriceItem in delPrices
+                                }
+                                if (lAllDelPricesInvoiced)
+                                {
+                                    UpdateDeliveryDetail(updateContext, delDetail);
+                                }
+                            }
+                        }
                     } // / DTODeliveryDetail delDetail in delDetails
 
-                    if (lAllDeldetsInvoiced) 
+                    if (lAllDeldetsInvoiced)
                     {
                         DTODeliveryHead newDelHeadItem = ObjectHandling.CloneDTO(delHedItem);
                         newDelHeadItem.DeliveryStatus = DTODeliveryStatus.Invoiced;
                         //todo: to enum and helper method
-                        if (delHedItem.TranInd < 10) 
+                        if (delHedItem.TranInd < 10)
                         {
-                          newDelHeadItem.TranInd = newDelHeadItem.TranInd + 10;
+                            newDelHeadItem.TranInd = newDelHeadItem.TranInd + 10;
                         }
                         updateContext.DeliveryHeadUpdates.Add(new UpdatePair<DTODeliveryHead>(delHedItem, newDelHeadItem));
 
@@ -397,7 +402,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         {
                             updateContext.DelAuditRecordAdditions.Add
                             (
-                                new DTODelAuditRecord 
+                                new DTODelAuditRecord
                                 {
                                     Id = (int)_delAuditRecordRepository.GetNextSequence(),
                                     DelAudTyp = 15,
@@ -540,7 +545,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                     updateContext.IteChgDeletions.Add(iteChgItem);
 
-                    var audit = new DTOAuditRecord {
+                    var audit = new DTOAuditRecord
+                    {
                         AuditRecordNo = (int)_auditRecordRepository.GetNextSequence(),
                         AuditTypeNo = 26,
                         AuditLinkRecNo1 = iteChgItem.IchRecNo,
@@ -579,7 +585,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     {
                         siNoRecsReq = siNoRecsReq * 2;
                     }
-                    
+
                     //lUpdateAccCntrl("AccIte", siNoRecsReq, liNxtAitRecNo)
                     _acciteRepository.ReserveSequenceRange(siNoRecsReq);
                     _auditRecordRepository.ReserveSequenceRange(invDiscTypItems.Count());
@@ -608,7 +614,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                     EnumPostType.GLREBPROPSTRECNO,
                                     stCorD
                                 );
-                             WriteItechg(updateContext, _context.LastDscExpRec, 97, liNxtIchRecNo);
+                            WriteItechg(updateContext, _context.LastDscExpRec, 97, liNxtIchRecNo);
                         }
                         else
                         {
@@ -805,7 +811,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             }
             return result;
         }
-        
+
         protected int? GetVatGanRecNo(int? stAccntSalOffNo, int? vatRecID = null, int? vatType = null)
         {
             var result = _sharedProcessingHelpers.GetGLCode(new DTOGLLookupParams
@@ -854,18 +860,18 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _accReChgRepository = _unitOfWorkCurrent.GetRepository<IAccReChgRepository>();
             _batchRepository = _unitOfWorkCurrent.GetRepository<IBatchRepository>();
             _batchDetRepository = _unitOfWorkCurrent.GetRepository<IBatchDetRepository>();
-            _ediLogInvoiceRepository =  _unitOfWorkCurrent.GetRepository<IEdiLogInvoiceRepository>();
-            _auditRecordRepository = _unitOfWorkCurrent.GetRepository <IAuditRecordRepository>();
+            _ediLogInvoiceRepository = _unitOfWorkCurrent.GetRepository<IEdiLogInvoiceRepository>();
+            _auditRecordRepository = _unitOfWorkCurrent.GetRepository<IAuditRecordRepository>();
             _delAuditRecordRepository = _unitOfWorkCurrent.GetRepository<IDelAuditRecordRepository>();
-            _invediRepository = _unitOfWorkCurrent.GetRepository <IINVEDIRepository>();
+            _invediRepository = _unitOfWorkCurrent.GetRepository<IINVEDIRepository>();
             _ichDiscTypRepository = _unitOfWorkCurrent.GetRepository<IIchDiscTypRepository>();
             _delAudToDoRecordRepository = _unitOfWorkCurrent.GetRepository<IDelAudToDoRecordRepository>();
             _sharedProcessingHelpers = new SharedProcessingHelpers(_glInfoRepository);
             _invoiceTypeToBatchTypeMapping = _sharedProcessingHelpers.GetInvoiceTypeToBatchTypeMapping();
 
             _user = user;
-
-	        ProgressChanged += (x) => { };
+            _logger = LogManager.GetLoggerFor<UpdateProcessor>();
+            ProgressChanged += (x) => { };
         }
 
         private void ValidateInvTempData
@@ -873,11 +879,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             DTOPreInvUpdateParams updateParams,
             IEnumerable<DTOInvTot> invTotRecords,
             IEnumerable<DTOInvPrt> invPrtRecords,
-            IEnumerable<DTOInvPrt2> invPrt2Records,
-            IEnumerable<DTOInvDiscTyp> invDiscTypRecords
+            IEnumerable<DTOInvPrt2> invPrt2Records
         )
         {
-            bool result = true;
             var realInvTotIds = invTotRecords.Select(i => i.OriginalInvoiceNo).OrderBy(i => i).ToList();
             var requiredInvTotIds = updateParams.SelectedPreInvTot.OrderBy(i => i).ToList();
             var realInvPrtIds = invPrtRecords.Select(i => i.DlvOrdNo).OrderBy(i => i).ToList();
@@ -885,46 +889,111 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var realInvPrt2Ids = invPrt2Records.Select(i => i.DelRecNo).OrderBy(i => i).ToList();
             var requiredInvPrt2Ids = updateParams.SelectedPreInvPrt2.OrderBy(i => i).ToList();
 
+            var lstatus = 0;
+
             if (
                 (realInvTotIds.Count != requiredInvTotIds.Count) ||
                 (realInvPrtIds.Count != requiredInvPrtIds.Count) ||
                 (realInvPrt2Ids.Count != requiredInvPrt2Ids.Count)
                 )
             {
-                result = false;
+                lstatus = 1;
             }
             // comparing each value of the lists
             if
               (
-                result &&
+                lstatus == 0 &&
                 (realInvTotIds.Where((t, i) => t != requiredInvTotIds[i]).Any())
               )
             {
-                result = false;
+                lstatus = 2;
             }
 
             if
               (
-                result &&
+                lstatus == 0 &&
                 (realInvPrtIds.Where((t, i) => t != requiredInvPrtIds[i]).Any())
               )
             {
-                result = false;
+                lstatus = 3;
             }
 
             if
               (
-                result &&
+                lstatus == 0 &&
                 (realInvPrt2Ids.Where((t, i) => t != requiredInvPrt2Ids[i]).Any())
               )
             {
-                result = false;
+                lstatus = 4;
             }
 
-            if (!result)
+            if (lstatus == 0) return; // All is fine
+            var ltext = new StringBuilder();
+            switch (lstatus)
             {
-                throw new FreshTradeException("Update data differs to the printed data");
+                case 1:
+                    ltext.Append("Count of Update items are not equal ");
+                    GetCountDifferenceDescription(ltext, realInvTotIds, requiredInvTotIds, "Invoice");
+                    GetCountDifferenceDescription(ltext,
+                       realInvPrtIds.Where(i => i.HasValue).Select(i => i.Value).ToList(),
+                       requiredInvPrtIds, "Delivery No");
+                    GetCountDifferenceDescription(ltext,
+                        realInvPrt2Ids.Where(i => i.HasValue).Select(i => i.Value).ToList(),
+                        requiredInvPrt2Ids, "Delivery Rec No");
+                    break;
+                case 2:
+                    GetDifferenceDescription(ltext, realInvTotIds, requiredInvTotIds, "Invoice");
+                    break;
+                case 3:
+                    GetDifferenceDescription(ltext,
+                       realInvPrtIds.Where(i => i.HasValue).Select(i => i.Value).ToList(),
+                       requiredInvPrtIds, "Delivery No");
+                    break;
+                case 4:
+                    GetDifferenceDescription(ltext,
+                        realInvPrt2Ids.Where(i => i.HasValue).Select(i => i.Value).ToList(),
+                        requiredInvPrt2Ids, "Delivery Rec No");
+                    break;
             }
+            _logger.Error(ltext.ToString());
+
+            throw new FreshTradeException("Update data differs to the printed data." + Environment.NewLine + ltext);
+        }
+
+        private void GetCountDifferenceDescription<T>(StringBuilder ltext, List<T> realIds, List<T> requiredIds, string entityName)
+        {
+            if (realIds.Count != requiredIds.Count)
+            {
+                ltext.AppendLine(entityName);
+                List<T> difference;
+                if (realIds.Count > requiredIds.Count)
+                {
+                    ltext.Append("real Items are more than required on ");
+                    ltext.Append(realIds.Count - requiredIds.Count);
+                    difference = realIds.Except(requiredIds).ToList();
+                }
+                else
+                {
+                    ltext.Append("required Items are more than real on ");
+                    ltext.Append(requiredIds.Count - realIds.Count);
+                    difference = requiredIds.Except(realIds).ToList();
+                }
+                ltext.AppendLine();
+                ltext.AppendLine("Items: ");
+                ltext.AppendLine(difference.Select(i => i.ToString()).ToList().Aggregate((i, j) => i + "," + j));
+            }
+        }
+
+        private void GetDifferenceDescription<T>(StringBuilder ltext, List<T> realIds, List<T> requiredIds, string entityName)
+        {
+            ltext.Append("Content differs for");
+            ltext.AppendLine(entityName);
+            var difference = realIds.Except(requiredIds).ToList();
+            difference.AddRange(requiredIds.Except(realIds).ToList());
+
+            ltext.AppendLine();
+            ltext.AppendLine("Items: ");
+            ltext.AppendLine(difference.Select(i => i.ToString()).ToList().Aggregate((i, j) => i + "," + j));
         }
 
         private void StoreDeliveryAudits(DTOUpdateInfo updateInfo)
@@ -934,7 +1003,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _delAuditRecordRepository.Debug("post");
 
             var delAuditToDoItems = updateInfo.DelAuditRecordAdditions.Where(a => a.DprRecNo > 0)
-                .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true}).ToList();
+                .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true }).ToList();
 
             _delAudToDoRecordRepository.Debug("pre");
             _delAudToDoRecordRepository.Add(delAuditToDoItems);
@@ -983,7 +1052,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 SalesOfficeUpdate = null,
 
                 IteChgDeletions = new List<DTOIteChg>(),
-                
+
                 OrderCleanAccountClassID = new List<DTOOrder>()
 
             };
@@ -997,10 +1066,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 EHHeaderAr = new Dictionary<int, int>(),
                 EIInvoiceIDs = null,
                 EdiLogRecords = null,
-                EDIFilesDyAr = new List<Tuple<string, int>>()                
+                EDIFilesDyAr = new List<Tuple<string, int>>()
             };
 
-			ProgressChanged(0);
+            ProgressChanged(0);
 
             _context.InvExtractHead = _invExtractHedRepository.GetInvExtractHeadByExtractionSessionId(extractSessionID);
 
@@ -1021,7 +1090,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                endIf
             endIf*/
             #endregion
-            _context.SalesOffice = _salesOfficeRepository.GetSalesOfficeByNo(_context.InvExtractHead.SalesOfficeNo, true); 
+            _context.SalesOffice = _salesOfficeRepository.GetSalesOfficeByNo(_context.InvExtractHead.SalesOfficeNo, true);
             if (_context.SalesOffice == null)
             {
                 throw new FreshTradeException(String.Format("Can't locate Sales Office <{0}>!", _context.InvExtractHead.SalesOfficeNo));
@@ -1030,11 +1099,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _context.InvTotRecords = _invTotRepository.GetByExtractSessionID(extractSessionID);
 
             //extract EdiLog records for further processing (validation, updateBatch)
-            _context.EIInvoiceIDs = _context.InvTotRecords.Where(z => z.IsEdiCst && z.EIInvoiceId != null).Select(z=>z.EIInvoiceId != null ? z.EIInvoiceId.Value : 0).ToList();
+            _context.EIInvoiceIDs = _context.InvTotRecords.Where(z => z.IsEdiCst && z.EIInvoiceId != null).Select(z => z.EIInvoiceId != null ? z.EIInvoiceId.Value : 0).ToList();
             _context.EdiLogRecords = _ediLogInvoiceRepository.GetEdiLogHeaderWideRecordsByInvoiceIds(_context.EIInvoiceIDs).ToList();
 
 
-			ProgressChanged(10);
+            ProgressChanged(10);
 
             // progress logic skipped
 
@@ -1058,9 +1127,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var allInvPrt2Records = _invPrt2Repository.GetByExtractSessionID(extractSessionID);
             var allInvDiscTypRecords = _invDiscTypRepository.GetByExtractSessionID(extractSessionID);
 
-			ProgressChanged(20);
+            ProgressChanged(20);
 
-            ValidateInvTempData(updateParams, _context.InvTotRecords, allInvPrtRecords, allInvPrt2Records, allInvDiscTypRecords);
+            ValidateInvTempData(updateParams, _context.InvTotRecords, allInvPrtRecords, allInvPrt2Records);
 
             var allAtrRecNos = allInvPrt2Records.Select(i => i.AllocToInvRecNo != null ? i.AllocToInvRecNo.Value : 0).Distinct().ToList();
             allAtrRecNos.Remove(0); //remove 0 key if present
@@ -1082,9 +1151,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _auditRecordRepository.ReserveSequenceRange(allIteChgItems.Count + allDprRecNos.Count); //In UpdateItechg for each IteChgItems audit record is created; For each delPrice delAudit is created as well
             _context.ExpChaKeysReserved = false;
 
-			_accTrnFilRepository.ReserveSequenceRange(_context.InvTotRecords.Count);
+            _accTrnFilRepository.ReserveSequenceRange(_context.InvTotRecords.Count);
 
-			ProgressChanged(30);
+            ProgressChanged(30);
 
             foreach (DTOInvTot invTot in _context.InvTotRecords)
             {
@@ -1267,22 +1336,28 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 #endregion
 
                 #region                //Validate EDI file
-                if (_context.InvTotRecord.IsEdiCst && _context.InvTotRecord.EIInvoiceId != null) {
-                    var ediLogRecord = _context.EdiLogRecords.FirstOrDefault(z=>z.Eiinvoiceid.Equals(_context.InvTotRecord.EIInvoiceId));
-                    if (ediLogRecord == null) {
+                if (_context.InvTotRecord.IsEdiCst && _context.InvTotRecord.EIInvoiceId != null)
+                {
+                    var ediLogRecord = _context.EdiLogRecords.FirstOrDefault(z => z.Eiinvoiceid.Equals(_context.InvTotRecord.EIInvoiceId));
+                    if (ediLogRecord == null)
+                    {
                         throw new FreshTradeException("Edilog record is expected to be present for this invoice");
                     }
-                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotalgoods) - Math.Abs(_context.InvTotRecord.GoodsTotal))>.005M){
-                        throw new FreshTradeException("EDI Goods total does not match");                    
+                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotalgoods) - Math.Abs(_context.InvTotRecord.GoodsTotal)) > .005M)
+                    {
+                        throw new FreshTradeException("EDI Goods total does not match");
                     }
-                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotaldiscount) - Math.Abs(_context.InvTotRecord.OnInvDscnt))>.005M){
-                        throw new FreshTradeException("EDI Discount total does not match");                    
+                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotaldiscount) - Math.Abs(_context.InvTotRecord.OnInvDscnt)) > .005M)
+                    {
+                        throw new FreshTradeException("EDI Discount total does not match");
                     }
-                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotalvat) - Math.Abs(_context.InvTotRecord.VatTotal))>.005M){
-                        throw new FreshTradeException("EDI VAT total does not match");                    
+                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotalvat) - Math.Abs(_context.InvTotRecord.VatTotal)) > .005M)
+                    {
+                        throw new FreshTradeException("EDI VAT total does not match");
                     }
-                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotalinvoiced) - Math.Abs(_context.InvTotRecord.InvoiceTotal))>.005M){
-                        throw new FreshTradeException("EDI Invoice total does not match");                    
+                    if (Math.Abs(Math.Abs(ediLogRecord.Eitotalinvoiced) - Math.Abs(_context.InvTotRecord.InvoiceTotal)) > .005M)
+                    {
+                        throw new FreshTradeException("EDI Invoice total does not match");
                     }
                     _context.EDIFilesDyAr.Add(new Tuple<string, int>(ediLogRecord.Ehtransfilename, ediLogRecord.EHHeadId));
                 }
@@ -1312,7 +1387,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 newAccTrnFil.AtrCurRecNo = _context.InvTotRecord.CurNo;
                 newAccTrnFil.AtrEuroRate = _context.InvTotRecord.EuroRate;
                 newAccTrnFil.AtrBaseRate = _context.InvTotRecord.BaseRate;
-                newAccTrnFil.AtrAmount = _context.InvTotRecord.InvoiceTotal * dyPstDrCrValue; 
+                newAccTrnFil.AtrAmount = _context.InvTotRecord.InvoiceTotal * dyPstDrCrValue;
                 newAccTrnFil.AtrEuroAmount = (_context.InvTotRecord.EuroGdsTotal
                                                     + _context.InvTotRecord.EuroVatTotal
                                                     - _context.InvTotRecord.EuroOnInvDscnt) * dyPstDrCrValue;
@@ -1628,7 +1703,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 Math.Abs(dySalesGanTot[entry.Key].Eurogds),
                                 Math.Abs(dySalesGanTot[entry.Key].Basegds),
                                 EnumPostType.GLSALESPSTRECNO,
-                                // inversion as per original code
+                            // inversion as per original code
                                 _context.InvTotRecord.InvoiceType == PreInvInvoiceType.CreditNote ? PreInvInvoiceType.DebitNote : PreInvInvoiceType.CreditNote
                             );
                     }
@@ -1775,7 +1850,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 #region Delprices processing
 
                 var invPrt2RecordsToDelpriceProcess = _context.InvPrt2Records.Where(z => z.DprRecNo != null).ToList();
-                var invPrt2RecordsToDelpriceProcessDrpRecNos = invPrt2RecordsToDelpriceProcess.Select(z => z.DprRecNo??0).ToList();
+                var invPrt2RecordsToDelpriceProcessDrpRecNos = invPrt2RecordsToDelpriceProcess.Select(z => z.DprRecNo ?? 0).ToList();
                 invPrt2RecordsToDelpriceProcessDrpRecNos.Remove(0);
 
                 var deliveryPrices = allDeliveryPrices.Where(i => invPrt2RecordsToDelpriceProcessDrpRecNos.Contains(i.Id)).ToDictionary(z => z.Id, z => z);
@@ -1830,7 +1905,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                             (
                                 new DTODelAuditRecord
                                     {
-                                        Id = (int) _delAuditRecordRepository.GetNextSequence(),
+                                        Id = (int)_delAuditRecordRepository.GetNextSequence(),
                                         DelAudTyp = 128,
                                         DelAudDelRecNo = originalDeliveryPriceRecord.DeliveryDetailId,
                                         DprRecNo = originalDeliveryPriceRecord.Id,
@@ -1844,7 +1919,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     else
                     {
                         auditRecord.DelAudFrom = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus).ToString();
-                        auditRecord.DelAudTo   = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus).ToString();
+                        auditRecord.DelAudTo = ((int?)originalDeliveryPriceRecord.DeliveryPriceStatus).ToString();
                     }
                     updateInfo.DelAuditRecordAdditions.Add(auditRecord);
                     updateInfo.DeliveryPriceUpdates.Add(new UpdatePair<DTODeliveryPrice>(originalDeliveryPriceRecord, deliveryPriceRecord));
@@ -1861,9 +1936,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 //It was agreed to skip following library call
                 //FinanceLib.InterDepartmentContra(liAtrRecNo, stErrMsg)
-			} // /foreach invTot in _context.InvTotRecords
+            } // /foreach invTot in _context.InvTotRecords
 
-			ProgressChanged(50);
+            ProgressChanged(50);
 
             _context.InvTotRecord = null;
             _context.InvPrtRecord = null;
@@ -1947,7 +2022,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             */
             #endregion
 
-            #region if liSysLastInvNo = LstInvNo 
+            #region if liSysLastInvNo = LstInvNo
             /* There is no case when this may happen in new code - so it is excluded
                stTmp = "Last Invoice No. for Sales Office <"+ strVal(siReqdSalOffNo) +"> will be incorrect."
                errorLog(peFormWriteError, stTmp)
@@ -1969,7 +2044,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             if (lastInvoiceBatchNo.HasValue)
             {
-                updatedSalesOffice.LastInvoiceBatchNo = lastInvoiceBatchNo; 
+                updatedSalesOffice.LastInvoiceBatchNo = lastInvoiceBatchNo;
             }
             if (lastCreditBatchNo.HasValue)
             {
@@ -2065,13 +2140,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
-				ProgressChanged(100);
-                _unitOfWorkCurrent.Commit(); //Rollback();
+                ProgressChanged(100);
+                _unitOfWorkCurrent.Rollback();
                 return PreInvUpdateStatusType.OK;
             }
             catch (Exception)
             {
-				ProgressChanged(100);
+                ProgressChanged(100);
                 _unitOfWorkCurrent.Rollback();
 
                 _unitOfWorkCurrent.BeginTransaction();

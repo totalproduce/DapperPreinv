@@ -23,7 +23,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
     {
         private const string _sqlQuery = @"SELECT * FROM DELPRICE";
 
-        private const string _sqlEnqueForCostingStoredProcedure = @"FT_AUTOCOSTING.ENQUEUE_DPRRECS_AA";
+        private const string _sqlEnqueForCostingStoredProcedure = @"FT_PK_AUTOCOSTING.ENQUEUE_DPRRECS_AA";
 
         public DeliveryPriceRepository(IUnitOfWork unitOfWorkCurrent, ICacheManagerFactory cacheManagerFactory)
             : base

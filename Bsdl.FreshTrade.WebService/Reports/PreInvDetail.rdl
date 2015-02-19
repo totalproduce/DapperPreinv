@@ -79,7 +79,7 @@
         </QueryParameters>
         <CommandText>&lt;Query&gt;
     &lt;Method Name="GenerateExtractionDetailReportBody" Namespace="http://tempuri.org/" /&gt;    &lt;SoapAction&gt;http://tempuri.org/IPreInvReportService/GenerateExtractionDetailReportBody&lt;/SoapAction&gt;
-    &lt;ElementPath IgnoreNamespaces="true"&gt;GenerateExtractionDetailReportBodyResponse{}/GenerateExtractionDetailReportBodyResult{}/WideDetailReportItem{CommHandAmt (Decimal), DelPrice (Decimal), DelQty (Integer), DlvDelDate (Date), DlvInvoiceNo, DlvOrdNo, DlvPodNo, DlvPrgHedNo, Goods (Decimal), GoodsTotal (Decimal), GtotGoodstotal (Decimal), GtotInvoicetotal (Decimal), GtotOninvdscnttotal (Decimal), GtotQtyTotal (Integer), GtotRebate (Decimal), GtotVattotal (Decimal), HofCstCode, InvoiceNo, BatchNo, InvoiceType, BatchType, InvoiceTypeAsStr, BatchTypeAsStr, InvoiceTotal (Decimal), OnInvDscnt (Decimal), OnInvDscntTotal (Decimal), OrdCustOrdNo, PrcPrdRef, PrdRecDesc, QtyTotal (Decimal), RawHandCommAmt (Decimal), RawVatOnChgs (Decimal), RawVatOnChgsTotal (Decimal), Rebate (Decimal), S1TotGoodsTotal (Decimal), S1TotInvoiceTotal (Decimal), S1TotOnInvDscntTotal (Decimal), S1TotQtytotal (Decimal), S1TotRebate (Decimal), S1TotVatTotal (Decimal), Sort1, UnitMeasure, Vat (Decimal), VatTotal (Decimal), S1TotRawHandCommAmt (Decimal), S1TotRawVatOnChgsTotal (Decimal), GTotRawHandCommAmt (Decimal), GTotRawVatOnChgsTotal (Decimal)}&lt;/ElementPath&gt;
+    &lt;ElementPath IgnoreNamespaces="true"&gt;GenerateExtractionDetailReportBodyResponse{}/GenerateExtractionDetailReportBodyResult{}/WideDetailReportItem{CommHandAmt (Decimal), DelPrice (Decimal), DelQty (Integer), DlvDelDate (Date), DlvInvoiceNo, DlvOrdNo, DlvPodNo, DlvPrgHedNo, Goods (Decimal), GoodsTotal (Decimal), GtotGoodstotal (Decimal), GtotInvoicetotal (Decimal), GtotOninvdscnttotal (Decimal), GtotQtyTotal (Integer), GtotRebate (Decimal), GtotVattotal (Decimal), HofCstCode, InvoiceNo, BatchNo, InvoiceType, BatchType, InvoiceTypeAsStr, BatchTypeAsStr, InvoiceTotal (Decimal), OnInvDscnt (Decimal), OnInvDscntTotal (Decimal), OrdCustOrdNo, PrcPrdRef, PrdRecDesc, QtyTotal (Decimal), RawHandCommAmt (Decimal), RawVatOnChgs (Decimal), CURDESC, RawVatOnChgsTotal (Decimal), Rebate (Decimal), S1TotGoodsTotal (Decimal), S1TotInvoiceTotal (Decimal), S1TotOnInvDscntTotal (Decimal), S1TotQtytotal (Decimal), S1TotRebate (Decimal), S1TotVatTotal (Decimal), Sort1, UnitMeasure, Vat (Decimal), VatTotal (Decimal), S1TotRawHandCommAmt (Decimal), S1TotRawVatOnChgsTotal (Decimal), GTotRawHandCommAmt (Decimal), GTotRawVatOnChgsTotal (Decimal)}&lt;/ElementPath&gt;
 &lt;/Query&gt;</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
@@ -226,6 +226,10 @@
         </Field>
         <Field Name="Sort1">
           <DataField>Sort1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CURDESC">
+          <DataField>CURDESC</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
         <Field Name="UnitMeasure">
@@ -476,14 +480,14 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox51">
+                                      <Textbox Name="CommHandAmt1">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value>Batch No. :</Value>
+                                                <Value>=Trim(First(Fields!CURDESC.Value, "InvTot"))</Value>
                                                 <Style>
                                                   <FontWeight>Bold</FontWeight>
                                                 </Style>
@@ -494,8 +498,7 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox48</rd:DefaultName>
-                                        <ZIndex>13</ZIndex>
+                                        <rd:DefaultName>CommHandAmt1</rd:DefaultName>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -507,43 +510,11 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
+                                      <ColSpan>2</ColSpan>
+                                      <rd:Selected>true</rd:Selected>
                                     </CellContents>
                                   </TablixCell>
-                                  <TablixCell>
-                                    <CellContents>
-                                      <Textbox Name="Textbox58">
-                                        <CanGrow>true</CanGrow>
-                                        <KeepTogether>true</KeepTogether>
-                                        <Paragraphs>
-                                          <Paragraph>
-                                            <TextRuns>
-                                              <TextRun>
-                                                <Value>=Fields!BatchNo.Value</Value>
-                                                <Style>
-                                                  <FontWeight>Bold</FontWeight>
-                                                </Style>
-                                              </TextRun>
-                                            </TextRuns>
-                                            <Style>
-                                              <TextAlign>Left</TextAlign>
-                                            </Style>
-                                          </Paragraph>
-                                        </Paragraphs>
-                                        <rd:DefaultName>Textbox49</rd:DefaultName>
-                                        <ZIndex>14</ZIndex>
-                                        <Style>
-                                          <Border>
-                                            <Style>None</Style>
-                                          </Border>
-                                          <VerticalAlign>Middle</VerticalAlign>
-                                          <PaddingLeft>2pt</PaddingLeft>
-                                          <PaddingRight>2pt</PaddingRight>
-                                          <PaddingTop>2pt</PaddingTop>
-                                          <PaddingBottom>2pt</PaddingBottom>
-                                        </Style>
-                                      </Textbox>
-                                    </CellContents>
-                                  </TablixCell>
+                                  <TablixCell />
                                 </TablixCells>
                               </TablixRow>
                               <TablixRow>
@@ -693,15 +664,17 @@
                                   </TablixCell>
                                   <TablixCell>
                                     <CellContents>
-                                      <Textbox Name="Textbox1">
+                                      <Textbox Name="Textbox52">
                                         <CanGrow>true</CanGrow>
                                         <KeepTogether>true</KeepTogether>
                                         <Paragraphs>
                                           <Paragraph>
                                             <TextRuns>
                                               <TextRun>
-                                                <Value />
-                                                <Style />
+                                                <Value>Batch No. :</Value>
+                                                <Style>
+                                                  <FontWeight>Bold</FontWeight>
+                                                </Style>
                                               </TextRun>
                                             </TextRuns>
                                             <Style>
@@ -709,7 +682,8 @@
                                             </Style>
                                           </Paragraph>
                                         </Paragraphs>
-                                        <rd:DefaultName>Textbox1</rd:DefaultName>
+                                        <rd:DefaultName>Textbox48</rd:DefaultName>
+                                        <ZIndex>13</ZIndex>
                                         <Style>
                                           <Border>
                                             <Style>None</Style>
@@ -726,10 +700,48 @@
                                           <PaddingBottom>2pt</PaddingBottom>
                                         </Style>
                                       </Textbox>
-                                      <ColSpan>2</ColSpan>
                                     </CellContents>
                                   </TablixCell>
-                                  <TablixCell />
+                                  <TablixCell>
+                                    <CellContents>
+                                      <Textbox Name="Textbox64">
+                                        <CanGrow>true</CanGrow>
+                                        <KeepTogether>true</KeepTogether>
+                                        <Paragraphs>
+                                          <Paragraph>
+                                            <TextRuns>
+                                              <TextRun>
+                                                <Value>=Fields!BatchNo.Value</Value>
+                                                <Style>
+                                                  <FontWeight>Bold</FontWeight>
+                                                </Style>
+                                              </TextRun>
+                                            </TextRuns>
+                                            <Style>
+                                              <TextAlign>Left</TextAlign>
+                                            </Style>
+                                          </Paragraph>
+                                        </Paragraphs>
+                                        <rd:DefaultName>Textbox49</rd:DefaultName>
+                                        <ZIndex>14</ZIndex>
+                                        <Style>
+                                          <Border>
+                                            <Style>None</Style>
+                                          </Border>
+                                          <BottomBorder>
+                                            <Color>Black</Color>
+                                            <Style>Solid</Style>
+                                            <Width>1pt</Width>
+                                          </BottomBorder>
+                                          <VerticalAlign>Middle</VerticalAlign>
+                                          <PaddingLeft>2pt</PaddingLeft>
+                                          <PaddingRight>2pt</PaddingRight>
+                                          <PaddingTop>2pt</PaddingTop>
+                                          <PaddingBottom>2pt</PaddingBottom>
+                                        </Style>
+                                      </Textbox>
+                                    </CellContents>
+                                  </TablixCell>
                                 </TablixCells>
                               </TablixRow>
                               <TablixRow>
@@ -791,6 +803,7 @@
                               <TablixMember />
                             </TablixMembers>
                           </TablixRowHierarchy>
+                          <DataSetName>InvTot</DataSetName>
                           <Style>
                             <Border>
                               <Style>None</Style>
@@ -3991,7 +4004,7 @@
                           </Group>
                           <SortExpressions>
                             <SortExpression>
-                              <Value>=Fields!InvoiceNo.Value</Value>
+                              <Value>=Fields!HofCstCode.Value</Value>
                             </SortExpression>
                           </SortExpressions>
                           <TablixMembers>
