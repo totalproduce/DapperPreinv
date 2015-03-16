@@ -2283,8 +2283,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return Math.Round(product.StandardBoxWeightInKg / prodStdUnit, 3, MidpointRounding.AwayFromZero);
         }
 
-        private bool WriteDetail(DTOPreInvExtractParams extractParams)
+        private bool WriteDetail(DTOPreInvExtractParams extractParams, out string processingErrorMessage)
         {
+            processingErrorMessage = string.Empty;
             bool allowOneLineCancel = _context.IsDeliveryGoodsOnConsignment;
             bool isMiscCreditDebit = IsMiscCreditDebit(_context.DeliveryHead);
 
@@ -2337,6 +2338,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         if (!origItemCharge.IchDisType.HasValue || (origItemCharge.IchDiscTypRecord == null))
                         {
                             RegisterExtractionError(PreInvExtractionErrorTypes.UnableToLocateDeductionType);
+                            processingErrorMessage = "Unable To Locate Deduction Type";
                             return false;
                         }
 
@@ -2377,6 +2379,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     //if (!origDelPrice.DelVatRate.HasValue) //"0" value does not generate ExtractionError in original code.
                     //{
                     //    RegisterExtractionError(PreInvExtractionErrorTypes.BlankVATRate);
+                    //    processingErrorMessage = "error text here";
                     //    return false;
                     //}
                     if (!_sharedProcessingHelpers.LookupGLCode(new DTOGLLookupParams
@@ -2387,6 +2390,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     }, this)
                         )
                     {
+                        processingErrorMessage = "Unable To Locate GL code for VAT";
                         return false;
                     }
                     if (_context.Account.IsTwoVatRatesCustomer)
@@ -2400,12 +2404,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         }, this)
                             )
                         {
+                            processingErrorMessage = "Unable To Locate GL code for VAT2";
                             return false;
                         }
                     }
                 }
                 if (!CheckGlXRefs(extractParams))
                 {
+                    processingErrorMessage = "Unable To Locate GL code for either Discount or Rebate";
                     return false;
                 }
             }
@@ -2503,6 +2509,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 }
                                 else
                                 {
+                                    processingErrorMessage = "Unknown Discount Type";
                                     return false;
                                 }
                         nuTmp = _dictionaryService.RoundCurrency(nuTmp, curNo);
@@ -2557,6 +2564,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         }
                         else
                         {
+                            processingErrorMessage = "Unknown Discount Type";
                             return false;
                         }
                     }
@@ -2735,7 +2743,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                     if (customerProductInfo == null)
                     {
-                        //TODO: Place audit message that "Either the customer has been moved to a different price group or the client product has been removed from the price group."
+                        processingErrorMessage = string.Format("Client Product Number '{0}'. Either the customer has been moved to a different price group or the client product has been removed from the price group.", _context.DeliveryDetail.ClientProductNo);
                         return false;
                     }
 
@@ -2748,7 +2756,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 {
                     if (_context.IsEdiCustomer && string.IsNullOrEmpty(_context.DeliveryDetail.ClientProductNo))
                     {
-                        //TODO: Place audit message that "Missing Client Product No. for Product No...."
+                        processingErrorMessage = string.Format("Missing Client Product No. for Product No {0}", _context.DeliveryDetail.ProductId);
                         return false;
                     }
                 }
@@ -3253,7 +3261,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                                                                      deliveryPrice);
                                                 if (delPriceValidationResult == ValidateDeliveryPriceResult.Valid)
                                                 {
-                                                    if (WriteDetail(extractParams))
+                                                    string processingErrorMessage;
+                                                    if (WriteDetail(extractParams, out processingErrorMessage))
                                                     {
                                                         atLeastOneDeliveryDetailWritten = true;
                                                     }
@@ -3261,7 +3270,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                     {
                                                         if (_context.InvoiceTypeForAccount == PreInvInvoiceType.Invoice)
                                                         {
-                                                            throw new AbortEntireProcessing(string.Format("Error has happen during processing Account '{0}', Delivery No {1}", _context.Account.Code, _context.DeliveryHead.Id));
+                                                            throw new AbortEntireProcessing(string.Format("Error has happen during processing Account '{0}', Delivery No {1}. {2}", _context.Account.Code, _context.DeliveryHead.Id, processingErrorMessage));
                                                         }
                                                         deliveryProcessingOK = false;
                                                         break;
