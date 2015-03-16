@@ -3261,7 +3261,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                     {
                                                         if (_context.InvoiceTypeForAccount == PreInvInvoiceType.Invoice)
                                                         {
-                                                            throw new AbortEntireProcessing();
+                                                            throw new AbortEntireProcessing(string.Format("Error has happen during processing Account '{0}', Delivery No {1}", _context.Account.Code, _context.DeliveryHead.Id));
                                                         }
                                                         deliveryProcessingOK = false;
                                                         break;

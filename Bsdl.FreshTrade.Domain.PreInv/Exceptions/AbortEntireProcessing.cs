@@ -8,7 +8,8 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Exceptions
 {
     public class AbortEntireProcessing : FreshTradeException
     {
-        public AbortEntireProcessing(): base(string.Empty)
+        public AbortEntireProcessing(string message)
+            : base(message)
         {
 
         }
