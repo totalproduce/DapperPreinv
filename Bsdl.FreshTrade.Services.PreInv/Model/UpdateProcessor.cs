@@ -653,7 +653,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 Math.Abs(toForeign),
                                 Math.Abs(toEuro),
                                 Math.Abs(baseDscnt),
-                                EnumPostType.GLREBPROPSTRECNO,
+                                EnumPostType.GLREBBALPSTRECNO,
                                 stCorD
                                 );
 
