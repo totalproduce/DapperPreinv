@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bsdl.FreshTrade.Domain.Basic.Exceptions.DataAccess;
+﻿using Bsdl.FreshTrade.Domain.Basic.Entities;
+using Bsdl.FreshTrade.Domain.Basic.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Interfaces;
 using Bsdl.FreshTrade.Domain.PreInv.Entities;
 using Bsdl.FreshTrade.Repositories.Basic;
 using Bsdl.FreshTrade.Repositories.Basic.Interfaces;
-using Bsdl.FreshTrade.Repositories.Basic.Persistance;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Interfaces;
 using Bsdl.FreshTrade.Repositories.PreInv.DBModel;
-using Bsdl.FreshTrade.Domain.Basic.Enums;
 using Bsdl.FreshTrade.Repositories.PreInv.Interfaces;
-using Bsdl.FreshTrade.Domain.Basic.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Bsdl.FreshTrade.Repositories.PreInv.EdiRep
 {
@@ -52,6 +48,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.EdiRep
                         EdiOrders = item.Ediorders == strYes,
                         EdiInvoices = !string.IsNullOrEmpty(item.Ediinvoices) && (item.Ediinvoices != strNo),
                         EdiDebitCredits = !string.IsNullOrEmpty(item.Edidbtscdts) && (item.Edidbtscdts != strNo),
+                        CstProdRequired = item.CstProdRequired.HasValue && item.CstProdRequired == 1
 
                     })
                 .ToList();

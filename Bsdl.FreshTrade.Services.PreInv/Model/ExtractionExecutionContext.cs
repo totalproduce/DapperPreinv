@@ -36,6 +36,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         public int RequiredPriceGroupNo { get; set; }
         public bool IsDeliveryGoodsOnConsignment { get; set; }
         public bool IsEdiCustomer { get; set; }
+        public bool CstProdRequired { get; set; }
         public SortedSet<DTODeliveryPriceStatus> AllowedDeliveryPriceStatus { get; set; }
         public int? ProductAnalysisGroup { get; set; }
 

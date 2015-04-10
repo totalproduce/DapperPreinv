@@ -499,8 +499,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return (delivery.TranInd == 7) || (delivery.TranInd == 8);
         }
 
-        private bool IsEdiCustomer(PreInvInvoiceType invoiceType, DTOAccount account, DTOAccount accountHof)
+        private bool IsEdiCustomer(PreInvInvoiceType invoiceType, DTOAccount account, DTOAccount accountHof, out bool cstProdRequired)
         {
+            cstProdRequired = false;
             bool result = (!string.IsNullOrEmpty(account.ANANumber) || !string.IsNullOrEmpty(accountHof.ANANumber)) &&
                           accountHof.HeadOfficeId.HasValue;
             if (!result)
@@ -512,6 +513,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             {
                 return false;
             }
+            cstProdRequired = ediCoSuppNo.CstProdRequired;
 
             if (invoiceType == PreInvInvoiceType.Invoice)
             {
@@ -1125,7 +1127,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         public void InitializeInvoiceTypeSpecificAccountExecutionContext(PreInvInvoiceType invoiceType, int accountClassId)
         {
-            _context.IsEdiCustomer = IsEdiCustomer(invoiceType, _context.Account, _context.AccountHof);
+            bool lCstProdRequired;
+            _context.IsEdiCustomer = IsEdiCustomer(invoiceType, _context.Account, _context.AccountHof, out lCstProdRequired);
+            _context.CstProdRequired = lCstProdRequired;
 
             _context.AllowedDeliveryPriceStatus = GetAllowedDeliveryPriceStatus(invoiceType, _context.Account.InvoiceType);
         }
@@ -2732,32 +2736,43 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             if (_context.RequiredPriceGroupNo > 0)
             {
-                if (!string.IsNullOrEmpty(_context.DeliveryDetail.ClientProductNo))
+                if (_context.IsEdiCustomer && _context.CstProdRequired) //2015.04.07 Request from the client
                 {
+                    if (!string.IsNullOrEmpty(_context.DeliveryDetail.ClientProductNo))
+                    {
 
-                    if ((_context.DeliveryDetail.CustomerProductInfos != null) && (_context.DeliveryDetail.CustomerProductInfos.Count > 0))
-                    {
-                        customerProductInfo =
-                            _context.DeliveryDetail.CustomerProductInfos.FirstOrDefault(i => (i.ClientProductNo == _context.DeliveryDetail.ClientProductNo) && (i.GroupNo == _context.RequiredPriceGroupNo));
-                    }
+                        if ((_context.DeliveryDetail.CustomerProductInfos != null) &&
+                            (_context.DeliveryDetail.CustomerProductInfos.Count > 0))
+                        {
+                            customerProductInfo =
+                                _context.DeliveryDetail.CustomerProductInfos.FirstOrDefault(
+                                    i =>
+                                        (i.ClientProductNo == _context.DeliveryDetail.ClientProductNo) &&
+                                        (i.GroupNo == _context.RequiredPriceGroupNo));
+                        }
 
-                    if (customerProductInfo == null)
-                    {
-                        processingErrorMessage = string.Format("Client Product Number '{0}'. Either the customer has been moved to a different price group or the client product has been removed from the price group.", _context.DeliveryDetail.ClientProductNo);
-                        return false;
-                    }
+                        if (customerProductInfo == null)
+                        {
+                            processingErrorMessage =
+                                string.Format(
+                                    "Client Product Number '{0}'. Either the customer has been moved to a different price group or the client product has been removed from the price group.",
+                                    _context.DeliveryDetail.ClientProductNo);
+                            return false;
+                        }
 
-                    if (!string.IsNullOrEmpty(customerProductInfo.ProductDescription))
-                    {
-                        productDesc = customerProductInfo.ProductDescription;
+                        if (!string.IsNullOrEmpty(customerProductInfo.ProductDescription))
+                        {
+                            productDesc = customerProductInfo.ProductDescription;
+                        }
                     }
-                }
-                else
-                {
-                    if (_context.IsEdiCustomer && string.IsNullOrEmpty(_context.DeliveryDetail.ClientProductNo))
+                    else
                     {
-                        processingErrorMessage = string.Format("Missing Client Product No. for Product No {0}", _context.DeliveryDetail.ProductId);
-                        return false;
+                        if (_context.IsEdiCustomer && string.IsNullOrEmpty(_context.DeliveryDetail.ClientProductNo))
+                        {
+                            processingErrorMessage = string.Format("Missing Client Product No. for Product No {0}",
+                                _context.DeliveryDetail.ProductId);
+                            return false;
+                        }
                     }
                 }
             }

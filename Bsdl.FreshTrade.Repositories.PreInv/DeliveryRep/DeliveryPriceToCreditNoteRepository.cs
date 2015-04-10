@@ -124,9 +124,9 @@ WHERE C.OrgDprRecNo ";
     {
         public int DisIstRecNo { get; set; }
         public int DisStkQty { get; set; }
-        public int DisCdsRefNo { get; set; }
+        public int DisCdsRefNo { get; set; } // reason Id
         public int CdsAdjustStk { get; set; }
-        public int CdsRefNo { get; set; }
+        public int CdsRefNo { get; set; } // reason Id
         public int DisQty { get; set; }
         public int OrgDprRecNo { get; set; }
 

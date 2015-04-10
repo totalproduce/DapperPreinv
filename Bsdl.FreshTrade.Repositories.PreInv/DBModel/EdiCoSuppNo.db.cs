@@ -1584,6 +1584,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ,
          typeof(EdiCoSuppNo)
          ));
+         
+         result.Add(new EntityPropDef(
+         PropertyHelper<EdiCoSuppNo>.GetProperty(x => x.CstProdRequired),
+         "CstProdRequired", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(EdiCoSuppNo)
+         ));  
          return result; 
        }
 
@@ -3090,6 +3104,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fCstProdRequired;
+        public short? CstProdRequired
+        {
+            get { return _fCstProdRequired; }
+            set
+            {
+                if (_fCstProdRequired != value)
+                {
+                    Modify();
+                    _fCstProdRequired = value;
+                }
+            }
+        }
+
         public override EdiCoSuppNoKey Key
         {
             get
@@ -3219,6 +3247,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Usetradedunitinild = Usetradedunitinild,
                     Vatnbrinfreeway = Vatnbrinfreeway,
                     Writeweeklyorders = Writeweeklyorders,
+                    CstProdRequired = CstProdRequired
                 };
 
             return obj;
@@ -3334,6 +3363,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  USETRADEDUNITINILD = "USETRADEDUNITINILD";
             public const string  VATNBRINFREEWAY = "VATNBRINFREEWAY";
             public const string  WRITEWEEKLYORDERS = "WRITEWEEKLYORDERS";
+            public const string CSTPRODREQUIRED = "CSTPRODREQUIRED";
  // ReSharper restore InconsistentNaming
         }
 
