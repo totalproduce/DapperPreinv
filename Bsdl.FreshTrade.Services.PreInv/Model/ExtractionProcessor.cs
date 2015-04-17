@@ -1,4 +1,5 @@
-﻿using Bsdl.FreshTrade.Domain.Account.Entities;
+﻿using System.Security.Cryptography.X509Certificates;
+using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Entities;
 using Bsdl.FreshTrade.Domain.Basic.Enums;
@@ -321,6 +322,24 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             RegisterExtractionError(type, customerCode, orderNo, deliveryNo);
         }
 
+        public void RaiseExtractionErrorFromLocalCache(string errorText, int deliveryNo)
+        {
+            var deliveryHead =_localCache.FindInAllGroups<DTODeliveryHead>(x => x.Id == deliveryNo);
+            DTOAccountClass accClass = null;
+            if (deliveryHead != null)
+            {
+                var order = _localCache.FindInAllGroups<DTOOrder>(x => x.Id == deliveryHead.OrderId);
+
+                if (order != null)
+                {
+                    accClass = _localCache.FindInAllGroups<DTOAccountClass>(x => x.Id == order.AccountClassId);
+                }
+            }
+
+            string customerCode = accClass != null ? accClass.AccountCode : string.Empty;
+            throw new FreshTradeException(string.Format(errorText, customerCode));
+        }
+
         public void RegisterExtractionError(PreInvExtractionErrorTypes type, string customerCode, string orderNo = null, int? deliveryNo = null)
         {
             var errorDescr = _errorDescriptionRepository.GetData(null, CachingStrategy.GlobalCache).FirstOrDefault(i => i.No == (int)type);
@@ -420,6 +439,21 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             {
                 if (!string.IsNullOrEmpty(deliveryDetail.ClientProductNo))
                 {
+                    if (!groupedCustomerProductInfos.Keys.Contains(deliveryDetail.ClientProductNo))
+                    {
+                        if (deliveryDetail.DeliveryHeadId.HasValue)
+                        {
+                            RaiseExtractionErrorFromLocalCache(
+                                "Error Customer <{0}> " + Environment.NewLine +
+                                string.Format
+                                (
+                                    "Delivery No.<{0}> client product number <{1}> cannot be found in the price list",
+                                    deliveryDetail.DeliveryHeadId.Value, deliveryDetail.ClientProductNo.Trim()
+                                ),
+                                deliveryDetail.DeliveryHeadId.Value);
+                        }
+                    }
+
                     deliveryDetail.CustomerProductInfos = groupedCustomerProductInfos[deliveryDetail.ClientProductNo].ToList();
                 }
             }
@@ -2800,18 +2834,18 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     }
                 }
             }
-            else
-            {
-                //If by weight then show the equivalent box price as only allows integers.
-                if (!_context.DeliveryPrice.Quantity.HasValue || (_context.DeliveryPrice.Quantity < 0.001))
-                {
-                    nuDelPrice = 0;
-                }
-                else
-                {
-                    nuDelPrice = nettValue / _context.DeliveryPrice.Quantity.Value;
-                }
-            }
+            //else // not used
+            //{
+            //    //If by weight then show the equivalent box price as only allows integers.
+            //    if (!_context.DeliveryPrice.Quantity.HasValue || (_context.DeliveryPrice.Quantity < 0.001))
+            //    {
+            //        nuDelPrice = 0;
+            //    }
+            //    else
+            //    {
+            //        nuDelPrice = nettValue / _context.DeliveryPrice.Quantity.Value;
+            //    }
+            //}
 
             if (!qtyDlvd.HasValue)
             {
@@ -2861,6 +2895,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 invPrt2.TradedUnit = customerProductInfo.TradedUnit;
                 invPrt2.UnitCount = customerProductInfo.UnitCount;
             }
+
+
             invPrt2.DelQty = qtyDlvd;
             invPrt2.DelWeight = _context.DeliveryPrice.PriceWeight;
             invPrt2.DelPrice = _context.DeliveryPrice.Price;

@@ -21,7 +21,6 @@ FROM PrcNewListKey PL
   INNER JOIN PrcNewList Pr on PR.PrlLinkRecNo = CapPrcLinkRecNo
 WHERE CapGrpRecNo = {0} AND ({1} >= PL.CapDateFrom) AND ({1} <= PL.CapDateTo)
 ";
-        private const string _alternativePriceGroupsSqlQuery = @"SELECT AGLNKCLARECNO, AGLNKGRPRECNO FROM ALTGRPCSTLNK WHERE AGLNKCLARECNO IN ";
 
         public PriceListVatCheckRepository(IUnitOfWork unitOfWorkCurrent, ICacheManagerFactory cacheManagerFactory)
             : base

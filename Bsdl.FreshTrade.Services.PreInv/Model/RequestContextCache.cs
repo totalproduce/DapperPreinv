@@ -22,6 +22,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         void ActionForAllGroups<T>(Action<K, List<T>> action);
         void SortGroups<T>(IComparer<object> comparer);
+        T FindInAllGroups<T>(Predicate<T> criteria);
 
         void DeleteItem<T>(K key, T item);
         void DeleteGroup<T>(K key);
@@ -96,6 +97,27 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 throw new FreshTradeException(string.Format("RequestContextCache does not contain {0} data", type.FullName));
             }
             data.Remove(key);
+        }
+
+        public T FindInAllGroups<T>(Predicate<T> criteria)
+        {
+            var type = typeof(T);
+            Dictionary<K, List<object>> data;
+            if (!_storage.TryGetValue(type, out data))
+            {
+                throw new FreshTradeException(string.Format("RequestContextCache does not contain {0} data", type.FullName));
+            }
+            foreach (var group in data)
+            {
+                foreach (var item in group.Value)
+                {
+                    if (criteria((T) item))
+                    {
+                        return (T) item;
+                    }
+                }
+            }
+            return default(T);
         }
 
         public void ActionForAllGroups<T>(Action<K, List<T>> action)
