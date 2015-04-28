@@ -1,4 +1,4 @@
-# Ignore file for Visual Studio 
+# Ignore file for Visual Studio
 
 # use glob syntax
 syntax: glob
@@ -34,3 +34,4 @@ _ReSharper*/
 StoredData/*.sql
 StoredData/*.xml
 *.[Pp]ublish.xml
+connection.txt
