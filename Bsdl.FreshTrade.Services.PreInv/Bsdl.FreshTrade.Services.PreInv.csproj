@@ -31,6 +31,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -44,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IPreInvService.cs" />
+    <Compile Include="Mappings\EntitytoReportMap.cs" />
     <Compile Include="Mocks\MockExtractionProcessor.cs" />
     <Compile Include="Model\DataExportProcessor.cs" />
     <Compile Include="Model\DeliveryValidationContext.cs" />
@@ -52,6 +60,13 @@
     <Compile Include="Model\ExtractionProcessor.cs" />
     <Compile Include="Model\Interfaces\IExtractionProcessor.cs" />
     <Compile Include="Model\PreparePrintProcessor.cs" />
+    <Compile Include="Model\Reports\DeliveryHead.cs" />
+    <Compile Include="Model\Reports\PreInvErrorType.cs" />
+    <Compile Include="Model\Reports\PreInvExtractHeader.cs" />
+    <Compile Include="Model\Reports\PreInvExtractionErrorsItem.cs" />
+    <Compile Include="Model\Reports\PreInvPrt.cs" />
+    <Compile Include="Model\Reports\PreInvPrt2.cs" />
+    <Compile Include="Model\Reports\PreInvTot.cs" />
     <Compile Include="Model\SharedProcessingHelpers.cs" />
     <Compile Include="Model\PersistanceProcessor.cs" />
     <Compile Include="Model\RequestContextCache.cs" />
@@ -94,6 +109,10 @@
       <Project>{6B47272B-4043-4AD6-B93E-D7A94E585EA1}</Project>
       <Name>Bsdl.FreshTrade.Repositories.PreInv.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces\Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces.csproj">
+      <Project>{8A798747-6D3B-4D60-B1AA-3D8AE61C7DFB}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.PreInv\Bsdl.FreshTrade.Repositories.PreInv.csproj">
       <Project>{03446855-F56B-4C54-9D75-AD95606536CB}</Project>
       <Name>Bsdl.FreshTrade.Repositories.PreInv</Name>
@@ -110,7 +129,11 @@
   <ItemGroup>
     <Folder Include="Utilities\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

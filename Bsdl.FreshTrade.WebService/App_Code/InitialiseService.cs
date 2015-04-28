@@ -1,24 +1,19 @@
-using System.Web;
 using Autofac;
 using Autofac.Integration.Wcf;
 using Bsdl.FreshTrade.Repositories.Account.Accounts;
 using Bsdl.FreshTrade.Repositories.Account.Customer;
 using Bsdl.FreshTrade.Repositories.Account.GLInfo;
 using Bsdl.FreshTrade.Repositories.Account.Interfaces;
-using Bsdl.FreshTrade.Repositories.Account.Mock.Accounts;
-using Bsdl.FreshTrade.Repositories.Account.Mock.SalesOffice;
 using Bsdl.FreshTrade.Repositories.Account.SalesOffice;
-using Bsdl.FreshTrade.Repositories.Basic;
 using Bsdl.FreshTrade.Repositories.Basic.CurrencyRateRep;
 using Bsdl.FreshTrade.Repositories.Basic.Dictionaries;
 using Bsdl.FreshTrade.Repositories.Basic.ErrorLog;
-using Bsdl.FreshTrade.Repositories.Basic.Mock.Dictionary;
+using Bsdl.FreshTrade.Repositories.Basic.Interfaces;
 using Bsdl.FreshTrade.Repositories.Basic.SysPreferencesRep;
 using Bsdl.FreshTrade.Repositories.Basic.UserRepository;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Cache;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.DatabaseConnection;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Interfaces;
-using Bsdl.FreshTrade.Repositories.PreInv;
 using Bsdl.FreshTrade.Repositories.PreInv.AccToProcess;
 using Bsdl.FreshTrade.Repositories.PreInv.Audit;
 using Bsdl.FreshTrade.Repositories.PreInv.BatchRep;
@@ -47,13 +42,13 @@ using Bsdl.FreshTrade.Services.Account.SalesOffices;
 using Bsdl.FreshTrade.Services.Basic.Dictionary;
 using Bsdl.FreshTrade.Services.Basic.Interfaces;
 using Bsdl.FreshTrade.Services.Basic.Users;
-using Bsdl.FreshTrade.Repositories.Basic.Interfaces;
 using Bsdl.FreshTrade.Services.Basic.Utilities.Logs;
-using Bsdl.FreshTrade.Services.Basic.Utilities.SessionContext;
+using Bsdl.FreshTrade.Services.PreInv.Interfaces;
 using Bsdl.FreshTrade.Services.PreInv.Model;
 using Bsdl.FreshTrade.Services.PreInv.Model.Interfaces;
 using Bsdl.FreshTrade.Services.PreInv.Reports.Services;
 using Bsdl.FreshTrade.Services.PreInv.Services;
+using Bsdl.FreshTrade.Services.ReportingDX;
 using Bsdl.FreshTrade.WebService.Utilities;
 
 namespace Bsdl.FreshTrade.WebService.App_Code
@@ -76,8 +71,10 @@ namespace Bsdl.FreshTrade.WebService.App_Code
             result.RegisterType<DictionaryService>(); // For WCF created instance
             result.RegisterType<DictionaryService>().As<IDictionaryService>(); // For IoC interservice created instance
             result.RegisterType<PreInvService>();
+            result.RegisterType<PreInvService>().As<IPreInvService>();
             result.RegisterType<PreInvReportService>();
             result.RegisterType<CustomerService>();
+            result.RegisterType<ReportingService>();
 
             #endregion
             #region Repositories

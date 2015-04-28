@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using Bsdl.FreshTrade.Domain.PreInv.Entities;
+﻿using Bsdl.FreshTrade.Domain.PreInv.Entities;
 using Bsdl.FreshTrade.Domain.PreInv.Enums;
+using System.Collections.Generic;
+using System.ServiceModel;
 
 namespace Bsdl.FreshTrade.Services.PreInv.Interfaces
 {
@@ -28,6 +25,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Interfaces
 
         [OperationContract]
         string GetExportData(DTOPreInvUpdateParams updateParams);
+
+        //Reports Business Service methods
+        object GetErrorsReportData(Dictionary<string, string> parameters);
+
+        object GetSummaryReportData(Dictionary<string, string> parameters);
+
+        object GetDetailReportData(Dictionary<string, string> parameters);
 
     }
 }

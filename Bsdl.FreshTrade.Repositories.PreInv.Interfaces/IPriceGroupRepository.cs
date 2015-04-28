@@ -11,5 +11,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Interfaces
     {
         List<DTOPriceGroupLookupResult> GetPriceGroupsByIDs(List<int> accountClassIds);
         Dictionary<int, int> GetAlternativePriceGroupsByIDs(List<int> accountClassIds);
+        string GetPriceGroupDescription(int priceGroupId);
     }
 }

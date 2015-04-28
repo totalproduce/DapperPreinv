@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Web;
+using AutoMapper;
 using Bsdl.FreshTrade.Domain.Basic.Exceptions;
 using Bsdl.FreshTrade.Domain.PreInv.Entities;
 using Bsdl.FreshTrade.Domain.PreInv.Enums;
 using Bsdl.FreshTrade.Domain.PreInv.Utilities.SessionContext;
 using Bsdl.FreshTrade.Repositories.Account.Interfaces;
+using Bsdl.FreshTrade.Repositories.Basic;
 using Bsdl.FreshTrade.Repositories.Basic.Interfaces;
 using Bsdl.FreshTrade.Repositories.Basic.Utilities.Interfaces;
 using Bsdl.FreshTrade.Repositories.PreInv.Interfaces;
+using Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces;
 using Bsdl.FreshTrade.Server.Basic.Interfaces;
 using Bsdl.FreshTrade.Services.Basic;
 using Bsdl.FreshTrade.Services.Basic.Interfaces;
 using Bsdl.FreshTrade.Services.Basic.Utilities.SessionContext;
 using Bsdl.FreshTrade.Services.PreInv.Interfaces;
+using Bsdl.FreshTrade.Services.PreInv.Mappings;
 using Bsdl.FreshTrade.Services.PreInv.Model;
 using Bsdl.FreshTrade.Services.PreInv.Model.Interfaces;
+using Bsdl.FreshTrade.Services.PreInv.Model.Reports;
 
 namespace Bsdl.FreshTrade.Services.PreInv.Services
 {
@@ -183,7 +189,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
         }
 
         public DTOPreInvExtractResult Extract(DTOPreInvExtractParams extractParams)
-		{
+    {
             CleanUp();
             InitializeExtractionSession(extractParams);
             var paramsValidator = new ExtractionParametersValidator
@@ -235,7 +241,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
             }
 
             var updateProcessor = new UpdateProcessor(SysPreferences, UnitOfWorkCurrent, UserSessionContext.FreshTradeUser);
-	        updateProcessor.ProgressChanged += UpdateProgressDelegate;
+          updateProcessor.ProgressChanged += UpdateProgressDelegate;
 
             return updateProcessor.Update(updateParams, preInvSessionContext.ExtractSessionID.Value);
         }
@@ -262,5 +268,115 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
                     ret.Value);
             return null;
         }
+
+        #region Helpers
+
+        private int GetExtractSessionID()
+        {
+            if (string.IsNullOrEmpty(GetUserSessionID()))
+            {
+                throw new FreshTradeException("userSessionID cannot be empty");
+            }
+            PreInvSessionContext preinvSession = null;
+            object preinvSessionRaw;
+            if ((UserSessionContext == null) || (UserSessionContext.Data == null))
+            {
+                throw new FreshTradeException(
+                    "User session is not initialized or timed out. Please reextract data and try again.");
+            }
+            if (UserSessionContext.Data.TryGetValue(PreInvSessionContext.PreInvSessionName, out preinvSessionRaw))
+            {
+                preinvSession = (PreInvSessionContext)preinvSessionRaw;
+            }
+            if ((preinvSession == null) || !preinvSession.ExtractSessionID.HasValue)
+            {
+                throw new FreshTradeException(
+                    "Extraction session is not initialized or timed out. Please reextract data and try again.");
+            }
+            return preinvSession.ExtractSessionID.Value;
+        }
+
+        #endregion
+
+        #region Report Data Retrieve methods
+        public object GetErrorsReportData(Dictionary<string, string> parameters)
+        {
+            var extractSessionID = GetExtractSessionID();
+            var invErrRepository = UnitOfWorkCurrent.GetRepository<IErrorReportRepository>();
+
+            Mapper.Initialize(cfg => cfg.AddProfile<EntitytoReportMap>());
+
+            return new
+            {
+                ExtractHeader = Mapper.Map<PreInvExtractHeader>(UnitOfWorkCurrent.GetRepository<IInvExtractHedRepository>().GetInvExtractHeadByExtractionSessionId(extractSessionID)),
+                Errors = Mapper.Map<List<PreInvExtractionErrorsItem>>(invErrRepository.GetByExtractSessionID(extractSessionID))
+            };
+        }
+
+        public object GetSummaryReportData(Dictionary<string, string> parameters)
+        {
+            var extractSessionID = GetExtractSessionID();
+            var summaryReportRepository = UnitOfWorkCurrent.GetRepository<ISummaryReportRepository>();
+            var invTotSrc = summaryReportRepository.GetByExtractSessionID(extractSessionID);
+
+            Mapper.Initialize(cfg => cfg.AddProfile<EntitytoReportMap>());
+
+            var invTot = Mapper.Map<List<PreInvTot>>(invTotSrc);
+
+            return new
+            {
+                ExtractHeader = Mapper.Map<PreInvExtractHeader>(UnitOfWorkCurrent.GetRepository<IInvExtractHedRepository>().GetInvExtractHeadByExtractionSessionId(extractSessionID)),
+                InvTot = invTot
+            };
+        }
+
+        public object GetDetailReportData(Dictionary<string, string> parameters)
+        {
+            var extractSessionID = GetExtractSessionID();
+            var detailReportRepository = UnitOfWorkCurrent.GetRepository<IDetailReportRepository>();
+            var invDetailSrc = detailReportRepository.GetByExtractSessionID(extractSessionID);
+
+            Mapper.Initialize(cfg => cfg.AddProfile<EntitytoReportMap>());
+
+            var invTots = Mapper.Map<List<PreInvTot>>(invDetailSrc)
+                .GroupBy(t => t.InvoiceNo).Select(g => g.First()).ToList();
+
+            var invPrts = Mapper.Map<List<PreInvPrt>>(invDetailSrc)
+                .GroupBy(t => t.DlvOrdNo).Select(g => g.First()).ToList();
+            var invPrt2S = Mapper.Map<List<PreInvPrt2>>(invDetailSrc);
+
+            var resTotList = new List<object>();
+            foreach (var invTot in invTots)
+            {
+                var resPrtList = new List<object>();
+                foreach (var invPrt in invPrts.Where(p => p.DlvInvoiceNo == invTot.InvoiceNo))
+                {
+                    resPrtList.Add
+                        (new
+                        {
+                            InvPrt = invPrt,
+                            InvPrt2List = invPrt2S.Where(p2 => p2.DeliveryHead.Id == invPrt.DlvOrdNo).ToList()
+                        }
+                        );
+                }
+
+                resTotList.Add
+                    (
+                        new
+                        {
+                            InvTot = invTot,
+                            InvPrtList = resPrtList
+                        }
+                    );
+            }
+
+            return new
+            {
+                ExtractHeader = Mapper.Map<PreInvExtractHeader>(UnitOfWorkCurrent.GetRepository<IInvExtractHedRepository>().GetInvExtractHeadByExtractionSessionId(extractSessionID)),
+                InvTotList = resTotList
+            };
+        }
+
+        #endregion
     }
 }

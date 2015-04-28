@@ -336,8 +336,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 }
             }
 
+            var priceGroup = accClass != null ? GetPriceGroupDescription(accClass.Id) : string.Empty;
+            
+
             string customerCode = accClass != null ? accClass.AccountCode : string.Empty;
-            throw new FreshTradeException(string.Format(errorText, customerCode));
+            throw new FreshTradeException(string.Format(errorText, customerCode, priceGroup));
         }
 
         public void RegisterExtractionError(PreInvExtractionErrorTypes type, string customerCode, string orderNo = null, int? deliveryNo = null)
@@ -444,10 +447,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         if (deliveryDetail.DeliveryHeadId.HasValue)
                         {
                             RaiseExtractionErrorFromLocalCache(
-                                "Error Customer <{0}> " + Environment.NewLine +
                                 string.Format
                                 (
-                                    "Delivery No.<{0}> client product number <{1}> cannot be found in the price list",
+                                    "Error Customer <{{0}}> " + Environment.NewLine +
+                                    "Delivery No.<{0}> client product number <{1}> cannot be found in the price list " + 
+                                    "for Customer Group <{{1}}>."+ Environment.NewLine + Environment.NewLine +
+                                    "Either the customer has been moved to a different price group or "+
+                                    "the client product has been removed from the price group."
+                                    ,
                                     deliveryDetail.DeliveryHeadId.Value, deliveryDetail.ClientProductNo.Trim()
                                 ),
                                 deliveryDetail.DeliveryHeadId.Value);
@@ -840,6 +847,30 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             var ediCoSuppNos = _ediCoSuppNoRepository.GetByCompanyNo(extractParams.CompanyNo);
             _localCache.Put(ediCoSuppNos, i => i.HeadOfficeId);
+        }
+
+        private string GetPriceGroupDescription(int accountId)
+        {
+            var prcGrpId = 0;
+
+            if (!_systemPreferences.UseAlternativeProductGroups)
+            {
+                var groups = _priceGroupRepository.GetPriceGroupsByIDs(new List<int> {accountId});
+                if (groups.Count > 0)
+                {
+                    prcGrpId = groups[0].PriceGroupNo;
+                }
+            }
+            else
+            {
+                var groups = _priceGroupRepository.GetAlternativePriceGroupsByIDs(new List<int> { accountId });
+                if (groups.Count > 0)
+                {
+                    prcGrpId = groups[accountId];
+                }
+            }
+
+            return prcGrpId == 0 ? "" : _priceGroupRepository.GetPriceGroupDescription(prcGrpId);
         }
 
         private void DetectPriceListGroups(DTOPreInvExtractParams extractParams, List<int> accToProcess)

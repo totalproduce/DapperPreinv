@@ -12,8 +12,11 @@ using Bsdl.FreshTrade.UI.PreInv.Helpers;
 using Bsdl.FreshTrade.UI.PreInv.Model;
 using Bsdl.FreshTrade.UI.PreInv.PreInvReportService;
 using Bsdl.FreshTrade.UI.PreInv.PreInvService;
+using Bsdl.FreshTrade.UI.PreInv.ReportingService;
 using Bsdl.FreshTrade.UI.PreInv.SalesOfficeService;
 using Bsdl.FreshTrade.UI.PreInv.View;
+using DevExpress.XtraPrinting;
+using DevExpress.XtraPrinting.Preview;
 using Microsoft.Reporting.WinForms;
 using System;
 using System.Collections.Generic;
@@ -916,7 +919,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
             {
                 throw new FreshTradeException("There are no errors to print");
             }
-            PrintReport(_repNameError);
+            PrintReportDX(_repNameError);
         }
         private Stream GetReportDefinition(string reportName, string baseUrl)
         {
@@ -927,6 +930,35 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                 data = client.DownloadData(url);
             }
             return new MemoryStream(data);
+        }
+
+        private void PrintReportDX(string reportName, bool showPreview = false)
+        {
+            using (var service = new ReportingServiceClient())
+            {
+
+                var buffer = 
+                    service.GetReport(reportName, null);
+
+                var ps = new PrintingSystem();
+                using (var reader = new MemoryStream(buffer))
+                {
+                    ps.LoadDocument(reader);
+                    reader.Close();
+                }
+
+                if (showPreview)
+                {
+                    var preview = new PrintPreviewFormEx { PrintingSystem = ps };
+
+                    preview.ShowDialog();
+                }
+                else
+                {
+                    ps.PrintDlg();
+                }
+            }
+
         }
 
         private void PrintReport(string reportName, bool showPreview = false)
@@ -1419,7 +1451,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
             if (!PrintToFile)
             {
 
-                PrintReport(repPreinvUrl, PrintToScreen);
+                PrintReportDX(repPreinvUrl, PrintToScreen);
             }
 
             IsChanged = false;

@@ -26,6 +26,8 @@ FROM PRCNEWCSTS C
 ";
         private const string _alternativePriceGroupsSqlQuery = @"SELECT AGLNKCLARECNO, AGLNKGRPRECNO FROM ALTGRPCSTLNK WHERE AGLNKCLARECNO IN ";
 
+        private const string _PriceGroupDescriptionSqlQuery = @"SELECT PRCDESC FROM PRCNEWGRPS WHERE PRCGRPRECNO = {0}";
+
         public PriceGroupRepository(IUnitOfWork unitOfWorkCurrent, ICacheManagerFactory cacheManagerFactory)
             : base
             (
@@ -84,6 +86,13 @@ FROM PRCNEWCSTS C
             return results.ToDictionary(i => i.Aglnkclarecno, i => i.Aglnkgrprecno);
         }
 
+        public string GetPriceGroupDescription(int priceGroupId)
+        {
+            var group = UnitOfWorkCurrent.Query<PriceGroupDescription>(string.Format(_PriceGroupDescriptionSqlQuery, priceGroupId)).FirstOrDefault();
+
+            return group == null ? string.Empty : group.PrcDesc.Trim();
+        }
+
         public class PriceGroupLookupResultLine
         {
             public int Prcclarecno { get; set; }
@@ -97,5 +106,9 @@ FROM PRCNEWCSTS C
             public int Aglnkgrprecno { get; set; }
         }
 
+        public class  PriceGroupDescription
+        {
+            public string PrcDesc { get; set; } 
+        }
     }
 }
