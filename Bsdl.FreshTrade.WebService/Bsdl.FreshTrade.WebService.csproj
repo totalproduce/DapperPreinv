@@ -124,9 +124,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="connection.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Content Include="CustomerService.svc" />
     <Content Include="Global.asax" />
     <Content Include="PreInvReportService.svc" />
