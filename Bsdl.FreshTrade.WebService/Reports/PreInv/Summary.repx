@@ -245,7 +245,7 @@
             </Item14>
             <Item15 Ref="128" Name="xrLabel9" ControlType="XRLabel" SizeF="279.3999,44.00003" LocationFloat="1105.733, 0" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
               <DataBindings>
-                <Item1 Ref="129" FormatString="{0:dd.MM.yyyy}" PropertyName="Text" DataMember="ExtractHeader.CutOffDeliveryDate" />
+                <Item1 Ref="129" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="ExtractHeader.CutOffDeliveryDate" />
               </DataBindings>
               <StylePriority Ref="130" UseFont="false" />
             </Item15>
@@ -263,7 +263,7 @@
             </Item18>
             <Item19 Ref="138" Name="xrLabel10" ControlType="XRLabel" SizeF="279.3999,44" LocationFloat="1105.733, 44.00003" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="Bottom" BorderWidth="2">
               <DataBindings>
-                <Item1 Ref="139" FormatString="{0:dd.MM.yyyy}" PropertyName="Text" DataMember="ExtractHeader.TaxPointDate" />
+                <Item1 Ref="139" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="ExtractHeader.TaxPointDate" />
               </DataBindings>
               <StylePriority Ref="140" UseFont="false" UseBorders="false" UseBorderWidth="false" />
             </Item19>
