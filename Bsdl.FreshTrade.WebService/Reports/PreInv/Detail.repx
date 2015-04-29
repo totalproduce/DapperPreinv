@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
+<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ScriptsSource="private object GetVal(object obj, string propName)&#xD;&#xA;{return obj.GetType().GetProperty(propName).GetValue(obj, null);}&#xD;&#xA;&#xD;&#xA;private void Rebate_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) {&#xD;&#xA;e.Value = (decimal?)GetVal(GetVal(e.Row, &quot;InvTot&quot;), &quot;OffInvOnPay&quot;);}&#xD;&#xA;&#xD;&#xA;private void CommHandAmt_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) {&#xD;&#xA;e.Value = (decimal)GetVal(e.Row, &quot;RawHandAmt&quot;) + (decimal)GetVal(e.Row, &quot;RawCommAmt&quot;);}&#xD;&#xA;" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
   <Bands>
     <Item1 Ref="2" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" HeightF="0" />
     <Item2 Ref="3" Name="TopMargin" ControlType="TopMarginBand" Dpi="254" Padding="0,0,0,0,254" TextAlignment="TopLeft" HeightF="180" />
@@ -14,7 +14,7 @@
         </Item1>
         <Item2 Ref="9" Name="xrLabel2" ControlType="XRLabel" WordWrap="false" SizeF="571.5004,58.41999" LocationFloat="0, 56.80667" Dpi="254" Font="Arial, 12pt, style=Bold, Underline, charSet=0" Padding="4,4,0,0,254" AutoWidth="true" CanShrink="true">
           <DataBindings>
-            <Item1 Ref="10" PropertyName="Text" DataMember="ExtractHeader.calculatedField1" />
+            <Item1 Ref="10" PropertyName="Text" DataMember="SalesOffice" />
           </DataBindings>
           <StylePriority Ref="11" UseFont="false" />
         </Item2>
@@ -525,8 +525,12 @@
     </Item6>
   </Bands>
   <CalculatedFields>
-    <Item1 Ref="264" Name="calculatedField1" DisplayName="SalesOffice" Expression="[SalesOfficeName] + '(' + [SalesOfficeId] + ')'" DataMember="ExtractHeader" />
-    <Item2 Ref="265" Name="CommHandAmt" FieldType="Decimal" Expression="ToDecimal([RawHandAmt])+ToDecimal([RawCommAmt])" DataMember="InvTotList.InvPrtList.InvPrt2List" />
-    <Item3 Ref="266" Name="Rebate" FieldType="Decimal" Expression="[InvTot.OffInvRbt]+[InvTot.OffInvOnPay]" DataMember="InvTotList" />
+    <Item1 Ref="264" Name="SalesOffice" FieldType="String" Expression="Trim([ExtractHeader.SalesOfficeName])+' ('+[ExtractHeader.SalesOfficeId]+')'" />
+    <Item2 Ref="265" Name="Rebate" FieldType="Decimal" DataMember="InvTotList">
+      <Scripts Ref="266" OnGetValue="Rebate_GetValue" />
+    </Item2>
+    <Item3 Ref="267" Name="CommHandAmt" FieldType="Decimal" DataMember="InvTotList.InvPrtList.InvPrt2List">
+      <Scripts Ref="268" OnGetValue="CommHandAmt_GetValue" />
+    </Item3>
   </CalculatedFields>
 </XtraReportsLayoutSerializer>

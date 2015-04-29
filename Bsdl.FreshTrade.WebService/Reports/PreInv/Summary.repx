@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="14.2.5.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" PageColor="White" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
+<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ScriptsSource="&#xD;&#xA;private void Rebate_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) { e.Value = (decimal)e.Row.GetType().GetProperty(&quot;OffInvRbt&quot;).GetValue(e.Row, null) + (decimal)e.Row.GetType().GetProperty(&quot;OffInvOnPay&quot;).GetValue(e.Row, null);}&#xD;&#xA;" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
   <Bands>
     <Item1 Ref="2" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" HeightF="0" />
     <Item2 Ref="3" Name="TopMargin" ControlType="TopMarginBand" Dpi="254" Padding="0,0,0,0,254" TextAlignment="TopLeft" HeightF="180" />
@@ -14,14 +14,14 @@
         </Item1>
         <Item2 Ref="9" Name="xrLabel2" ControlType="XRLabel" WordWrap="false" SizeF="571.5004,58.41999" LocationFloat="0, 56.80667" Dpi="254" Font="Arial, 12pt, style=Bold, Underline, charSet=0" Padding="4,4,0,0,254" AutoWidth="true" CanShrink="true">
           <DataBindings>
-            <Item1 Ref="10" PropertyName="Text" DataMember="ExtractHeader.calculatedField1" />
+            <Item1 Ref="10" PropertyName="Text" DataMember="SalesOffice" />
           </DataBindings>
           <StylePriority Ref="11" UseFont="false" />
         </Item2>
         <Item3 Ref="12" Name="xrPageInfo2" ControlType="XRPageInfo" SizeF="249.7667,43.60332" Dpi="254" Padding="4,4,0,0,254" LocationFloat="1550.233, 0" TextAlignment="TopRight" Format="Page {0}/{1}">
           <StylePriority Ref="13" UseTextAlignment="false" />
         </Item3>
-        <Item4 Ref="14" Name="xrLabel1" ControlType="XRLabel" TextAlignment="TopCenter" SizeF="1203.10034,43.60332" LocationFloat="325.966034, 0" Dpi="254" Font="Arial, 11pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
+        <Item4 Ref="14" Name="xrLabel1" ControlType="XRLabel" TextAlignment="TopCenter" SizeF="1203.1,43.60332" LocationFloat="325.966, 0" Dpi="254" Font="Arial, 11pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
           <DataBindings>
             <Item1 Ref="15" FormatString="Pre-Invoicing Report For : {0}" PropertyName="Text" DataMember="ExtractHeader.InvoiceTypeName" />
           </DataBindings>
@@ -87,7 +87,7 @@
                     </Item8>
                     <Item9 Ref="45" Name="xrTableCell9" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
                       <DataBindings>
-                        <Item1 Ref="46" FormatString="{0:n}" PropertyName="Text" DataMember="InvTot.RawHandCommAmt" />
+                        <Item1 Ref="46" FormatString="{0:n}" PropertyName="Text" DataMember="InvTot.Rebate" />
                       </DataBindings>
                       <StylePriority Ref="47" UseTextAlignment="false" />
                     </Item9>
@@ -168,7 +168,7 @@
                     </Item7>
                     <Item8 Ref="85" Name="xrTableCell19" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
                       <DataBindings>
-                        <Item1 Ref="86" PropertyName="Text" DataMember="InvTot.RawHandCommAmt" />
+                        <Item1 Ref="86" PropertyName="Text" DataMember="InvTot.Rebate" />
                       </DataBindings>
                       <StylePriority Ref="87" UseTextAlignment="false" />
                       <Summary Ref="88" FormatString="{0:n}" Running="Group" />
@@ -333,7 +333,7 @@
                 </Item7>
                 <Item8 Ref="174" Name="xrTableCell27" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
                   <DataBindings>
-                    <Item1 Ref="175" PropertyName="Text" DataMember="InvTot.RawHandCommAmt" />
+                    <Item1 Ref="175" PropertyName="Text" DataMember="InvTot.Rebate" />
                   </DataBindings>
                   <StylePriority Ref="176" UseTextAlignment="false" />
                   <Summary Ref="177" FormatString="{0:n}" Running="Report" />
@@ -354,6 +354,9 @@
     </Item6>
   </Bands>
   <CalculatedFields>
-    <Item1 Ref="183" Name="calculatedField1" DisplayName="SalesOffice" Expression="[SalesOfficeName] + '(' + [SalesOfficeId] + ')'" DataMember="ExtractHeader" />
+    <Item1 Ref="183" Name="SalesOffice" FieldType="String" Expression="Trim([ExtractHeader.SalesOfficeName])+' ('+[ExtractHeader.SalesOfficeId]+')'" />
+    <Item2 Ref="184" Name="Rebate" FieldType="Decimal" Expression="[OffInvOnPay] + [OffInvRbt]" DataMember="InvTot">
+      <Scripts Ref="185" OnGetValue="Rebate_GetValue" />
+    </Item2>
   </CalculatedFields>
 </XtraReportsLayoutSerializer>
