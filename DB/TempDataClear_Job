@@ -1,0 +1,25 @@
+--Clear Pre-Invoicing temp data
+BEGIN
+    DBMS_SCHEDULER.CREATE_JOB (
+            job_name => '"PFITTER"."Clear Pre-Invoicing temp data"',
+            job_type => 'STORED_PROCEDURE',
+            job_action => 'PFITTER.CLEARPREINVTEMPDATA',
+            number_of_arguments => 0,
+            start_date => NULL,
+            repeat_interval => 'FREQ=DAILY;BYDAY=MON,TUE,WED,THU,FRI',
+            end_date => NULL,
+            enabled => FALSE,
+            auto_drop => FALSE,
+            comments => 'Clear Pre-Invoicing temp data');
+
+         
+     
+ 
+	DBMS_SCHEDULER.set_attribute( 
+		name => '"PFITTER"."Clear Pre-Invoicing temp data"', attribute => 
+			'logging_level', value => DBMS_SCHEDULER.LOGGING_FAILED_RUNS);      
+  
+    
+    DBMS_SCHEDULER.enable(
+             name => '"PFITTER"."Clear Pre-Invoicing temp data"');
+END;
