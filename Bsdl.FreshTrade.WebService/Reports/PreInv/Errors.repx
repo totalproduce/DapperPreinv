@@ -14,12 +14,12 @@ ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="210
         </Item1>
         <Item2 Ref="8" Name="xrLabel9" ControlType="XRLabel" SizeF="323.8501,58.42" LocationFloat="1094.733, 129.54" Dpi="254" Padding="4,4,0,0,254">
           <DataBindings>
-            <Item1 Ref="9" FormatString="{0:dd.MM.yyyy}" PropertyName="Text" DataMember="ExtractHeader.CutOffDeliveryDate" />
+            <Item1 Ref="9" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="ExtractHeader.CutOffDeliveryDate" />
           </DataBindings>
         </Item2>
         <Item3 Ref="10" Name="xrLabel10" ControlType="XRLabel" SizeF="323.85,58.42" LocationFloat="1094.733, 187.96" Dpi="254" Padding="4,4,0,0,254">
           <DataBindings>
-            <Item1 Ref="11" FormatString="{0:dd.MM.yyyy}" PropertyName="Text" DataMember="ExtractHeader.TaxPointDate" />
+            <Item1 Ref="11" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="ExtractHeader.TaxPointDate" />
           </DataBindings>
         </Item3>
         <Item4 Ref="12" Name="xrLabel11" ControlType="XRLabel" TextAlignment="TopRight" SizeF="273.05,58.42" LocationFloat="821.6832, 187.96" Dpi="254" Padding="4,4,0,0,254" Text="Tax Point Date:">
