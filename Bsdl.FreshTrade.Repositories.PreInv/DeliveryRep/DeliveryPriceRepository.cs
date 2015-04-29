@@ -83,6 +83,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
             result.Dprmanwgtchg = item.Dprmanwgtchg;
             result.Dprnominalprice = item.Dprnominalprice;
             result.Dprpreas = item.Dprpreas;
+            result.Dprcdtrefno = item.DeliveryPriceCreditRefId;
             return result;
         }
 
@@ -127,7 +128,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
                             Dprnominalprice = item.Dprnominalprice ?? 0,
                             Dprmanwgtchg = item.Dprmanwgtchg,
                             Dprisprcccdtdbt = item.Dprisprcccdtdbt > 0,
-                            Dprpreas = item.Dprpreas
+                            Dprpreas = item.Dprpreas,
+                            DeliveryPriceCreditRefId = item.Dprcdtrefno
                         })
                     .ToList();
         }

@@ -94,9 +94,30 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
        [DataMember]              
         public int? Edilineno {get;set;}
 
+        /// <summary>
+        /// LINK TO THE PRCCSTINFO TABLE TO GIVE THE CLIENT PRODUCT DETAILS
+        /// </summary>
+    
+       [DataMember]              
+        public int? Ppccltrecno {get;set;}
+
+        /// <summary>
+        /// LINK TO THE PRCNEWLIST TABLE TO GIVE THE PRICE LIST RECORD
+        /// </summary>
+    
+       [DataMember]              
+        public int? Prllineno {get;set;}
+
     
        [DataMember]              
         public int? Prllinno {get;set;}
+
+        /// <summary>
+        /// LINK TO THE PRICELISTPROFILEHEAD TABLE TO GIVE THE PROFILE PRICE
+        /// </summary>
+    
+       [DataMember]              
+        public int? Profileheadrecno {get;set;}
 
     
        [DataMember]              
@@ -137,7 +158,10 @@ result.Delrecno = item.Delrecno;
   result.Detsyscalcpals = item.Detsyscalcpals;
   result.Dlvprtstat = item.Dlvprtstat;
   result.Edilineno = item.Edilineno;
+  result.Ppccltrecno = item.Ppccltrecno;
+  result.Prllineno = item.Prllineno;
   result.Prllinno = item.Prllinno;
+  result.Profileheadrecno = item.Profileheadrecno;
   result.Prtstat = item.Prtstat;
   result.Qtyper = item.Qtyper;
   result.Rndapportpals = item.Rndapportpals;
@@ -168,7 +192,10 @@ Delweight = item.Delweight,
 Detsyscalcpals = item.Detsyscalcpals,
 Dlvprtstat = item.Dlvprtstat,
 Edilineno = item.Edilineno,
+Ppccltrecno = item.Ppccltrecno,
+Prllineno = item.Prllineno,
 Prllinno = item.Prllinno,
+Profileheadrecno = item.Profileheadrecno,
 Prtstat = item.Prtstat,
 Qtyper = item.Qtyper,
 Rndapportpals = item.Rndapportpals,
