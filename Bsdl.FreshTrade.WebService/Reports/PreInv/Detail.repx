@@ -110,7 +110,7 @@
             <Item1 Ref="54" FieldName="InvPrtList.InvPrt.DlvInvoiceNo" />
           </SortFields>
         </Item1>
-        <Item2 Ref="55" ControlType="GroupHeaderBand" Name="GroupHeader1" Dpi="254" HeightF="61.11995">
+        <Item2 Ref="55" ControlType="GroupHeaderBand" Name="Invoice_Sort1" Dpi="254" GroupUnion="WithFirstDetail" HeightF="61.11995">
           <Controls>
             <Item1 Ref="56" Name="xrLabel20" ControlType="XRLabel" TextAlignment="MiddleLeft" SizeF="1800,47.83666" LocationFloat="1.999878, 13.28329" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None">
               <DataBindings>
@@ -120,7 +120,7 @@
             </Item1>
           </Controls>
           <GroupFields>
-            <Item1 Ref="59" FieldName="Sort1" />
+            <Item1 Ref="59" FieldName="InvTot.Sort1" />
           </GroupFields>
         </Item2>
         <Item3 Ref="60" ControlType="GroupFooterBand" Name="GroupFooter1" Dpi="254" GroupUnion="WithLastDetail" HeightF="102.8699">
