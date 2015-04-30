@@ -53,6 +53,8 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
         public decimal GoodsTotal { get; set; }
         public decimal VatTotal { get; set; }
         public decimal OnInvDscntTotal { get; set; }
+        public decimal OffInvRbt { get; set; }
+        public decimal OffInvOnPay { get; set; }
         public decimal Rebate { get; set; }
         public decimal InvoiceTotal { get; set; }
         public decimal RawHandCommAmt { get; set; }
@@ -87,6 +89,8 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
         public decimal OnInvDscnt { get; set; }
         public decimal PrcPrdRef { get; set; }
         public string PrdRecDesc { get; set; }
+        public decimal RawHandAmt { get; set; }
+        public decimal RawCommAmt { get; set; }
         public decimal CommHandAmt { get; set; }
         public decimal RawVatOnChgs { get; set; }
         public string UnitMeasure { get; set; }
