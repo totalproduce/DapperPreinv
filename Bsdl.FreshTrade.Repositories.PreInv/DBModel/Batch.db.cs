@@ -241,6 +241,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ,
          typeof(Batch)
          ));
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <Batch>.GetProperty(x => x.Interdeptprocessed),
+         "INTERDEPTPROCESSED", // columnName
+         false,                    //isKey
+         false, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(Batch)
+         ));
          return result; 
        }
 
@@ -457,6 +471,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short _fInterdeptprocessed;
+        public short Interdeptprocessed
+        {
+            get { return _fInterdeptprocessed; }
+            set
+            {
+                if (_fInterdeptprocessed != value)
+                {
+                    Modify();
+                    _fInterdeptprocessed = value;
+                }
+            }
+        }
+
         public override int Key
         {
             get { return Batrecno; }
@@ -485,6 +513,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Batchtaxdate = Batchtaxdate,
                     Batchtimestamp = Batchtimestamp,
                     Batchtypeno = Batchtypeno,
+                    Interdeptprocessed = Interdeptprocessed,
                 };
 
             return obj;
@@ -508,6 +537,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  BATCHTAXDATE = "BATCHTAXDATE";
             public const string  BATCHTIMESTAMP = "BATCHTIMESTAMP";
             public const string  BATCHTYPENO = "BATCHTYPENO";
+            public const string  INTERDEPTPROCESSED = "INTERDEPTPROCESSED";
  // ReSharper restore InconsistentNaming
         }
 

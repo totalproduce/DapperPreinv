@@ -110,6 +110,13 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
        [DataMember]              
         public decimal? Delvatvalue {get;set;}
 
+        /// <summary>
+        /// The credit reference. Foreign Key - DELPRICE_CREDITREF
+        /// </summary>
+    
+       [DataMember]              
+        public int? Dprcdtrefno {get;set;}
+
     
        [DataMember]              
         public DateTime? Dprcreationdate {get;set;}
@@ -165,6 +172,7 @@ result.Dprrecno = item.Dprrecno;
   result.Delvatrate2 = item.Delvatrate2;
   result.Delvatrecno = item.Delvatrecno;
   result.Delvatvalue = item.Delvatvalue;
+  result.Dprcdtrefno = item.Dprcdtrefno;
   result.Dprcreationdate = item.Dprcreationdate;
   result.Dprdelrecno = item.Dprdelrecno;
   result.Dprisprcccdtdbt = item.Dprisprcccdtdbt;
@@ -202,6 +210,7 @@ Delvatrate = item.Delvatrate,
 Delvatrate2 = item.Delvatrate2,
 Delvatrecno = item.Delvatrecno,
 Delvatvalue = item.Delvatvalue,
+Dprcdtrefno = item.Dprcdtrefno,
 Dprcreationdate = item.Dprcreationdate,
 Dprdelrecno = item.Dprdelrecno,
 Dprisprcccdtdbt = item.Dprisprcccdtdbt,

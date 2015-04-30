@@ -194,7 +194,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
          0,       // int size   
-                  5, // int? prec
+                  10, // int? prec
                            0  // int? Scale
          ,
          typeof(AccVAT)

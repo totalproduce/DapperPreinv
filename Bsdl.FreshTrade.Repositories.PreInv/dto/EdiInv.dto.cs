@@ -26,7 +26,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
         public int Hofclarecno {get; set;}
       
         [DataMember]            
-        public int Invoiceno {get; set;}
+        public string Invoiceno {get; set;}
       
         [DataMember]            
         public int Dlvordno {get; set;}
@@ -88,7 +88,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
-        public int? Ordno {get;set;}
+        public string Ordno {get;set;}
 
     
        [DataMember]              

@@ -313,8 +313,50 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <DELDET>.GetProperty(x => x.Ppccltrecno),
+         "PPCCLTRECNO", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  10, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(DELDET)
+         ));
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <DELDET>.GetProperty(x => x.Prllineno),
+         "PRLLINENO", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  10, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(DELDET)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <DELDET>.GetProperty(x => x.Prllinno),
          "PRLLINNO", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  10, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(DELDET)
+         ));
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <DELDET>.GetProperty(x => x.Profileheadrecno),
+         "PROFILEHEADRECNO", // columnName
          false,                    //isKey
          true, //isNullable
          "",                       //refEntityName
@@ -669,6 +711,40 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private int? _fPpccltrecno;
+        /// <summary>
+        /// LINK TO THE PRCCSTINFO TABLE TO GIVE THE CLIENT PRODUCT DETAILS
+        /// </summary>
+        public int? Ppccltrecno
+        {
+            get { return _fPpccltrecno; }
+            set
+            {
+                if (_fPpccltrecno != value)
+                {
+                    Modify();
+                    _fPpccltrecno = value;
+                }
+            }
+        }
+
+        private int? _fPrllineno;
+        /// <summary>
+        /// LINK TO THE PRCNEWLIST TABLE TO GIVE THE PRICE LIST RECORD
+        /// </summary>
+        public int? Prllineno
+        {
+            get { return _fPrllineno; }
+            set
+            {
+                if (_fPrllineno != value)
+                {
+                    Modify();
+                    _fPrllineno = value;
+                }
+            }
+        }
+
         private int? _fPrllinno;
         public int? Prllinno
         {
@@ -679,6 +755,23 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                 {
                     Modify();
                     _fPrllinno = value;
+                }
+            }
+        }
+
+        private int? _fProfileheadrecno;
+        /// <summary>
+        /// LINK TO THE PRICELISTPROFILEHEAD TABLE TO GIVE THE PROFILE PRICE
+        /// </summary>
+        public int? Profileheadrecno
+        {
+            get { return _fProfileheadrecno; }
+            set
+            {
+                if (_fProfileheadrecno != value)
+                {
+                    Modify();
+                    _fProfileheadrecno = value;
                 }
             }
         }
@@ -772,7 +865,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Detsyscalcpals = Detsyscalcpals,
                     Dlvprtstat = Dlvprtstat,
                     Edilineno = Edilineno,
+                    Ppccltrecno = Ppccltrecno,
+                    Prllineno = Prllineno,
                     Prllinno = Prllinno,
+                    Profileheadrecno = Profileheadrecno,
                     Prtstat = Prtstat,
                     Qtyper = Qtyper,
                     Rndapportpals = Rndapportpals,
@@ -805,7 +901,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  DETSYSCALCPALS = "DETSYSCALCPALS";
             public const string  DLVPRTSTAT = "DLVPRTSTAT";
             public const string  EDILINENO = "EDILINENO";
+            public const string  PPCCLTRECNO = "PPCCLTRECNO";
+            public const string  PRLLINENO = "PRLLINENO";
             public const string  PRLLINNO = "PRLLINNO";
+            public const string  PROFILEHEADRECNO = "PROFILEHEADRECNO";
             public const string  PRTSTAT = "PRTSTAT";
             public const string  QTYPER = "QTYPER";
             public const string  RNDAPPORTPALS = "RNDAPPORTPALS";

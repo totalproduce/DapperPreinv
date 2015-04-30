@@ -76,9 +76,11 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          false, //isNullable
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
-         0,       // int size   
-                  10, // int? prec
-                           0  // int? Scale
+         12,       // int size   
+           
+         null, // int? prec
+                    
+         null // int? Scale
          ,
          typeof(EdiInv)
        ));
@@ -310,9 +312,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          true, //isNullable
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
-         0,       // int size   
-                  10, // int? prec
-                           0  // int? Scale
+         12,       // int size   
+                  null, // int? prec
+                   
+         null // int? Scale
          ,
          typeof(EdiInv)
          ));
@@ -468,8 +471,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
-        private int _fInvoiceno;
-        public int Invoiceno
+        private string _fInvoiceno;
+        public string Invoiceno
         {
             get { return _fInvoiceno; }
             set
@@ -696,8 +699,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
-        private int? _fOrdno;
-        public int? Ordno
+        private string _fOrdno;
+        public string Ordno
         {
             get { return _fOrdno; }
             set
@@ -909,7 +912,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
         public int Coglbno { get; set; }
         public string Hofcstcode { get; set; }
         public int Hofclarecno { get; set; }
-        public int Invoiceno { get; set; }
+        public string Invoiceno { get; set; }
         public int Dlvordno { get; set; }
 
         public override bool Equals(object obj)
@@ -933,7 +936,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                 hashCode = (hashCode * 397) ^ (Coglbno).GetHashCode();
                 hashCode = (hashCode * 397) ^ (Hofcstcode ?? "").GetHashCode();
                 hashCode = (hashCode * 397) ^ (Hofclarecno).GetHashCode();
-                hashCode = (hashCode * 397) ^ (Invoiceno).GetHashCode();
+                hashCode = (hashCode * 397) ^ (Invoiceno ?? "").GetHashCode();
                 hashCode = (hashCode * 397) ^ (Dlvordno).GetHashCode();
                 return hashCode;
             }
@@ -947,7 +950,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                 Coglbno = int.Parse(parts[0]),
                 Hofcstcode = parts[1],
                 Hofclarecno = int.Parse(parts[2]),
-                Invoiceno = int.Parse(parts[3]),
+                Invoiceno = parts[3],
                 Dlvordno = int.Parse(parts[4]),
             };
         }
