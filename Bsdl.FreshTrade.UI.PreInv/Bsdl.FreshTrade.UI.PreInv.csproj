@@ -1,0 +1,432 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C2A130E5-3D90-46FC-ADE6-8D3DAD43C6F2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.UI.PreInv</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.UI.PreInv</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>FreshTrade.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.Data.v14.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.Printing.v14.2.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.Utils.v14.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.XtraBars.v14.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.XtraEditors.v14.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.XtraPrinting.v14.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\DevExpress 14.2\Components\Bin\Framework\DevExpress.XtraTreeList.v14.2.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactions">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\System.Windows.Interactivity.WPF.2.0.20525\lib\net40\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\BooleanToStringConverter.cs" />
+    <Compile Include="Converters\OfficeNumberToVisibilityConverter.cs" />
+    <Compile Include="Converters\TrimStringConverter.cs" />
+    <Compile Include="Helpers\AsyncExtractor.cs" />
+    <Compile Include="Helpers\EvenBehaviourFactory.cs" />
+    <Compile Include="Helpers\AutoCompleteBoxBehaviour.cs" />
+    <Compile Include="Model\PreInvPrt2Model.cs" />
+    <Compile Include="Model\PreInvPrtModel.cs" />
+    <Compile Include="Model\PreInvTotModel.cs" />
+    <Compile Include="Service References\AccountService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\CustomerService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PreInvReportService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PreInvService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ReportingService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\SalesOfficeService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\CustomerCategoryViewModel.cs" />
+    <Compile Include="View\CustomerCategorySelect.xaml.cs">
+      <DependentUpon>CustomerCategorySelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PreInvoice.xaml.cs">
+      <DependentUpon>PreInvoice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ViewModel\AccountLookUpViewModel.cs" />
+    <Compile Include="ViewModel\PreInvMainViewModel.cs" />
+    <Compile Include="View\SplashScreen.xaml.cs">
+      <DependentUpon>SplashScreen.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\AccountLookUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="View\AccountLookUp.xaml.cs">
+      <DependentUpon>AccountLookUp.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="View\CustomerCategorySelect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PreInvoice.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SplashScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.Account.Entities.DTOAccount.datasource" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.Account.Entities.DTOCustomerCategory.datasource" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.Account.Entities.DTOCustomerGroup.datasource" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.Account.Entities.DTOSalesOffice.datasource" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.PreInv.Entities.DTOPreInvExtractResult.datasource" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.PreInv.Entities.DTOUpdateResult.datasource" />
+    <None Include="Properties\DataSources\Bsdl.FreshTrade.Domain.PreInv.WideObjects.WideAccountInfo.datasource" />
+    <None Include="Properties\DataSources\System.Data.DataTable.datasource" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+    <None Include="Service References\AccountService\AccountService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountService\AccountService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountService\AccountService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountService\AccountService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountService\AccountService41.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\AccountService\AccountsService.wsdl" />
+    <None Include="Service References\CustomerService\CustomerService.wsdl" />
+    <None Include="Service References\CustomerService\CustomerService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CustomerService\CustomerService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\CustomerService\CustomerService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvReportService\PreInvReportService.wsdl" />
+    <None Include="Service References\PreInvReportService\PreInvReportService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvReportService\PreInvReportService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvReportService\PreInvReportService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvReportService\PreInvReportService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvService\PreInvService.wsdl" />
+    <None Include="Service References\PreInvService\PreInvService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvService\PreInvService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvService\PreInvService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvService\PreInvService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvService\PreInvService4.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\PreInvService\PreInvService5.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ReportingService\ReportingService.wsdl" />
+    <None Include="Service References\ReportingService\ReportingService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ReportingService\ReportingService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ReportingService\ReportingService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SalesOfficeService\FreshTradeFreshTradeSalesOfficesService.wsdl" />
+    <None Include="Service References\SalesOfficeService\SalesOfficeService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SalesOfficeService\SalesOfficeService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SalesOfficeService\SalesOfficeService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Account\Bsdl.FreshTrade.Domain.Account.csproj">
+      <Project>{6198000A-B37E-41E2-9FCB-1F777FAC182D}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.PreInv\Bsdl.FreshTrade.Domain.PreInv.csproj">
+      <Project>{655A8F38-83A5-4BFB-887D-45C0BF1E5A07}</Project>
+      <Name>Bsdl.FreshTrade.Domain.PreInv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.UI.Basic\Bsdl.FreshTrade.UI.Basic.csproj">
+      <Project>{25B01BDD-EEFD-48CF-8947-761B7E3BAD0C}</Project>
+      <Name>Bsdl.FreshTrade.UI.Basic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\AccountService\" />
+    <WCFMetadataStorage Include="Service References\CustomerService\" />
+    <WCFMetadataStorage Include="Service References\PreInvReportService\" />
+    <WCFMetadataStorage Include="Service References\PreInvService\" />
+    <WCFMetadataStorage Include="Service References\ReportingService\" />
+    <WCFMetadataStorage Include="Service References\SalesOfficeService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SalesOfficeService\SalesOfficeService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SalesOfficeService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SalesOfficeService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\SalesOfficeService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\ReportingService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ReportingService\configuration.svcinfo" />
+    <None Include="Service References\ReportingService\configuration91.svcinfo" />
+    <None Include="Service References\ReportingService\ReportingService.disco" />
+    <None Include="Service References\PreInvReportService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\PreInvReportService\configuration.svcinfo" />
+    <None Include="Service References\PreInvReportService\configuration91.svcinfo" />
+    <None Include="Service References\PreInvReportService\PreInvReportService.disco" />
+    <None Include="Service References\AccountService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\AccountService\configuration.svcinfo" />
+    <None Include="Service References\AccountService\configuration91.svcinfo" />
+    <None Include="Service References\AccountService\AccountService.disco" />
+    <None Include="Service References\PreInvService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\PreInvService\configuration.svcinfo" />
+    <None Include="Service References\PreInvService\configuration91.svcinfo" />
+    <None Include="Service References\PreInvService\PreInvService.disco" />
+    <Resource Include="FreshTrade.ico" />
+    <Content Include="Images\ArrowLeft.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Service References\CustomerService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\CustomerService\configuration.svcinfo" />
+    <None Include="Service References\CustomerService\configuration91.svcinfo" />
+    <None Include="Service References\CustomerService\CustomerService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\ArrowRight.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

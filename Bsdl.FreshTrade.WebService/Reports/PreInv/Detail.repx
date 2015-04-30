@@ -1,0 +1,541 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ScriptsSource="private object GetVal(object obj, string propName)&#xD;&#xA;{return obj.GetType().GetProperty(propName).GetValue(obj, null);}&#xD;&#xA;&#xD;&#xA;private void Rebate_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) {&#xD;&#xA;e.Value = (decimal?)GetVal(GetVal(e.Row, &quot;InvTot&quot;), &quot;OffInvOnPay&quot;) + (decimal?)GetVal(GetVal(e.Row, &quot;InvTot&quot;), &quot;OffInvRbt&quot;);}&#xD;&#xA;&#xD;&#xA;private void CommHandAmt_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) {&#xD;&#xA;e.Value = (decimal)GetVal(e.Row, &quot;RawHandAmt&quot;) + (decimal)GetVal(e.Row, &quot;RawCommAmt&quot;);}&#xD;&#xA;" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
+  <Bands>
+    <Item1 Ref="2" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" HeightF="0" />
+    <Item2 Ref="3" Name="TopMargin" ControlType="TopMarginBand" Dpi="254" Padding="0,0,0,0,254" TextAlignment="TopLeft" HeightF="180" />
+    <Item3 Ref="4" Name="BottomMargin" ControlType="BottomMarginBand" Dpi="254" Padding="0,0,0,0,254" TextAlignment="TopLeft" HeightF="180" />
+    <Item4 Ref="5" ControlType="PageHeaderBand" Name="PageHeader" Dpi="254" HeightF="115.2267">
+      <Controls>
+        <Item1 Ref="6" Name="xrLabel3" ControlType="XRLabel" TextAlignment="TopRight" SizeF="459.3168,58.41999" LocationFloat="1340.683, 56.80667" Dpi="254" Padding="4,4,0,0,254">
+          <DataBindings>
+            <Item1 Ref="7" PropertyName="Text" DataMember="ExtractHeader.UserId" />
+          </DataBindings>
+          <StylePriority Ref="8" UseTextAlignment="false" />
+        </Item1>
+        <Item2 Ref="9" Name="xrLabel2" ControlType="XRLabel" WordWrap="false" SizeF="571.5004,58.41999" LocationFloat="0, 56.80667" Dpi="254" Font="Arial, 12pt, style=Bold, Underline, charSet=0" Padding="4,4,0,0,254" AutoWidth="true" CanShrink="true">
+          <DataBindings>
+            <Item1 Ref="10" PropertyName="Text" DataMember="SalesOffice" />
+          </DataBindings>
+          <StylePriority Ref="11" UseFont="false" />
+        </Item2>
+        <Item3 Ref="12" Name="xrPageInfo2" ControlType="XRPageInfo" SizeF="249.7667,43.60332" Dpi="254" Padding="4,4,0,0,254" LocationFloat="1550.233, 0" TextAlignment="TopRight" Format="Page {0}/{1}">
+          <StylePriority Ref="13" UseTextAlignment="false" />
+        </Item3>
+        <Item4 Ref="14" Name="xrLabel1" ControlType="XRLabel" TextAlignment="TopCenter" SizeF="1213.684,43.60332" LocationFloat="313.2667, 0" Dpi="254" Font="Arial, 11pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
+          <DataBindings>
+            <Item1 Ref="15" FormatString="Pre-Invoicing Report For : {0}" PropertyName="Text" DataMember="ExtractHeader.InvoiceTypeName" />
+          </DataBindings>
+          <StylePriority Ref="16" UseFont="false" UseTextAlignment="false" />
+        </Item4>
+        <Item5 Ref="17" Name="xrPageInfo1" ControlType="XRPageInfo" SizeF="313.2667,43.60333" Dpi="254" Padding="4,4,0,0,254" LocationFloat="0, 0" Format="{0:dd/MM/yyyy HH:mm}" PageInfo="DateTime" />
+      </Controls>
+    </Item4>
+    <Item5 Ref="18" ControlType="DetailReportBand" Name="DetailReport" Dpi="254" DataMember="InvTotList" DataSource="#Ref-0" Level="0">
+      <Bands>
+        <Item1 Ref="19" ControlType="DetailBand" Name="InvPrt_Detail" Dpi="254" HeightF="44.45">
+          <Controls>
+            <Item1 Ref="20" Name="xrTable1" ControlType="XRTable" SizeF="1798,38.1" LocationFloat="1.999878, 6.35" Dpi="254" Font="Arial, 8pt, charSet=0" BorderColor="Gray" Borders="Bottom">
+              <Rows>
+                <Item1 Ref="21" Name="xrTableRow1" ControlType="XRTableRow" Dpi="254" Weight="0.5679012345679012">
+                  <Cells>
+                    <Item1 Ref="22" Name="xrTableCell59" ControlType="XRTableCell" Dpi="254" TextAlignment="TopCenter" Weight="0.0085904220233440111">
+                      <StylePriority Ref="23" UseTextAlignment="false" />
+                    </Item1>
+                    <Item2 Ref="24" Name="xrTableCell1" ControlType="XRTableCell" Dpi="254" TextAlignment="TopCenter" Weight="0.16490164905071339">
+                      <DataBindings>
+                        <Item1 Ref="25" PropertyName="Text" DataMember="InvTotList.InvTot.InvoiceNo" />
+                      </DataBindings>
+                      <StylePriority Ref="26" UseTextAlignment="false" />
+                    </Item2>
+                    <Item3 Ref="27" Name="xrTableCell2" ControlType="XRTableCell" Dpi="254" Weight="0.14111101310915961">
+                      <DataBindings>
+                        <Item1 Ref="28" PropertyName="Text" DataMember="InvTotList.InvTot.HofCstCode" />
+                      </DataBindings>
+                    </Item3>
+                    <Item4 Ref="29" Name="xrTableCell3" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411110008589157">
+                      <DataBindings>
+                        <Item1 Ref="30" PropertyName="Text" DataMember="InvTotList.InvTot.QtyTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="31" UseTextAlignment="false" />
+                    </Item4>
+                    <Item5 Ref="32" Name="xrTableCell4" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111119686281864">
+                      <DataBindings>
+                        <Item1 Ref="33" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvTot.GoodsTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="34" UseTextAlignment="false" />
+                    </Item5>
+                    <Item6 Ref="35" Name="xrTableCell5" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111114786184292">
+                      <DataBindings>
+                        <Item1 Ref="36" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvTot.VatTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="37" UseTextAlignment="false" />
+                    </Item6>
+                    <Item7 Ref="38" Name="xrTableCell6" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111109886086715">
+                      <DataBindings>
+                        <Item1 Ref="39" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvTot.OnInvDscnt" />
+                      </DataBindings>
+                      <StylePriority Ref="40" UseTextAlignment="false" />
+                    </Item7>
+                    <Item8 Ref="41" Name="xrTableCell7" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111104985989142">
+                      <DataBindings>
+                        <Item1 Ref="42" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvTot.RawHandCommAmt" />
+                      </DataBindings>
+                      <StylePriority Ref="43" UseTextAlignment="false" />
+                    </Item8>
+                    <Item9 Ref="44" Name="xrTableCell8" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111124586379439">
+                      <DataBindings>
+                        <Item1 Ref="45" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvTot.RawVatOnChgs" />
+                      </DataBindings>
+                      <StylePriority Ref="46" UseTextAlignment="false" />
+                    </Item9>
+                    <Item10 Ref="47" Name="xrTableCell9" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111153986964883">
+                      <DataBindings>
+                        <Item1 Ref="48" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.Rebate" />
+                      </DataBindings>
+                      <StylePriority Ref="49" UseTextAlignment="false" />
+                    </Item10>
+                    <Item11 Ref="50" Name="xrTableCell10" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.14111025359403562">
+                      <DataBindings>
+                        <Item1 Ref="51" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvTot.InvoiceTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="52" UseTextAlignment="false" />
+                    </Item11>
+                  </Cells>
+                </Item1>
+              </Rows>
+              <StylePriority Ref="53" UseFont="false" UseBorderColor="false" UseBorders="false" />
+            </Item1>
+          </Controls>
+          <SortFields>
+            <Item1 Ref="54" FieldName="InvPrtList.InvPrt.DlvInvoiceNo" />
+          </SortFields>
+        </Item1>
+        <Item2 Ref="55" ControlType="GroupHeaderBand" Name="Invoice_Sort1" Dpi="254" GroupUnion="WithFirstDetail" HeightF="61.11995">
+          <Controls>
+            <Item1 Ref="56" Name="xrLabel20" ControlType="XRLabel" TextAlignment="MiddleLeft" SizeF="1800,47.83666" LocationFloat="1.999878, 13.28329" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None">
+              <DataBindings>
+                <Item1 Ref="57" PropertyName="Text" DataMember="InvTotList.InvTot.Sort1" />
+              </DataBindings>
+              <StylePriority Ref="58" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+          </Controls>
+          <GroupFields>
+            <Item1 Ref="59" FieldName="InvTot.Sort1" />
+          </GroupFields>
+        </Item2>
+        <Item3 Ref="60" ControlType="GroupFooterBand" Name="GroupFooter1" Dpi="254" GroupUnion="WithLastDetail" HeightF="102.8699">
+          <Controls>
+            <Item1 Ref="61" Name="xrTable2" ControlType="XRTable" SizeF="1596.317,38.1" LocationFloat="203.683, 47.83666" Dpi="254" Font="Arial, 8pt, charSet=0" BorderColor="Gray" Borders="Bottom" TextAlignment="TopRight">
+              <Rows>
+                <Item1 Ref="62" Name="xrTableRow2" ControlType="XRTableRow" Dpi="254" Weight="0.5679012345679012">
+                  <Cells>
+                    <Item1 Ref="63" Name="xrTableCell12" ControlType="XRTableCell" Dpi="254" Text="Totals" TextAlignment="TopLeft" Weight="0.15268540103013728">
+                      <StylePriority Ref="64" UseTextAlignment="false" />
+                    </Item1>
+                    <Item2 Ref="65" Name="xrTableCell13" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="66" PropertyName="Text" DataMember="InvTotList.InvTot.QtyTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="67" UseTextAlignment="false" />
+                      <Summary Ref="68" Running="Group" />
+                    </Item2>
+                    <Item3 Ref="69" Name="xrTableCell14" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="70" PropertyName="Text" DataMember="InvTotList.InvTot.GoodsTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="71" UseTextAlignment="false" />
+                      <Summary Ref="72" FormatString="{0:n}" Running="Group" />
+                    </Item3>
+                    <Item4 Ref="73" Name="xrTableCell15" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="74" PropertyName="Text" DataMember="InvTotList.InvTot.VatTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="75" UseTextAlignment="false" />
+                      <Summary Ref="76" FormatString="{0:n}" Running="Group" />
+                    </Item4>
+                    <Item5 Ref="77" Name="xrTableCell16" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="78" PropertyName="Text" DataMember="InvTotList.InvTot.OnInvDscnt" />
+                      </DataBindings>
+                      <StylePriority Ref="79" UseTextAlignment="false" />
+                      <Summary Ref="80" FormatString="{0:n}" Running="Group" />
+                    </Item5>
+                    <Item6 Ref="81" Name="xrTableCell17" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="82" PropertyName="Text" DataMember="InvTotList.InvTot.RawHandCommAmt" />
+                      </DataBindings>
+                      <StylePriority Ref="83" UseTextAlignment="false" />
+                      <Summary Ref="84" FormatString="{0:n}" Running="Group" />
+                    </Item6>
+                    <Item7 Ref="85" Name="xrTableCell18" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="86" PropertyName="Text" DataMember="InvTotList.InvTot.RawVatOnChgs" />
+                      </DataBindings>
+                      <StylePriority Ref="87" UseTextAlignment="false" />
+                      <Summary Ref="88" FormatString="{0:n}" Running="Group" />
+                    </Item7>
+                    <Item8 Ref="89" Name="xrTableCell19" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="90" PropertyName="Text" DataMember="InvTotList.Rebate" />
+                      </DataBindings>
+                      <StylePriority Ref="91" UseTextAlignment="false" />
+                      <Summary Ref="92" FormatString="{0:n}" Running="Group" />
+                    </Item8>
+                    <Item9 Ref="93" Name="xrTableCell20" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
+                      <DataBindings>
+                        <Item1 Ref="94" PropertyName="Text" DataMember="InvTotList.InvoiceTotal" />
+                      </DataBindings>
+                      <StylePriority Ref="95" UseTextAlignment="false" />
+                      <Summary Ref="96" FormatString="{0:n}" Running="Group" />
+                    </Item9>
+                  </Cells>
+                </Item1>
+              </Rows>
+              <StylePriority Ref="97" UseFont="false" UseBorderColor="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="98" Name="xrLabel21" ControlType="XRLabel" TextAlignment="MiddleLeft" SizeF="1800,47.83666" LocationFloat="0, 0" Dpi="254" Font="Arial, 8pt, style=Underline, charSet=0" Padding="4,4,0,0,254" Borders="None">
+              <DataBindings>
+                <Item1 Ref="99" PropertyName="Text" DataMember="InvTotList.InvTot.Sort1" />
+              </DataBindings>
+              <StylePriority Ref="100" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+          </Controls>
+        </Item3>
+        <Item4 Ref="101" ControlType="DetailReportBand" Name="DetailReport1" Dpi="254" DataMember="InvTotList.InvPrtList" DataSource="#Ref-0" Level="0">
+          <Bands>
+            <Item1 Ref="102" ControlType="DetailBand" Name="Detail2" Dpi="254" HeightF="42.33333">
+              <Controls>
+                <Item1 Ref="103" Name="xrTable5" ControlType="XRTable" SizeF="1802,42.33333" LocationFloat="0, 0" Dpi="254" Font="Arial, 8pt, charSet=0">
+                  <Rows>
+                    <Item1 Ref="104" Name="xrTableRow5" ControlType="XRTableRow" Dpi="254" Weight="0.5679012345679012">
+                      <Cells>
+                        <Item1 Ref="105" Name="xrTableCell32" ControlType="XRTableCell" Dpi="254" Borders="Left" Text="Delivery No" TextAlignment="MiddleLeft" Weight="0.12646729193867751">
+                          <StylePriority Ref="106" UseBorders="false" UseTextAlignment="false" />
+                        </Item1>
+                        <Item2 Ref="107" Name="xrTableCell33" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleLeft" Weight="0.14095449500554938">
+                          <DataBindings>
+                            <Item1 Ref="108" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt.DlvOrdNo" />
+                          </DataBindings>
+                          <StylePriority Ref="109" UseTextAlignment="false" />
+                        </Item2>
+                        <Item3 Ref="110" Name="xrTableCell34" ControlType="XRTableCell" Dpi="254" Text="Deliv Date." TextAlignment="MiddleCenter" Weight="0.11818890382686366">
+                          <StylePriority Ref="111" UseTextAlignment="false" />
+                        </Item3>
+                        <Item4 Ref="112" Name="xrTableCell35" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleLeft" Weight="0.11129991490206001">
+                          <DataBindings>
+                            <Item1 Ref="113" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt.Dlvdeldate" />
+                          </DataBindings>
+                          <StylePriority Ref="114" UseTextAlignment="false" />
+                        </Item4>
+                        <Item5 Ref="115" Name="xrTableCell36" ControlType="XRTableCell" Dpi="254" Text="Our Ref No" TextAlignment="MiddleCenter" Weight="0.11899429416379133">
+                          <StylePriority Ref="116" UseTextAlignment="false" />
+                        </Item5>
+                        <Item6 Ref="117" Name="xrTableCell37" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleLeft" Weight="0.12574568950544043">
+                          <DataBindings>
+                            <Item1 Ref="118" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt.Dlvprghedno" />
+                          </DataBindings>
+                          <StylePriority Ref="119" UseTextAlignment="false" />
+                        </Item6>
+                        <Item7 Ref="120" Name="xrTableCell38" ControlType="XRTableCell" Dpi="254" Text="P. O. D. No" TextAlignment="MiddleCenter" Weight="0.12404854283855024">
+                          <StylePriority Ref="121" UseTextAlignment="false" />
+                        </Item7>
+                        <Item8 Ref="122" Name="xrTableCell39" ControlType="XRTableCell" Dpi="254" Text="xrTableCell39" TextAlignment="MiddleLeft" Weight="0.16666287968599172">
+                          <DataBindings>
+                            <Item1 Ref="123" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt.Dlvpodno" />
+                          </DataBindings>
+                          <StylePriority Ref="124" UseTextAlignment="false" />
+                        </Item8>
+                        <Item9 Ref="125" Name="xrTableCell40" ControlType="XRTableCell" Dpi="254" Text="Cust Ord No:" TextAlignment="MiddleCenter" Weight="0.14111210458791887">
+                          <StylePriority Ref="126" UseTextAlignment="false" />
+                        </Item9>
+                        <Item10 Ref="127" Name="xrTableCell41" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleLeft" Weight="0.23607083360065062">
+                          <DataBindings>
+                            <Item1 Ref="128" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt.Ordcustordno" />
+                          </DataBindings>
+                          <StylePriority Ref="129" UseTextAlignment="false" />
+                        </Item10>
+                      </Cells>
+                    </Item1>
+                  </Rows>
+                  <StylePriority Ref="130" UseFont="false" />
+                </Item1>
+              </Controls>
+            </Item1>
+            <Item2 Ref="131" ControlType="DetailReportBand" Name="DetailReport2" Dpi="254" DataMember="InvTotList.InvPrtList.InvPrt2List" DataSource="#Ref-0" Level="0">
+              <Bands>
+                <Item1 Ref="132" ControlType="DetailBand" Name="InvPrt2_Detail" Dpi="254" HeightF="40.21667">
+                  <Controls>
+                    <Item1 Ref="133" Name="xrTable4" ControlType="XRTable" SizeF="1801.342,40.21667" LocationFloat="0, 0" Dpi="254" Font="Arial, 8pt, charSet=0" BorderColor="Gray" Borders="All">
+                      <Rows>
+                        <Item1 Ref="134" Name="xrTableRow4" ControlType="XRTableRow" Dpi="254" Weight="0.5679012345679012">
+                          <Cells>
+                            <Item1 Ref="135" Name="xrTableCell61" ControlType="XRTableCell" Dpi="254" Borders="Left, Right" Weight="0.0094192426019675535">
+                              <StylePriority Ref="136" UseBorders="false" />
+                            </Item1>
+                            <Item2 Ref="137" Name="xrTableCell29" ControlType="XRTableCell" Dpi="254" Weight="0.099286531788253918">
+                              <DataBindings>
+                                <Item1 Ref="138" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.PrcPrdRef" />
+                              </DataBindings>
+                            </Item2>
+                            <Item3 Ref="139" Name="xrTableCell30" ControlType="XRTableCell" Dpi="254" Weight="0.44948445854694374">
+                              <DataBindings>
+                                <Item1 Ref="140" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.PrdRecDesc" />
+                              </DataBindings>
+                            </Item3>
+                            <Item4 Ref="141" Name="xrTableCell31" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.093143831264914267">
+                              <DataBindings>
+                                <Item1 Ref="142" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.DelQty" />
+                              </DataBindings>
+                              <StylePriority Ref="143" UseTextAlignment="false" />
+                            </Item4>
+                            <Item5 Ref="144" Name="xrTableCell42" ControlType="XRTableCell" Dpi="254" TextAlignment="TopCenter" Weight="0.098778482371628729">
+                              <DataBindings>
+                                <Item1 Ref="145" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.UnitMeasure" />
+                              </DataBindings>
+                              <StylePriority Ref="146" UseTextAlignment="false" />
+                            </Item5>
+                            <Item6 Ref="147" Name="xrTableCell43" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.0926635332237338">
+                              <DataBindings>
+                                <Item1 Ref="148" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.DelPrice" />
+                              </DataBindings>
+                              <StylePriority Ref="149" UseTextAlignment="false" />
+                            </Item6>
+                            <Item7 Ref="150" Name="xrTableCell44" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.12329423700303985">
+                              <DataBindings>
+                                <Item1 Ref="151" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.Goods" />
+                              </DataBindings>
+                              <StylePriority Ref="152" UseTextAlignment="false" />
+                            </Item7>
+                            <Item8 Ref="153" Name="xrTableCell45" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.097361335720171832">
+                              <DataBindings>
+                                <Item1 Ref="154" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.OnInvDscnt" />
+                              </DataBindings>
+                              <StylePriority Ref="155" UseTextAlignment="false" />
+                            </Item8>
+                            <Item9 Ref="156" Name="xrTableCell46" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.11060051268262129">
+                              <DataBindings>
+                                <Item1 Ref="157" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.Vat" />
+                              </DataBindings>
+                              <StylePriority Ref="158" UseTextAlignment="false" />
+                            </Item9>
+                            <Item10 Ref="159" Name="xrTableCell47" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.12025841730562542">
+                              <DataBindings>
+                                <Item1 Ref="160" FormatString="{0:n}" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.CommHandAmt" />
+                              </DataBindings>
+                              <StylePriority Ref="161" UseTextAlignment="false" />
+                            </Item10>
+                            <Item11 Ref="162" Name="xrTableCell48" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.11473952770454596">
+                              <DataBindings>
+                                <Item1 Ref="163" PropertyName="Text" DataMember="InvTotList.InvPrtList.InvPrt2List.RawVatOnChgs" />
+                              </DataBindings>
+                              <StylePriority Ref="164" UseTextAlignment="false" />
+                            </Item11>
+                          </Cells>
+                        </Item1>
+                      </Rows>
+                      <StylePriority Ref="165" UseFont="false" UseBorderColor="false" UseBorders="false" />
+                    </Item1>
+                  </Controls>
+                </Item1>
+                <Item2 Ref="166" Name="ReportHeader1" ControlType="ReportHeaderBand" Dpi="254" HeightF="40.21667">
+                  <Controls>
+                    <Item1 Ref="167" Name="xrTable6" ControlType="XRTable" SizeF="1800.628,40.21667" LocationFloat="0, 0" Dpi="254" Font="Arial, 8pt, charSet=0" BorderColor="Gray" Borders="All" TextAlignment="TopCenter">
+                      <Rows>
+                        <Item1 Ref="168" Name="xrTableRow6" ControlType="XRTableRow" Dpi="254" Weight="0.5679012345679012">
+                          <Cells>
+                            <Item1 Ref="169" Name="xrTableCell60" ControlType="XRTableCell" Dpi="254" Borders="Left, Right" TextAlignment="TopCenter" Weight="0.00886090272745825">
+                              <StylePriority Ref="170" UseBorders="false" UseTextAlignment="false" />
+                            </Item1>
+                            <Item2 Ref="171" Name="xrTableCell49" ControlType="XRTableCell" Dpi="254" Text="Prod Ref" TextAlignment="TopCenter" Weight="0.099286531788253918">
+                              <StylePriority Ref="172" UseTextAlignment="false" />
+                            </Item2>
+                            <Item3 Ref="173" Name="xrTableCell50" ControlType="XRTableCell" Dpi="254" Text="Description" Weight="0.45004291343010266" />
+                            <Item4 Ref="174" Name="xrTableCell51" ControlType="XRTableCell" Dpi="254" Text="Qty" Weight="0.09392595642147572" />
+                            <Item5 Ref="175" Name="xrTableCell52" ControlType="XRTableCell" Dpi="254" Text="QtyPer" Weight="0.097996329567329926" />
+                            <Item6 Ref="176" Name="xrTableCell53" ControlType="XRTableCell" Dpi="254" Text="Price" Weight="0.092663647858968634" />
+                            <Item7 Ref="177" Name="xrTableCell54" ControlType="XRTableCell" Dpi="254" Text="Amount" Weight="0.12329426075625008" />
+                            <Item8 Ref="178" Name="xrTableCell55" ControlType="XRTableCell" Dpi="254" Text="Dscnt" Weight="0.096802770096305238" />
+                            <Item9 Ref="179" Name="xrTableCell56" ControlType="XRTableCell" Dpi="254" Text="Vat" Weight="0.11060060816741181" />
+                            <Item10 Ref="180" Name="xrTableCell57" ControlType="XRTableCell" Dpi="254" Text="Com/Hand" Weight="0.1202583218208349" />
+                            <Item11 Ref="181" Name="xrTableCell58" ControlType="XRTableCell" Dpi="254" Text="Chgs Vat" Weight="0.11473952770454596" />
+                          </Cells>
+                        </Item1>
+                      </Rows>
+                      <StylePriority Ref="182" UseFont="false" UseBorderColor="false" UseBorders="false" UseTextAlignment="false" />
+                    </Item1>
+                  </Controls>
+                </Item2>
+              </Bands>
+            </Item2>
+          </Bands>
+        </Item4>
+        <Item5 Ref="183" ControlType="GroupHeaderBand" Name="BatchGroupHeader" Dpi="254" GroupUnion="WholePage" HeightF="133.42" PageBreak="BeforeBandExceptFirstEntry" RepeatEveryPage="true" Level="1">
+          <Controls>
+            <Item1 Ref="184" Name="xrLabel14" ControlType="XRLabel" TextAlignment="MiddleCenter" SizeF="205.4,33.42" LocationFloat="7.35022, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Invoice No">
+              <StylePriority Ref="185" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item1>
+            <Item2 Ref="186" Name="xrLabel15" ControlType="XRLabel" TextAlignment="MiddleCenter" SizeF="175.7667,33.42" LocationFloat="212.7501, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Cust Code">
+              <StylePriority Ref="187" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item2>
+            <Item3 Ref="188" Name="xrLabel16" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="175.7666,33.42" LocationFloat="388.5169, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Qty">
+              <StylePriority Ref="189" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item3>
+            <Item4 Ref="190" Name="xrLabel17" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="175.7665,33.42" LocationFloat="564.2836, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Goods">
+              <StylePriority Ref="191" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item4>
+            <Item5 Ref="192" Name="xrLabel18" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="175.7667,33.42" LocationFloat="740.0502, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Vat">
+              <StylePriority Ref="193" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item5>
+            <Item6 Ref="194" Name="xrLabel19" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="175.7668,33.42" LocationFloat="915.8167, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Discount">
+              <StylePriority Ref="195" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item6>
+            <Item7 Ref="196" Name="xrLabel22" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="170.4167,33.42001" LocationFloat="1096.933, 99.99998" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Com/Hand">
+              <StylePriority Ref="197" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item7>
+            <Item8 Ref="198" Name="xrLabel23" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="175.7668,33.42" LocationFloat="1267.35, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Chgs vat">
+              <StylePriority Ref="199" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item8>
+            <Item9 Ref="200" Name="xrLabel24" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="175.7668,33.42" LocationFloat="1443.117, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Rebate">
+              <StylePriority Ref="201" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item9>
+            <Item10 Ref="202" Name="xrLabel25" ControlType="XRLabel" TextAlignment="MiddleRight" SizeF="173.7665,33.42" LocationFloat="1620.883, 100" Dpi="254" Font="Arial, 8pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="None" Text="Total">
+              <StylePriority Ref="203" UseFont="false" UseBorders="false" UseTextAlignment="false" />
+            </Item10>
+            <Item11 Ref="204" Name="xrLabel4" ControlType="XRLabel" TextAlignment="TopRight" SizeF="294.2167,44" LocationFloat="0.999939, 0" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Text="Invoicing Period:">
+              <StylePriority Ref="205" UseFont="false" UseTextAlignment="false" />
+            </Item11>
+            <Item12 Ref="206" Name="xrLabel6" ControlType="XRLabel" SizeF="538.4663,44" LocationFloat="295.2166, 0" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
+              <DataBindings>
+                <Item1 Ref="207" PropertyName="Text" DataMember="ExtractHeader.InvoicePeriodAsStr" />
+              </DataBindings>
+              <StylePriority Ref="208" UseFont="false" />
+            </Item12>
+            <Item13 Ref="209" Name="xrLabel8" ControlType="XRLabel" TextAlignment="TopRight" SizeF="273.05,44.00003" LocationFloat="833.6829, 0" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Text="Cut off Date:">
+              <StylePriority Ref="210" UseFont="false" UseTextAlignment="false" />
+            </Item13>
+            <Item14 Ref="211" Name="xrLabel9" ControlType="XRLabel" SizeF="279.3999,44.00003" LocationFloat="1106.733, 0" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
+              <DataBindings>
+                <Item1 Ref="212" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="ExtractHeader.CutOffDeliveryDate" />
+              </DataBindings>
+              <StylePriority Ref="213" UseFont="false" />
+            </Item14>
+            <Item15 Ref="214" Name="xrLabel12" ControlType="XRLabel" TextAlignment="TopRight" SizeF="414.8671,44" LocationFloat="1386.133, 0" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254">
+              <DataBindings>
+                <Item1 Ref="215" PropertyName="Text" DataMember="InvTotList.InvTot.CurDesc" />
+              </DataBindings>
+              <StylePriority Ref="216" UseFont="false" UseTextAlignment="false" />
+            </Item15>
+            <Item16 Ref="217" Name="xrLabel13" ControlType="XRLabel" TextAlignment="TopLeft" SizeF="414.8668,44" LocationFloat="1386.133, 44.00011" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="Bottom" BorderWidth="2">
+              <DataBindings>
+                <Item1 Ref="218" FormatString="Batch No. : {0}" PropertyName="Text" DataMember="InvTotList.InvTot.BatchNo" />
+              </DataBindings>
+              <StylePriority Ref="219" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+            </Item16>
+            <Item17 Ref="220" Name="xrLabel10" ControlType="XRLabel" SizeF="279.3999,44" LocationFloat="1106.733, 44.00011" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="Bottom" BorderWidth="2">
+              <DataBindings>
+                <Item1 Ref="221" FormatString="{0:dd/MM/yyyy}" PropertyName="Text" DataMember="ExtractHeader.TaxPointDate" />
+              </DataBindings>
+              <StylePriority Ref="222" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+            </Item17>
+            <Item18 Ref="223" Name="xrLabel11" ControlType="XRLabel" TextAlignment="TopRight" SizeF="273.05,44" LocationFloat="833.6829, 44" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="Bottom" BorderWidth="2" Text="Tax Point Date:">
+              <StylePriority Ref="224" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+            </Item18>
+            <Item19 Ref="225" Name="xrLabel7" ControlType="XRLabel" SizeF="538.4663,44" LocationFloat="295.2166, 44.00011" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="Bottom" BorderWidth="2" Multiline="true">
+              <DataBindings>
+                <Item1 Ref="226" PropertyName="Text" DataMember="ExtractHeader.InvoiceOrderType" />
+              </DataBindings>
+              <StylePriority Ref="227" UseFont="false" UseBorders="false" UseBorderWidth="false" />
+            </Item19>
+            <Item20 Ref="228" Name="xrLabel5" ControlType="XRLabel" TextAlignment="TopRight" SizeF="294.2167,44" LocationFloat="0.999939, 44" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Padding="4,4,0,0,254" Borders="Bottom" BorderWidth="2" Text="Invoicing Type:">
+              <StylePriority Ref="229" UseFont="false" UseBorders="false" UseBorderWidth="false" UseTextAlignment="false" />
+            </Item20>
+          </Controls>
+          <GroupFields>
+            <Item1 Ref="230" FieldName="InvTot.BatchNo" />
+          </GroupFields>
+        </Item5>
+      </Bands>
+    </Item5>
+    <Item6 Ref="231" ControlType="ReportFooterBand" Name="ReportFooter" Dpi="254" HeightF="48.68333">
+      <Controls>
+        <Item1 Ref="232" Name="xrTable3" ControlType="XRTable" SizeF="1787.3,48.68333" LocationFloat="12.7, 0" Dpi="254" Font="Arial, 8pt, charSet=0" BorderColor="Gray" Borders="All" TextAlignment="MiddleRight">
+          <Rows>
+            <Item1 Ref="233" Name="xrTableRow3" ControlType="XRTableRow" Dpi="254" Weight="0.5679012345679012">
+              <Cells>
+                <Item1 Ref="234" Name="xrTableCell11" ControlType="XRTableCell" Dpi="254" Font="Arial, 10pt, style=Bold, charSet=0" Text="Grand Totals" TextAlignment="TopCenter" Weight="0.30601261678665514">
+                  <StylePriority Ref="235" UseFont="false" UseTextAlignment="false" />
+                </Item1>
+                <Item2 Ref="236" Name="xrTableCell21" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="237" PropertyName="Text" DataMember="InvTotList.InvTot.QtyTotal" />
+                  </DataBindings>
+                  <StylePriority Ref="238" UseTextAlignment="false" />
+                  <Summary Ref="239" Running="Report" />
+                </Item2>
+                <Item3 Ref="240" Name="xrTableCell22" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="241" PropertyName="Text" DataMember="InvTotList.InvTot.GoodsTotal" />
+                  </DataBindings>
+                  <StylePriority Ref="242" UseTextAlignment="false" />
+                  <Summary Ref="243" FormatString="{0:n}" Running="Report" />
+                </Item3>
+                <Item4 Ref="244" Name="xrTableCell23" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="245" PropertyName="Text" DataMember="InvTotList.InvTot.VatTotal" />
+                  </DataBindings>
+                  <StylePriority Ref="246" UseTextAlignment="false" />
+                  <Summary Ref="247" FormatString="{0:n}" Running="Report" />
+                </Item4>
+                <Item5 Ref="248" Name="xrTableCell24" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="249" PropertyName="Text" DataMember="InvTotList.InvTot.OnInvDscnt" />
+                  </DataBindings>
+                  <StylePriority Ref="250" UseTextAlignment="false" />
+                  <Summary Ref="251" FormatString="{0:n}" Running="Report" />
+                </Item5>
+                <Item6 Ref="252" Name="xrTableCell25" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="253" PropertyName="Text" DataMember="InvTotList.InvTot.RawHandCommAmt" />
+                  </DataBindings>
+                  <StylePriority Ref="254" UseTextAlignment="false" />
+                  <Summary Ref="255" FormatString="{0:n}" Running="Report" />
+                </Item6>
+                <Item7 Ref="256" Name="xrTableCell26" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="257" PropertyName="Text" DataMember="InvTotList.InvTot.RawVatOnChgs" />
+                  </DataBindings>
+                  <StylePriority Ref="258" UseTextAlignment="false" />
+                  <Summary Ref="259" FormatString="{0:n}" Running="Report" />
+                </Item7>
+                <Item8 Ref="260" Name="xrTableCell27" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="261" PropertyName="Text" DataMember="InvTotList.Rebate" />
+                  </DataBindings>
+                  <StylePriority Ref="262" UseTextAlignment="false" />
+                  <Summary Ref="263" FormatString="{0:n}" Running="Report" />
+                </Item8>
+                <Item9 Ref="264" Name="xrTableCell28" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
+                  <DataBindings>
+                    <Item1 Ref="265" PropertyName="Text" DataMember="InvTotList.InvoiceTotal" />
+                  </DataBindings>
+                  <StylePriority Ref="266" UseTextAlignment="false" />
+                  <Summary Ref="267" FormatString="{0:n}" Running="Report" />
+                </Item9>
+              </Cells>
+            </Item1>
+          </Rows>
+          <StylePriority Ref="268" UseFont="false" UseBorderColor="false" UseBorders="false" UseTextAlignment="false" />
+        </Item1>
+      </Controls>
+    </Item6>
+  </Bands>
+  <CalculatedFields>
+    <Item1 Ref="269" Name="SalesOffice" FieldType="String" Expression="Trim([ExtractHeader.SalesOfficeName])+' ('+[ExtractHeader.SalesOfficeId]+')'" DataMember="InvTotList" />
+    <Item2 Ref="270" Name="Rebate" FieldType="Decimal" DataMember="InvTotList">
+      <Scripts Ref="271" OnGetValue="Rebate_GetValue" />
+    </Item2>
+    <Item3 Ref="272" Name="CommHandAmt" FieldType="Decimal" DataMember="InvTotList.InvPrtList.InvPrt2List">
+      <Scripts Ref="273" OnGetValue="CommHandAmt_GetValue" />
+    </Item3>
+  </CalculatedFields>
+</XtraReportsLayoutSerializer>
