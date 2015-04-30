@@ -2291,9 +2291,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             //            endIf
         }*/
 
-        private bool NeedToMergeCreditNotes(DTOAccount account, DTODeliveryHead delivery)
+        private bool NeedToMergeCreditNotes(PreInvInvoiceType invoiceType, DTOAccount account, DTODeliveryHead delivery)
         {
-            if ((account == null) || (delivery == null))
+            if ((invoiceType != PreInvInvoiceType.CreditNote) || (account == null) || (delivery == null))
             {
                 return true;
             }
@@ -3294,13 +3294,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                         foreach (var delivery in order.Deliveries)
                         {
-                            bool deliveryProcessingOK = true;
-                            bool atLeastOneDeliveryDetailWritten = false;
                             _context.DeliveryHead = delivery;
                             _context.IsDeliveryGoodsOnConsignment = false;
-
-                            _currentDeliveryInvoicePart2Items.Clear();
-                            _currentInvoiceDiscTypItems.Clear();
 
                             PreInvInvoiceType allowedInvoiceTypes;
                             if (!IsAllowedInvoiceTypesForDeliveryHead(delivery.TranInd, _context.InvoiceTypeForAccount, out allowedInvoiceTypes))
@@ -3324,7 +3319,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 continue;
                             }
 
-                            bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.Account, _context.DeliveryHead);
+                            bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.DeliveryHead);
                             var deliveryPriceCreditRefIds = new List<int?>{ null };
                             if (!needToMergeCreditNotes)
                             {
@@ -3338,6 +3333,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                             }
                             foreach(var deliveryPriceCreditRefId in deliveryPriceCreditRefIds)
                             {
+                                bool deliveryProcessingOK = true;
+                                bool atLeastOneDeliveryDetailWritten = false;
+
+                                _currentDeliveryInvoicePart2Items.Clear();
+                                _currentInvoiceDiscTypItems.Clear();
+
                                 _context.DeliveryPriceCreditRefId = deliveryPriceCreditRefId;
 
                                 InitializeInvoiceTotals(extractParams, needToMergeCreditNotes, deliveryPriceCreditRefId);
@@ -3477,11 +3478,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 }
                             }
                             _context.DeliveryPriceCreditRefId = null;
+                            _context.InvoiceTotal = null;
+                            _context.InvoiceTotalBeforeLastDelivery = null;
                         }
                         _context.DeliveryHead = null;
                         _context.IsDeliveryGoodsOnConsignment = false;
-                        _context.InvoiceTotal = null;
-                        _context.InvoiceTotalBeforeLastDelivery = null;
                     }
                     _context.Order = null;
                 }
