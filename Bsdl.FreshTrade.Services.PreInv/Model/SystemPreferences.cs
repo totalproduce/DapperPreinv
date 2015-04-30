@@ -19,6 +19,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
     {
 
         private const string LockSalesOffParamName = "PreInvLockSalesOffice";
+        private const string LogUpdateResultsParamName = "LogUpdateResults";
 
         [SysPref(Name = "ALTERNATEGROUPS")]
         public bool UseAlternativeProductGroups { get; set; } //StringToLogical(dynSysPrefs["ALTERNATEGROUPS"]) ; doug 29/01/09
@@ -79,6 +80,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         public int FormNo { get; set; }
 
         public bool SalesOfficeNeedLock { get; set; }
+        public bool LogUpdateResults { get; set; }
 
         public static List<string> GetSettingNames()
         {
@@ -124,6 +126,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             bool salOffLock;
             if (!bool.TryParse(ConfigurationManager.AppSettings[LockSalesOffParamName], out salOffLock))
                 salOffLock = true;
+
+            bool logUpdateResults;
+            if (!bool.TryParse(ConfigurationManager.AppSettings[LogUpdateResultsParamName], out logUpdateResults))
+                logUpdateResults = false;
 
             return new SystemPreferences
                        {
