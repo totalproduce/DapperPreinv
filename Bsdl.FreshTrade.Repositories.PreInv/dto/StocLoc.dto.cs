@@ -187,6 +187,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public short? Incrementalpicklist {get;set;}
+
+    
+       [DataMember]              
         public int? Intransitbayrecno {get;set;}
 
     
@@ -303,6 +307,13 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
        [DataMember]              
         public short? Restrictpalstostocloc {get;set;}
 
+        /// <summary>
+        /// New delivery created in SplitDelivery: 1=as a new delivery (pick status blank). 0=same pick status as original delivery.
+        /// </summary>
+    
+       [DataMember]              
+        public short? Splitdlvisnewdlv {get;set;}
+
     
        [DataMember]              
         public string Stclocdesc {get;set;}
@@ -318,6 +329,13 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
     
        [DataMember]              
         public short? Suppressoverallocmsg {get;set;}
+
+        /// <summary>
+        /// AUTO SPLIT RECEIVED STOCK FOR TRANSFER OF OWNER IF LOCATION IS NON PALLET
+        /// </summary>
+    
+       [DataMember]              
+        public short? TransferAutosplitrcv {get;set;}
 
     
        [DataMember]              
@@ -377,6 +395,7 @@ result.Stcrecno = item.Stcrecno;
   result.Homestcloc = item.Homestcloc;
   result.Ifcocode = item.Ifcocode;
   result.Incountry = item.Incountry;
+  result.Incrementalpicklist = item.Incrementalpicklist;
   result.Intransitbayrecno = item.Intransitbayrecno;
   result.Iscommssite = item.Iscommssite;
   result.Isdirstcloc = item.Isdirstcloc;
@@ -405,10 +424,12 @@ result.Stcrecno = item.Stcrecno;
   result.Prdelnote = item.Prdelnote;
   result.Prpicklst = item.Prpicklst;
   result.Restrictpalstostocloc = item.Restrictpalstostocloc;
+  result.Splitdlvisnewdlv = item.Splitdlvisnewdlv;
   result.Stclocdesc = item.Stclocdesc;
   result.Stclocfifo = item.Stclocfifo;
   result.Stoclocananumber = item.Stoclocananumber;
   result.Suppressoverallocmsg = item.Suppressoverallocmsg;
+  result.TransferAutosplitrcv = item.TransferAutosplitrcv;
   result.Transhipbayrecno = item.Transhipbayrecno;
   result.TshipSplitatnew = item.TshipSplitatnew;
   result.Usealternateproddescs = item.Usealternateproddescs;
@@ -458,6 +479,7 @@ Homesaloffno = item.Homesaloffno,
 Homestcloc = item.Homestcloc,
 Ifcocode = item.Ifcocode,
 Incountry = item.Incountry,
+Incrementalpicklist = item.Incrementalpicklist,
 Intransitbayrecno = item.Intransitbayrecno,
 Iscommssite = item.Iscommssite,
 Isdirstcloc = item.Isdirstcloc,
@@ -486,10 +508,12 @@ Ppfirstclassoutloc = item.Ppfirstclassoutloc,
 Prdelnote = item.Prdelnote,
 Prpicklst = item.Prpicklst,
 Restrictpalstostocloc = item.Restrictpalstostocloc,
+Splitdlvisnewdlv = item.Splitdlvisnewdlv,
 Stclocdesc = item.Stclocdesc,
 Stclocfifo = item.Stclocfifo,
 Stoclocananumber = item.Stoclocananumber,
 Suppressoverallocmsg = item.Suppressoverallocmsg,
+TransferAutosplitrcv = item.TransferAutosplitrcv,
 Transhipbayrecno = item.Transhipbayrecno,
 TshipSplitatnew = item.TshipSplitatnew,
 Usealternateproddescs = item.Usealternateproddescs,

@@ -103,6 +103,7 @@ namespace Bsdl.FreshTrade.WebService.App_Code
             result.RegisterType<DeliveryDetailRepository>().As<IDeliveryDetailRepository>();
             result.RegisterType<DeliveryTypeRepository>().As<IDeliveryTypeRepository>();
             result.RegisterType<DeliveryPriceRepository>().As<IDeliveryPriceRepository>();
+            result.RegisterType<DeliveryPriceCreditRefRepository>().As<IDeliveryPriceCreditRefRepository>();            
             result.RegisterType<DeliveryToItemStockRepository>().As<IDeliveryToItemStockRepository>();
             result.RegisterType<DeliveryPriceToCreditNoteRepository>().As<IDeliveryPriceToCreditNoteRepository>();
             result.RegisterType<ProductRepository>().As<IProductRepository>();

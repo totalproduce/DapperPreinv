@@ -52,6 +52,7 @@
     <Compile Include="DBModel\AuditRecord.db.cs" />
     <Compile Include="DBModel\DelAudit.db.cs" />
     <Compile Include="DBModel\DelAudToDo.db.cs" />
+    <Compile Include="DBModel\DelPriceCreditRef.db.cs" />
     <Compile Include="DBModel\DiscPrds.db.cs" />
     <Compile Include="DBModel\DisCsts.db.cs" />
     <Compile Include="DBModel\DisGrps.db.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="DBModel\PreINVPRT.db.cs" />
     <Compile Include="DBModel\PreINVPRT2.db.cs" />
     <Compile Include="DBModel\PreINVTOT.db.cs" />
+    <Compile Include="DeliveryRep\DeliveryPriceCreditRefRepository.cs" />
     <Compile Include="DiscountRep\DiscountRatesRepository.cs" />
     <Compile Include="ReChargeRep\AccReChgRepository.cs" />
     <Compile Include="AccToProcess\AccToProcessRepository.cs" />

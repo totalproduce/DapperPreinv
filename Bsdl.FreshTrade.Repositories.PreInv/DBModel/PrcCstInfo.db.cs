@@ -41,6 +41,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
 
 
          result.Add(new EntityPropDef(
+         PropertyHelper <PrcCstInfo>.GetProperty(x => x.Cltprdactive),
+         "CLTPRDACTIVE", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(PrcCstInfo)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <PrcCstInfo>.GetProperty(x => x.Ppcclass),
          "PPCCLASS", // columnName
          false,                    //isKey
@@ -308,6 +322,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fCltprdactive;
+        public short? Cltprdactive
+        {
+            get { return _fCltprdactive; }
+            set
+            {
+                if (_fCltprdactive != value)
+                {
+                    Modify();
+                    _fCltprdactive = value;
+                }
+            }
+        }
+
         private string _fPpcclass;
         public string Ppcclass
         {
@@ -560,6 +588,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             var obj = new PrcCstInfo
                 {
                     Ppccltrecno = Ppccltrecno,
+                    Cltprdactive = Cltprdactive,
                     Ppcclass = Ppcclass,
                     Ppcclientprdno = Ppcclientprdno,
                     Ppcconsumerunit = Ppcconsumerunit,
@@ -586,6 +615,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
         {
 // ReSharper disable InconsistentNaming
             public const string  PPCCLTRECNO = "PPCCLTRECNO";
+            public const string  CLTPRDACTIVE = "CLTPRDACTIVE";
             public const string  PPCCLASS = "PPCCLASS";
             public const string  PPCCLIENTPRDNO = "PPCCLIENTPRDNO";
             public const string  PPCCONSUMERUNIT = "PPCCONSUMERUNIT";

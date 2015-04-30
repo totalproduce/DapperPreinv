@@ -48,7 +48,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.EdiRep
                         EdiOrders = item.Ediorders == strYes,
                         EdiInvoices = !string.IsNullOrEmpty(item.Ediinvoices) && (item.Ediinvoices != strNo),
                         EdiDebitCredits = !string.IsNullOrEmpty(item.Edidbtscdts) && (item.Edidbtscdts != strNo),
-                        CstProdRequired = item.CstProdRequired.HasValue && item.CstProdRequired == 1
+                        CstProdRequired = item.Cstprodrequired.HasValue && item.Cstprodrequired == 1
 
                     })
                 .ToList();

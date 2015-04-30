@@ -254,6 +254,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <IteChg>.GetProperty(x => x.Ichhasaccrual),
+         "ICHHASACCRUAL", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(IteChg)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <IteChg>.GetProperty(x => x.Ichisanauto),
          "ICHISANAUTO", // columnName
          false,                    //isKey
@@ -697,6 +711,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fIchhasaccrual;
+        public short? Ichhasaccrual
+        {
+            get { return _fIchhasaccrual; }
+            set
+            {
+                if (_fIchhasaccrual != value)
+                {
+                    Modify();
+                    _fIchhasaccrual = value;
+                }
+            }
+        }
+
         private short? _fIchisanauto;
         public short? Ichisanauto
         {
@@ -936,6 +964,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Ichchngdbyuser = Ichchngdbyuser,
                     Ichcostamt = Ichcostamt,
                     Ichdistype = Ichdistype,
+                    Ichhasaccrual = Ichhasaccrual,
                     Ichisanauto = Ichisanauto,
                     Ichistrecno = Ichistrecno,
                     Ichonpayment = Ichonpayment,
@@ -975,6 +1004,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  ICHCHNGDBYUSER = "ICHCHNGDBYUSER";
             public const string  ICHCOSTAMT = "ICHCOSTAMT";
             public const string  ICHDISTYPE = "ICHDISTYPE";
+            public const string  ICHHASACCRUAL = "ICHHASACCRUAL";
             public const string  ICHISANAUTO = "ICHISANAUTO";
             public const string  ICHISTRECNO = "ICHISTRECNO";
             public const string  ICHONPAYMENT = "ICHONPAYMENT";

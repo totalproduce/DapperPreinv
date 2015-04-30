@@ -580,6 +580,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <StocLoc>.GetProperty(x => x.Incrementalpicklist),
+         "INCREMENTALPICKLIST", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(StocLoc)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <StocLoc>.GetProperty(x => x.Intransitbayrecno),
          "INTRANSITBAYRECNO", // columnName
          false,                    //isKey
@@ -978,6 +992,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <StocLoc>.GetProperty(x => x.Splitdlvisnewdlv),
+         "SPLITDLVISNEWDLV", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(StocLoc)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <StocLoc>.GetProperty(x => x.Stclocdesc),
          "STCLOCDESC", // columnName
          false,                    //isKey
@@ -1024,6 +1052,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          result.Add(new EntityPropDef(
          PropertyHelper <StocLoc>.GetProperty(x => x.Suppressoverallocmsg),
          "SUPPRESSOVERALLOCMSG", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(StocLoc)
+         ));
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <StocLoc>.GetProperty(x => x.TransferAutosplitrcv),
+         "TRANSFER_AUTOSPLITRCV", // columnName
          false,                    //isKey
          true, //isNullable
          "",                       //refEntityName
@@ -1657,6 +1699,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fIncrementalpicklist;
+        public short? Incrementalpicklist
+        {
+            get { return _fIncrementalpicklist; }
+            set
+            {
+                if (_fIncrementalpicklist != value)
+                {
+                    Modify();
+                    _fIncrementalpicklist = value;
+                }
+            }
+        }
+
         private int? _fIntransitbayrecno;
         public int? Intransitbayrecno
         {
@@ -2055,6 +2111,23 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fSplitdlvisnewdlv;
+        /// <summary>
+        /// New delivery created in SplitDelivery: 1=as a new delivery (pick status blank). 0=same pick status as original delivery.
+        /// </summary>
+        public short? Splitdlvisnewdlv
+        {
+            get { return _fSplitdlvisnewdlv; }
+            set
+            {
+                if (_fSplitdlvisnewdlv != value)
+                {
+                    Modify();
+                    _fSplitdlvisnewdlv = value;
+                }
+            }
+        }
+
         private string _fStclocdesc;
         public string Stclocdesc
         {
@@ -2107,6 +2180,23 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                 {
                     Modify();
                     _fSuppressoverallocmsg = value;
+                }
+            }
+        }
+
+        private short? _fTransferAutosplitrcv;
+        /// <summary>
+        /// AUTO SPLIT RECEIVED STOCK FOR TRANSFER OF OWNER IF LOCATION IS NON PALLET
+        /// </summary>
+        public short? TransferAutosplitrcv
+        {
+            get { return _fTransferAutosplitrcv; }
+            set
+            {
+                if (_fTransferAutosplitrcv != value)
+                {
+                    Modify();
+                    _fTransferAutosplitrcv = value;
                 }
             }
         }
@@ -2219,6 +2309,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Homestcloc = Homestcloc,
                     Ifcocode = Ifcocode,
                     Incountry = Incountry,
+                    Incrementalpicklist = Incrementalpicklist,
                     Intransitbayrecno = Intransitbayrecno,
                     Iscommssite = Iscommssite,
                     Isdirstcloc = Isdirstcloc,
@@ -2247,10 +2338,12 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Prdelnote = Prdelnote,
                     Prpicklst = Prpicklst,
                     Restrictpalstostocloc = Restrictpalstostocloc,
+                    Splitdlvisnewdlv = Splitdlvisnewdlv,
                     Stclocdesc = Stclocdesc,
                     Stclocfifo = Stclocfifo,
                     Stoclocananumber = Stoclocananumber,
                     Suppressoverallocmsg = Suppressoverallocmsg,
+                    TransferAutosplitrcv = TransferAutosplitrcv,
                     Transhipbayrecno = Transhipbayrecno,
                     TshipSplitatnew = TshipSplitatnew,
                     Usealternateproddescs = Usealternateproddescs,
@@ -2302,6 +2395,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  HOMESTCLOC = "HOMESTCLOC";
             public const string  IFCOCODE = "IFCOCODE";
             public const string  INCOUNTRY = "INCOUNTRY";
+            public const string  INCREMENTALPICKLIST = "INCREMENTALPICKLIST";
             public const string  INTRANSITBAYRECNO = "INTRANSITBAYRECNO";
             public const string  ISCOMMSSITE = "ISCOMMSSITE";
             public const string  ISDIRSTCLOC = "ISDIRSTCLOC";
@@ -2330,10 +2424,12 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  PRDELNOTE = "PRDELNOTE";
             public const string  PRPICKLST = "PRPICKLST";
             public const string  RESTRICTPALSTOSTOCLOC = "RESTRICTPALSTOSTOCLOC";
+            public const string  SPLITDLVISNEWDLV = "SPLITDLVISNEWDLV";
             public const string  STCLOCDESC = "STCLOCDESC";
             public const string  STCLOCFIFO = "STCLOCFIFO";
             public const string  STOCLOCANANUMBER = "STOCLOCANANUMBER";
             public const string  SUPPRESSOVERALLOCMSG = "SUPPRESSOVERALLOCMSG";
+            public const string  TRANSFER_AUTOSPLITRCV = "TRANSFER_AUTOSPLITRCV";
             public const string  TRANSHIPBAYRECNO = "TRANSHIPBAYRECNO";
             public const string  TSHIP_SPLITATNEW = "TSHIP_SPLITATNEW";
             public const string  USEALTERNATEPRODDESCS = "USEALTERNATEPRODDESCS";

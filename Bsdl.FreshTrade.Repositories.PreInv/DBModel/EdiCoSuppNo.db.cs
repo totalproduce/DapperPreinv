@@ -434,6 +434,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Cstprodrequired),
+         "CSTPRODREQUIRED", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(EdiCoSuppNo)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Discountcondition),
          "DISCOUNTCONDITION", // columnName
          false,                    //isKey
@@ -1311,6 +1325,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Ordnoatlinelevel),
+         "ORDNOATLINELEVEL", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  1, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(EdiCoSuppNo)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <EdiCoSuppNo>.GetProperty(x => x.Palletlabelprtnm),
          "PALLETLABELPRTNM", // columnName
          false,                    //isKey
@@ -1584,20 +1612,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ,
          typeof(EdiCoSuppNo)
          ));
-         
-         result.Add(new EntityPropDef(
-         PropertyHelper<EdiCoSuppNo>.GetProperty(x => x.CstProdRequired),
-         "CstProdRequired", // columnName
-         false,                    //isKey
-         true, //isNullable
-         "",                       //refEntityName
-         null,                     //PropertyInfo keyPropInfo
-         0,       // int size   
-                  1, // int? prec
-                           0  // int? Scale
-         ,
-         typeof(EdiCoSuppNo)
-         ));  
          return result; 
        }
 
@@ -1994,6 +2008,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                 {
                     Modify();
                     _fCrossdockupload = value;
+                }
+            }
+        }
+
+        private short? _fCstprodrequired;
+        public short? Cstprodrequired
+        {
+            get { return _fCstprodrequired; }
+            set
+            {
+                if (_fCstprodrequired != value)
+                {
+                    Modify();
+                    _fCstprodrequired = value;
                 }
             }
         }
@@ -2838,6 +2866,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private short? _fOrdnoatlinelevel;
+        public short? Ordnoatlinelevel
+        {
+            get { return _fOrdnoatlinelevel; }
+            set
+            {
+                if (_fOrdnoatlinelevel != value)
+                {
+                    Modify();
+                    _fOrdnoatlinelevel = value;
+                }
+            }
+        }
+
         private string _fPalletlabelprtnm;
         public string Palletlabelprtnm
         {
@@ -3104,20 +3146,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
-        private short? _fCstProdRequired;
-        public short? CstProdRequired
-        {
-            get { return _fCstProdRequired; }
-            set
-            {
-                if (_fCstProdRequired != value)
-                {
-                    Modify();
-                    _fCstProdRequired = value;
-                }
-            }
-        }
-
         public override EdiCoSuppNoKey Key
         {
             get
@@ -3168,6 +3196,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Caselabelprtor = Caselabelprtor,
                     Combinedeliveries = Combinedeliveries,
                     Crossdockupload = Crossdockupload,
+                    Cstprodrequired = Cstprodrequired,
                     Discountcondition = Discountcondition,
                     Duplicateorders = Duplicateorders,
                     Edidbtcdtfileext = Edidbtcdtfileext,
@@ -3228,6 +3257,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Orderbydlvdate = Orderbydlvdate,
                     Ordernolength = Ordernolength,
                     Ordernostartposition = Ordernostartposition,
+                    Ordnoatlinelevel = Ordnoatlinelevel,
                     Palletlabelprtnm = Palletlabelprtnm,
                     Palletlabelprtor = Palletlabelprtor,
                     Paymentmethod = Paymentmethod,
@@ -3247,7 +3277,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Usetradedunitinild = Usetradedunitinild,
                     Vatnbrinfreeway = Vatnbrinfreeway,
                     Writeweeklyorders = Writeweeklyorders,
-                    CstProdRequired = CstProdRequired
                 };
 
             return obj;
@@ -3284,6 +3313,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  CASELABELPRTOR = "CASELABELPRTOR";
             public const string  COMBINEDELIVERIES = "COMBINEDELIVERIES";
             public const string  CROSSDOCKUPLOAD = "CROSSDOCKUPLOAD";
+            public const string  CSTPRODREQUIRED = "CSTPRODREQUIRED";
             public const string  DISCOUNTCONDITION = "DISCOUNTCONDITION";
             public const string  DUPLICATEORDERS = "DUPLICATEORDERS";
             public const string  EDIDBTCDTFILEEXT = "EDIDBTCDTFILEEXT";
@@ -3344,6 +3374,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  ORDERBYDLVDATE = "ORDERBYDLVDATE";
             public const string  ORDERNOLENGTH = "ORDERNOLENGTH";
             public const string  ORDERNOSTARTPOSITION = "ORDERNOSTARTPOSITION";
+            public const string  ORDNOATLINELEVEL = "ORDNOATLINELEVEL";
             public const string  PALLETLABELPRTNM = "PALLETLABELPRTNM";
             public const string  PALLETLABELPRTOR = "PALLETLABELPRTOR";
             public const string  PAYMENTMETHOD = "PAYMENTMETHOD";
@@ -3363,7 +3394,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  USETRADEDUNITINILD = "USETRADEDUNITINILD";
             public const string  VATNBRINFREEWAY = "VATNBRINFREEWAY";
             public const string  WRITEWEEKLYORDERS = "WRITEWEEKLYORDERS";
-            public const string CSTPRODREQUIRED = "CSTPRODREQUIRED";
  // ReSharper restore InconsistentNaming
         }
 

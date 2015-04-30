@@ -80,6 +80,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public short? Ichhasaccrual {get;set;}
+
+    
+       [DataMember]              
         public short? Ichisanauto {get;set;}
 
     
@@ -157,6 +161,7 @@ result.Ichrecno = item.Ichrecno;
   result.Ichchngdbyuser = item.Ichchngdbyuser;
   result.Ichcostamt = item.Ichcostamt;
   result.Ichdistype = item.Ichdistype;
+  result.Ichhasaccrual = item.Ichhasaccrual;
   result.Ichisanauto = item.Ichisanauto;
   result.Ichistrecno = item.Ichistrecno;
   result.Ichonpayment = item.Ichonpayment;
@@ -194,6 +199,7 @@ Ichchgfor = item.Ichchgfor,
 Ichchngdbyuser = item.Ichchngdbyuser,
 Ichcostamt = item.Ichcostamt,
 Ichdistype = item.Ichdistype,
+Ichhasaccrual = item.Ichhasaccrual,
 Ichisanauto = item.Ichisanauto,
 Ichistrecno = item.Ichistrecno,
 Ichonpayment = item.Ichonpayment,
