@@ -189,7 +189,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                           /*Other settings*/
                            FormName = settingList[settingsKeyFormName],
                            FormNo = int.Parse(settingList[settingsKeyFormNo]),
-                           SalesOfficeNeedLock = salOffLock
+                           SalesOfficeNeedLock = salOffLock,
+                           LogUpdateResults = logUpdateResults
                        };
         }
     }
