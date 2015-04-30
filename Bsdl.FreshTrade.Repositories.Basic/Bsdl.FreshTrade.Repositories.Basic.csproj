@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A804F48A-006F-4F3A-8B12-8AA12E76DAF5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Repositories.Basic</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Repositories.Basic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateDBModels.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CreateDBModels.tt</DependentUpon>
+    </None>
+    <None Include="CreateDBModels1.cs">
+      <DependentUpon>CreateDBModels.ttinclude</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <Compile Include="CurrencyRateRep\CurrencyRateRepository.cs" />
+    <Compile Include="DapperRepositoryBase.cs" />
+    <Compile Include="DBModel\AccCurrDesc.db.cs" />
+    <Compile Include="DBModel\Company.db.cs" />
+    <Compile Include="DBModel\CurrencyRate.db.cs" />
+    <Compile Include="DBModel\Logons.db.cs" />
+    <Compile Include="DBModel\LogToSalOff.db.cs" />
+    <Compile Include="DBModel\SalesPerson.db.cs" />
+    <Compile Include="DBModel\WizSysPref.db.cs" />
+    <Compile Include="Dictionaries\DapperCompanyDictionaryRepository.cs" />
+    <Compile Include="Dictionaries\DapperCurrencyDictionaryRepository.cs" />
+    <Compile Include="DBModel\BaseDbModel.cs" />
+    <Compile Include="Dictionaries\ProductTranslationRepository.cs" />
+    <Compile Include="Dictionaries\SalesPersonRepository.cs" />
+    <Compile Include="ErrorLog\DapperErrorLogRepository.cs" />
+    <Compile Include="Persistance\EntityPropDef.cs" />
+    <Compile Include="Persistance\GenSqlScriptHelper.cs" />
+    <Compile Include="Persistance\SqlHelper.cs" />
+    <Compile Include="Persistance\SqlParam.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Settings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SysPreferencesRep\SystemPreferenceRepository.cs" />
+    <Compile Include="UserRepository\UserToSalesOfficeRepository.cs" />
+    <Compile Include="Utilities\Cache\CacheManager.cs" />
+    <Compile Include="Utilities\Cache\CacheManagerFactory.cs" />
+    <Compile Include="Utilities\Cache\PerRequestCacheManager.cs" />
+    <Compile Include="Utilities\DatabaseConnection\UnitOfWork.cs" />
+    <Compile Include="UserRepository\UserRepository.cs" />
+    <Compile Include="Utilities\DatabaseConnection\DatabaseConnectionPool.cs" />
+    <Compile Include="Utilities\DatabaseConnection\DatabaseConnectionSelector.cs" />
+    <Compile Include="Utilities\DatabaseConnection\Encryption.cs" />
+    <Compile Include="Utilities\DatabaseConnection\OracleConnectionExtention.cs" />
+    <Compile Include="Utilities\DatabaseConnection\OracleDatabaseConnectionConfiguration.cs" />
+    <Compile Include="Utilities\Interfaces\ICacheManager.cs" />
+    <Compile Include="Utilities\Interfaces\ICacheManagerFactory.cs" />
+    <Compile Include="Utilities\Interfaces\IDatabaseConnectionConfiguration.cs" />
+    <Compile Include="Utilities\Interfaces\IDatabaseConnectionPool.cs" />
+    <Compile Include="Utilities\Interfaces\IDatabaseConnectionSelector.cs" />
+    <Compile Include="Utilities\Interfaces\IUnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic.Interfaces\Bsdl.FreshTrade.Repositories.Basic.Interfaces.csproj">
+      <Project>{11390DF6-D8F3-41E9-BCB4-85B8509EEB5B}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Server.Base\Bsdl.FreshTrade.Server.Basic.csproj">
+      <Project>{ECDF022D-E47C-408B-8249-5DE1278FD6BA}</Project>
+      <Name>Bsdl.FreshTrade.Server.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DapperNET40.Modified\DapperNET40.Modified.csproj">
+      <Project>{4286FA07-C85B-4CD2-9BD8-12799DF19829}</Project>
+      <Name>DapperNET40.Modified</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateDBModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateDBModels.cs</LastGenOutput>
+    </None>
+    <None Include="CreateDBModels.ttinclude">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateDBModels1.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Settings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Settings.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
