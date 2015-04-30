@@ -127,6 +127,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public short? Cstprodrequired {get;set;}
+
+    
+       [DataMember]              
         public string Discountcondition {get;set;}
 
     
@@ -367,6 +371,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
     
        [DataMember]              
+        public short? Ordnoatlinelevel {get;set;}
+
+    
+       [DataMember]              
         public string Palletlabelprtnm {get;set;}
 
     
@@ -472,6 +480,7 @@ result.Coglbno = item.Coglbno;
   result.Caselabelprtor = item.Caselabelprtor;
   result.Combinedeliveries = item.Combinedeliveries;
   result.Crossdockupload = item.Crossdockupload;
+  result.Cstprodrequired = item.Cstprodrequired;
   result.Discountcondition = item.Discountcondition;
   result.Duplicateorders = item.Duplicateorders;
   result.Edidbtcdtfileext = item.Edidbtcdtfileext;
@@ -532,6 +541,7 @@ result.Coglbno = item.Coglbno;
   result.Orderbydlvdate = item.Orderbydlvdate;
   result.Ordernolength = item.Ordernolength;
   result.Ordernostartposition = item.Ordernostartposition;
+  result.Ordnoatlinelevel = item.Ordnoatlinelevel;
   result.Palletlabelprtnm = item.Palletlabelprtnm;
   result.Palletlabelprtor = item.Palletlabelprtor;
   result.Paymentmethod = item.Paymentmethod;
@@ -585,6 +595,7 @@ Caselabelprtnm = item.Caselabelprtnm,
 Caselabelprtor = item.Caselabelprtor,
 Combinedeliveries = item.Combinedeliveries,
 Crossdockupload = item.Crossdockupload,
+Cstprodrequired = item.Cstprodrequired,
 Discountcondition = item.Discountcondition,
 Duplicateorders = item.Duplicateorders,
 Edidbtcdtfileext = item.Edidbtcdtfileext,
@@ -645,6 +656,7 @@ Nxtpredlvtransid = item.Nxtpredlvtransid,
 Orderbydlvdate = item.Orderbydlvdate,
 Ordernolength = item.Ordernolength,
 Ordernostartposition = item.Ordernostartposition,
+Ordnoatlinelevel = item.Ordnoatlinelevel,
 Palletlabelprtnm = item.Palletlabelprtnm,
 Palletlabelprtor = item.Palletlabelprtor,
 Paymentmethod = item.Paymentmethod,

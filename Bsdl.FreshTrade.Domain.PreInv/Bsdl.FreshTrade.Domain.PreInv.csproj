@@ -57,6 +57,7 @@
     <Compile Include="Entities\DTODeliveryDetail.cs" />
     <Compile Include="Entities\DTODeliveryHead.cs" />
     <Compile Include="Entities\DTODeliveryPrice.cs" />
+    <Compile Include="Entities\DTODeliveryPriceCreditRef.cs" />
     <Compile Include="Entities\DTODeliveryPriceToCreditNote.cs" />
     <Compile Include="Entities\DTODeliveryToCreditNoteByItemStock.cs" />
     <Compile Include="Entities\DTODeliveryToItemStock.cs" />

@@ -68,6 +68,10 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public short? Dprmanwgtchg { get; set; }
         public bool Dprisprcccdtdbt { get; set; }
         public string Dprpreas { get; set; }
+
+        public int? DeliveryPriceCreditRefId { get; set; }
+
+        public DTODeliveryPriceCreditRef DeliveryPriceCreditRef { get; set; }
         
         
     }

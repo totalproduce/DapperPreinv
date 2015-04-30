@@ -20,6 +20,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
         public int Ppccltrecno {get; set;}
     
        [DataMember]              
+        public short? Cltprdactive {get;set;}
+
+    
+       [DataMember]              
         public string Ppcclass {get;set;}
 
     
@@ -90,6 +94,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
 
 /*
 result.Ppccltrecno = item.Ppccltrecno;
+  result.Cltprdactive = item.Cltprdactive;
   result.Ppcclass = item.Ppcclass;
   result.Ppcclientprdno = item.Ppcclientprdno;
   result.Ppcconsumerunit = item.Ppcconsumerunit;
@@ -114,6 +119,7 @@ result.Ppccltrecno = item.Ppccltrecno;
 
 /*
 Ppccltrecno = item.Ppccltrecno,
+Cltprdactive = item.Cltprdactive,
 Ppcclass = item.Ppcclass,
 Ppcclientprdno = item.Ppcclientprdno,
 Ppcconsumerunit = item.Ppcconsumerunit,
