@@ -5,6 +5,7 @@ using Bsdl.FreshTrade.Server.Basic.Interfaces;
 using Bsdl.FreshTrade.Services.Basic;
 using Bsdl.FreshTrade.Services.ReportingDX.Interfaces;
 using Bsdl.FreshTrade.Services.ReportingDX.Utilities;
+using DevExpress.DataAccess.ObjectBinding;
 using DevExpress.XtraReports.UI;
 
 namespace Bsdl.FreshTrade.Services.ReportingDX
@@ -43,6 +44,7 @@ namespace Bsdl.FreshTrade.Services.ReportingDX
             var report = XtraReport.FromFile(templatePath, true);
 
             report.DataSource = new List<object> {data};
+
             report.CreateDocument();
             using (var buff = new MemoryStream())
             {

@@ -15,7 +15,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Mappings
 
         protected override void Configure()
         {
-            Mapper.CreateMap<DTOInvExtractHead, PreInvExtractHeader>();
+            Mapper.CreateMap<DTOInvExtractHead, PreInvExtractHeader>()
+                .ForMember(dest => dest.SalesOfficeId, opt => opt.MapFrom(src => src.SalesOfficeNo));
             Mapper.CreateMap<WideErrorReportItem, PreInvExtractionErrorsItem>()
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => 
                     new PreInvErrorType
