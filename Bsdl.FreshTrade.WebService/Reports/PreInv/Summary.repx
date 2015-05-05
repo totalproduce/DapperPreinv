@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ScriptsSource="&#xD;&#xA;private void Rebate_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) { e.Value = (decimal)e.Row.GetType().GetProperty(&quot;OffInvRbt&quot;).GetValue(e.Row, null) + (decimal)e.Row.GetType().GetProperty(&quot;OffInvOnPay&quot;).GetValue(e.Row, null);}&#xD;&#xA;" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
+<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
   <Bands>
     <Item1 Ref="2" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" HeightF="0" />
     <Item2 Ref="3" Name="TopMargin" ControlType="TopMarginBand" Dpi="254" Padding="0,0,0,0,254" TextAlignment="TopLeft" HeightF="180" />
@@ -355,8 +355,6 @@
   </Bands>
   <CalculatedFields>
     <Item1 Ref="183" Name="SalesOffice" FieldType="String" Expression="Trim([ExtractHeader.SalesOfficeName])+' ('+[ExtractHeader.SalesOfficeId]+')'" />
-    <Item2 Ref="184" Name="Rebate" FieldType="Decimal" Expression="[OffInvOnPay] + [OffInvRbt]" DataMember="InvTot">
-      <Scripts Ref="185" OnGetValue="Rebate_GetValue" />
-    </Item2>
+    <Item2 Ref="184" Name="Rebate" FieldType="Decimal" Expression="[OffInvOnPay] + [OffInvRbt]" DataMember="InvTot" />
   </CalculatedFields>
 </XtraReportsLayoutSerializer>
