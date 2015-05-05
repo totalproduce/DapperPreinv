@@ -183,7 +183,7 @@
                     </Item8>
                     <Item9 Ref="93" Name="xrTableCell20" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
                       <DataBindings>
-                        <Item1 Ref="94" PropertyName="Text" DataMember="InvTotList.InvoiceTotal" />
+                        <Item1 Ref="94" PropertyName="Text" DataMember="InvTotList.InvTot.InvoiceTotal" />
                       </DataBindings>
                       <StylePriority Ref="95" UseTextAlignment="false" />
                       <Summary Ref="96" FormatString="{0:n}" Running="Group" />
@@ -516,7 +516,7 @@
                 </Item8>
                 <Item9 Ref="264" Name="xrTableCell28" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
                   <DataBindings>
-                    <Item1 Ref="265" PropertyName="Text" DataMember="InvTotList.InvoiceTotal" />
+                    <Item1 Ref="265" PropertyName="Text" DataMember="InvTotList.InvTot.InvoiceTotal" />
                   </DataBindings>
                   <StylePriority Ref="266" UseTextAlignment="false" />
                   <Summary Ref="267" FormatString="{0:n}" Running="Report" />
