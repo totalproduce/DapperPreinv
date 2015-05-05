@@ -33,6 +33,8 @@ namespace Bsdl.FreshTrade.Domain.PreInv.WideObjects
         public decimal RawHandCommAmt { get; set; }
         public decimal RawVatOnChgs { get; set; }
         public decimal Rebate { get; set; }
+        public decimal OffInvRbt { get; set; }
+        public decimal OffInvOnPay { get; set; }
         public decimal InvoiceTotal { get; set; }
         public string CurDesc { get; set; }
     }
