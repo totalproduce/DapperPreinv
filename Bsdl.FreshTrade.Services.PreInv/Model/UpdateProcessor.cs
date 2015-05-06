@@ -2147,7 +2147,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
                 ProgressChanged(100);
-                _unitOfWorkCurrent.Commit();
+                if (_systemPreferences.RollbackUpdateResults)
+                {
+                    _unitOfWorkCurrent.Rollback();
+                }
+                else
+                {
+                    _unitOfWorkCurrent.Commit();
+                }
                 return PreInvUpdateStatusType.OK;
             }
             catch (Exception)
@@ -2176,8 +2183,34 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         private void LogUpdateResults(DTOUpdateInfo updateInfo)
         {
-            _logger.Fatal("Here comes JSON!");
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.AccTrnFilAdditions
+
+            _logger.Debug("Here comes JSON!");
+            _logger.Debug("Counts:");
+            _logger.Debug(JsonConvert.SerializeObject(new
+            {
+                AccAlloc = updateInfo.AccAlloc.Count,
+                AccTrnFilAdditions = updateInfo.AccTrnFilAdditions.Count,
+                AcciteAdditions = updateInfo.AcciteAdditions.Count,
+                AccVatAdditions = updateInfo.AccVatAdditions.Count,
+                AccReChgAdditions = updateInfo.AccReChgAdditions.Count,
+                AccAllValAdditions = updateInfo.AccAllValAdditions.Count,
+                ExpChaAdditions = updateInfo.ExpChaAdditions.Count,
+                BatchDetAdditions = updateInfo.BatchDetAdditions.Count,
+                BatchAdditions = updateInfo.BatchAdditions.Count,
+                IchDiscTypAdditions = updateInfo.IchDiscTypAdditions.Count,
+                IteChgAdditions = updateInfo.IteChgAdditions.Count,
+                AuditRecordAdditions = updateInfo.AuditRecordAdditions.Count,
+                DelAuditRecordAdditions = updateInfo.DelAuditRecordAdditions.Count,
+                DeliveryHeadUpdates = updateInfo.DeliveryHeadUpdates.Count,
+                DeliveryDetailUpdates = updateInfo.DeliveryDetailUpdates.Count,
+                DeliveryPriceUpdates = updateInfo.DeliveryPriceUpdates.Count,
+                AccTrnFilUpdates = updateInfo.AccTrnFilUpdates.Count,
+                OrderCleanAccountClassID = updateInfo.OrderCleanAccountClassID.Count,
+                IteChgDeletions = updateInfo.IteChgDeletions.Count,
+            }, Formatting.Indented));
+
+            _logger.Debug("AccTrnFilAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.AccTrnFilAdditions
                 .Select(x => new
                 {
                     x.AtrAmount,
@@ -2204,7 +2237,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.Clrddate
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.AcciteAdditions
+
+            _logger.Debug("AcciteAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.AcciteAdditions
                 .Select(x => new
                 {
                     x.AitAmount,
@@ -2215,13 +2250,17 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.AitPstRecNo
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.BatchDetAdditions
+
+            _logger.Debug("BatchDetAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.BatchDetAdditions
                 .Select(x => new
                 {
                     x.BdtCurTotal
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.BatchAdditions
+
+            _logger.Debug("BatchAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.BatchAdditions
                 .Select(x => new
                 {
                     x.BatchCutOffDate,
@@ -2239,7 +2278,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.Batchtypeno
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.DeliveryHeadUpdates
+
+            _logger.Debug("DeliveryHeadUpdates:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.DeliveryHeadUpdates
                 .Select(x => x.New)
                 .Select(x => new
                 {
@@ -2261,7 +2302,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.StockLocationId
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.DeliveryDetailUpdates
+
+            _logger.Debug("DeliveryDetailUpdates:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.DeliveryDetailUpdates
                 .Select(x => x.New)
                 .Select(x => new
                 {
@@ -2275,7 +2318,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.DeliveryStatus
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo.DeliveryPriceUpdates
+
+            _logger.Debug("DeliveryPriceUpdates:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.DeliveryPriceUpdates
                 .Select(x => x.New)
                 .Select(x => new
                 {
@@ -2309,8 +2354,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.Dprpreas
                 })
                 .ToArray(), Formatting.Indented));
-            _logger.Fatal("orderIds");
-            _logger.Fatal(JsonConvert.SerializeObject(updateInfo
+
+            _logger.Debug("OrderCleanAccountClassID:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo
                 .OrderCleanAccountClassID.Select(x => x.Id)
                 .ToArray(), Formatting.Indented));
         }

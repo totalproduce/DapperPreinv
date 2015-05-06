@@ -20,6 +20,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         private const string LockSalesOffParamName = "PreInvLockSalesOffice";
         private const string LogUpdateResultsParamName = "LogUpdateResults";
+        private const string RollbackUpdateResultsParamName = "RollbackUpdateResults";
 
         [SysPref(Name = "ALTERNATEGROUPS")]
         public bool UseAlternativeProductGroups { get; set; } //StringToLogical(dynSysPrefs["ALTERNATEGROUPS"]) ; doug 29/01/09
@@ -81,6 +82,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         public bool SalesOfficeNeedLock { get; set; }
         public bool LogUpdateResults { get; set; }
+        public bool RollbackUpdateResults { get; set; }
 
         public static List<string> GetSettingNames()
         {
@@ -130,6 +132,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             bool logUpdateResults;
             if (!bool.TryParse(ConfigurationManager.AppSettings[LogUpdateResultsParamName], out logUpdateResults))
                 logUpdateResults = false;
+
+            bool rollbackUpdateResults;
+            if (!bool.TryParse(ConfigurationManager.AppSettings[RollbackUpdateResultsParamName], out rollbackUpdateResults))
+                rollbackUpdateResults = false;
 
             return new SystemPreferences
                        {
@@ -190,7 +196,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                            FormName = settingList[settingsKeyFormName],
                            FormNo = int.Parse(settingList[settingsKeyFormNo]),
                            SalesOfficeNeedLock = salOffLock,
-                           LogUpdateResults = logUpdateResults
+                           LogUpdateResults = logUpdateResults,
+                           RollbackUpdateResults = rollbackUpdateResults
                        };
         }
     }
