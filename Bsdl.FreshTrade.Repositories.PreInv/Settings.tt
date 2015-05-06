@@ -135,6 +135,10 @@
                       TABLE_NAME="DELPRICE",
                       CS_CLASS_NAME= "DelPrice"
                     }},
+            { "DELPRICE_CREDITREF", new DB_TABLE_INFO {
+                      TABLE_NAME="DELPRICE_CREDITREF",
+                      CS_CLASS_NAME= "DelPriceCreditRef"
+                    }},
             { "DLVTYPE", new DB_TABLE_INFO {
                       TABLE_NAME="DLVTYPE",
                       CS_CLASS_NAME= "Dlvtype"

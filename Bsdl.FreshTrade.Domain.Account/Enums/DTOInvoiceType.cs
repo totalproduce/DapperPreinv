@@ -14,4 +14,18 @@
         DeliveryNoteInvoice = 9,        // extract Delivery Note is Invoice.
         PerOrderNettOfRelCredits = 10   // extract Per Order Nett of Rel Credits ; doug 30/10/08  -7788
     }
+
+    public static class DTOInvoiceTypeExtensions
+    {
+        public static bool IsNettOfCredit(this DTOInvoiceType type)
+        {
+            return
+                (type == DTOInvoiceType.PerDeliveryNettNoSplit) ||
+                (type == DTOInvoiceType.PerDeliveryNettAllowSplit) ||
+                (type == DTOInvoiceType.CombinedDeliveriesNett) ||
+                (type == DTOInvoiceType.CombinedOrdersNett) ||
+                (type == DTOInvoiceType.PerOrderNettOfRelCredits);
+        }
+    }
+
 }

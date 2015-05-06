@@ -370,9 +370,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
                     );
             }
 
+            var extractHead =
+                Mapper.Map<PreInvExtractHeader>(
+                    UnitOfWorkCurrent.GetRepository<IInvExtractHedRepository>()
+                        .GetInvExtractHeadByExtractionSessionId(extractSessionID));
+
             return new
             {
-                ExtractHeader = Mapper.Map<PreInvExtractHeader>(UnitOfWorkCurrent.GetRepository<IInvExtractHedRepository>().GetInvExtractHeadByExtractionSessionId(extractSessionID)),
+                ExtractHeader = extractHead,
                 InvTotList = resTotList
             };
         }
