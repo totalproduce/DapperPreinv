@@ -85,6 +85,7 @@
     <Column Member="Homestcloc" Name="HOMESTCLOC" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Ifcocode" Name="IFCOCODE" IsNullable="true" Size="13" />
     <Column Member="Incountry" Name="INCOUNTRY" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Incrementalpicklist" Name="INCREMENTALPICKLIST" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Intransitbayrecno" Name="INTRANSITBAYRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Iscommssite" Name="ISCOMMSSITE" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Isdirstcloc" Name="ISDIRSTCLOC" IsNullable="true" Precision="5" Scale="0" />
@@ -113,10 +114,12 @@
     <Column Member="Prdelnote" Name="PRDELNOTE" IsNullable="true" Size="1" />
     <Column Member="Prpicklst" Name="PRPICKLST" IsNullable="true" Size="1" />
     <Column Member="Restrictpalstostocloc" Name="RESTRICTPALSTOSTOCLOC" IsNullable="true" Precision="1" Scale="0" />
+    <Column Member="Splitdlvisnewdlv" Name="SPLITDLVISNEWDLV" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Stclocdesc" Name="STCLOCDESC" IsNullable="true" Size="20" />
     <Column Member="Stclocfifo" Name="STCLOCFIFO" Precision="1" Scale="0" />
     <Column Member="Stoclocananumber" Name="STOCLOCANANUMBER" IsNullable="true" Size="13" />
     <Column Member="Suppressoverallocmsg" Name="SUPPRESSOVERALLOCMSG" IsNullable="true" Precision="1" Scale="0" />
+    <Column Member="TransferAutosplitrcv" Name="TRANSFER_AUTOSPLITRCV" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Transhipbayrecno" Name="TRANSHIPBAYRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="TshipSplitatnew" Name="TSHIP_SPLITATNEW" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Usealternateproddescs" Name="USEALTERNATEPRODDESCS" IsNullable="true" Precision="1" Scale="0" />
@@ -524,93 +527,6 @@
     <Column Member="Vatvatrate2" Name="VATVATRATE2" IsNullable="true" Precision="126" />
     <Column Member="Vatvearecno" Name="VATVEARECNO" IsNullable="true" Precision="10" Scale="0" />
   </Entity>
-  <Entity Id="INVPRT1">
-    <Table Name="PREINVTEMP_INVPRT1" />
-    <Column Member="Alloctoinvrecno" Name="ALLOCTOINVRECNO" IsNullable="true" Precision="126" />
-    <Column Member="Allowonelinecancel" Name="ALLOWONELINECANCEL" IsNullable="true" Precision="1" Scale="0" />
-    <Column Member="Allpcode1" Name="ALLPCODE1" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Allpcode2" Name="ALLPCODE2" IsNullable="true" Size="12" />
-    <Column Member="Allpcode3" Name="ALLPCODE3" IsNullable="true" Precision="1" Scale="0" />
-    <Column Member="Allpcode4" Name="ALLPCODE4" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Allpcode5" Name="ALLPCODE5" IsNullable="true" Precision="1" Scale="0" />
-    <Column Member="Allpcode6" Name="ALLPCODE6" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Allpdesc1" Name="ALLPDESC1" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Allpdesc2" Name="ALLPDESC2" IsNullable="true" Size="16" />
-    <Column Member="Allpdesc3" Name="ALLPDESC3" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Allpdesc4" Name="ALLPDESC4" IsNullable="true" Size="1" />
-    <Column Member="Allpdesc5" Name="ALLPDESC5" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Allpdesc6" Name="ALLPDESC6" IsNullable="true" Precision="126" />
-    <Column Member="Alternateproddesc" Name="ALTERNATEPRODDESC" IsNullable="true" Size="50" />
-    <Column Member="Altproddescreason" Name="ALTPRODDESCREASON" IsNullable="true" Size="14" />
-    <Column Member="Basecommamt" Name="BASECOMMAMT" IsNullable="true" Precision="126" />
-    <Column Member="Basegds" Name="BASEGDS" IsNullable="true" Precision="126" />
-    <Column Member="Basehandamt" Name="BASEHANDAMT" IsNullable="true" Precision="126" />
-    <Column Member="Baseoffinvrbt" Name="BASEOFFINVRBT" IsNullable="true" Precision="126" />
-    <Column Member="Baseoffonpay" Name="BASEOFFONPAY" IsNullable="true" Precision="126" />
-    <Column Member="Baseoninvdscnt" Name="BASEONINVDSCNT" IsNullable="true" Precision="126" />
-    <Column Member="Basevat" Name="BASEVAT" IsNullable="true" Precision="126" />
-    <Column Member="Basevatonchgs" Name="BASEVATONCHGS" IsNullable="true" Precision="126" />
-    <Column Member="Bio" Name="BIO" IsNullable="true" Precision="126" />
-    <Column Member="Cancelledline" Name="CANCELLEDLINE" IsNullable="true" Precision="1" Scale="0" />
-    <Column Member="Commperc" Name="COMMPERC" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delcdsrefno" Name="DELCDSREFNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delcltprdno" Name="DELCLTPRDNO" IsNullable="true" Size="255" />
-    <Column Member="Delinvstatus" Name="DELINVSTATUS" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delprcbywgt" Name="DELPRCBYWGT" IsNullable="true" Precision="1" Scale="0" />
-    <Column Member="Delprcprdno" Name="DELPRCPRDNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delprcqty" Name="DELPRCQTY" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delprice" Name="DELPRICE" IsNullable="true" Precision="126" />
-    <Column Member="Delqty" Name="DELQTY" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delrecno" Name="DELRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Delweight" Name="DELWEIGHT" IsNullable="true" Precision="126" />
-    <Column Member="Detallocno" Name="DETALLOCNO" IsNullable="true" Size="15" />
-    <Column Member="Dlvinvoiceno" Name="DLVINVOICENO" IsNullable="true" Size="40" />
-    <Column Member="Dlvordno" Name="DLVORDNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Dlvqtynum" Name="DLVQTYNUM" IsNullable="true" Precision="126" />
-    <Column Member="Dprrecno" Name="DPRRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Eurocommamt" Name="EUROCOMMAMT" IsNullable="true" Precision="126" />
-    <Column Member="Eurogds" Name="EUROGDS" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Eurohandamt" Name="EUROHANDAMT" IsNullable="true" Precision="126" />
-    <Column Member="Eurooffinvrbt" Name="EUROOFFINVRBT" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Eurooffonpay" Name="EUROOFFONPAY" IsNullable="true" Precision="126" />
-    <Column Member="Eurooninvdscnt" Name="EUROONINVDSCNT" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Eurovat" Name="EUROVAT" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Eurovatonchgs" Name="EUROVATONCHGS" IsNullable="true" Precision="126" />
-    <Column Member="Ext" Name="EXT" IsNullable="true" Precision="126" />
-    <Column Member="Goods" Name="GOODS" IsNullable="true" Size="40" />
-    <Column Member="Grosswgt" Name="GROSSWGT" IsNullable="true" Precision="126" />
-    <Column Member="Handrate" Name="HANDRATE" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Intrastatcode" Name="INTRASTATCODE" IsNullable="true" Precision="126" />
-    <Column Member="Mergeprdno" Name="MERGEPRDNO" IsNullable="true" Precision="126" />
-    <Column Member="Nettwgt" Name="NETTWGT" IsNullable="true" Precision="126" />
-    <Column Member="Offinvonpay" Name="OFFINVONPAY" IsNullable="true" Precision="126" />
-    <Column Member="Offinvrbt" Name="OFFINVRBT" IsNullable="true" Precision="126" />
-    <Column Member="Oninvdispcnt" Name="ONINVDISPCNT" IsNullable="true" Precision="126" />
-    <Column Member="Oninvdscnt" Name="ONINVDSCNT" IsNullable="true" Precision="126" />
-    <Column Member="Ppcno" Name="PPCNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Prcprdref" Name="PRCPRDREF" IsNullable="true" Size="255" />
-    <Column Member="Prddesc" Name="PRDDESC" IsNullable="true" Size="255" />
-    <Column Member="Prdglanl" Name="PRDGLANL" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Prdrecdesc" Name="PRDRECDESC" IsNullable="true" Size="255" />
-    <Column Member="Prgrefno" Name="PRGREFNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Prtqty" Name="PRTQTY" IsNullable="true" Precision="126" />
-    <Column Member="Rawcommamt" Name="RAWCOMMAMT" IsNullable="true" Precision="126" />
-    <Column Member="Rawhandamt" Name="RAWHANDAMT" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Rawvatonchgs" Name="RAWVATONCHGS" IsNullable="true" Precision="126" />
-    <Column Member="Recno" Name="RECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Stcrecno" Name="STCRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Tarewgt" Name="TAREWGT" IsNullable="true" Precision="126" />
-    <Column Member="Tradedunit" Name="TRADEDUNIT" IsNullable="true" Size="255" />
-    <Column Member="Unitcount" Name="UNITCOUNT" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Unitmeasure" Name="UNITMEASURE" IsNullable="true" Precision="126" />
-    <Column Member="Vat" Name="VAT" IsNullable="true" Precision="126" />
-    <Column Member="Vatcodechgs" Name="VATCODECHGS" IsNullable="true" Precision="126" />
-    <Column Member="Vatlnkrecno" Name="VATLNKRECNO" IsNullable="true" Precision="126" />
-    <Column Member="Vatratechgs" Name="VATRATECHGS" IsNullable="true" Precision="126" />
-    <Column Member="Vatrecno" Name="VATRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Vatvatrate" Name="VATVATRATE" IsNullable="true" Precision="126" />
-    <Column Member="Vatvearecno" Name="VATVEARECNO" IsNullable="true" Precision="10" Scale="0" />
-  </Entity>
   <Entity Id="INVPRT">
     <Table Name="PREINVTEMP_INVPRT" />
     <Column Member="Cancelleddlv" Name="CANCELLEDDLV" IsNullable="true" Precision="10" Scale="0" />
@@ -764,6 +680,7 @@
   <Entity Id="PrcCstInfo">
     <Table Name="PRCCSTINFO" />
     <Column Member="Ppccltrecno" Name="PPCCLTRECNO" IsPrimaryKey="true" Precision="10" Scale="0" />
+    <Column Member="Cltprdactive" Name="CLTPRDACTIVE" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Ppcclass" Name="PPCCLASS" IsNullable="true" Size="10" />
     <Column Member="Ppcclientprdno" Name="PPCCLIENTPRDNO" IsNullable="true" Size="16" />
     <Column Member="Ppcconsumerunit" Name="PPCCONSUMERUNIT" IsNullable="true" Precision="10" Scale="0" />
@@ -829,6 +746,7 @@
     <Column Member="Ichchngdbyuser" Name="ICHCHNGDBYUSER" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Ichcostamt" Name="ICHCOSTAMT" IsNullable="true" Precision="22" />
     <Column Member="Ichdistype" Name="ICHDISTYPE" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Ichhasaccrual" Name="ICHHASACCRUAL" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Ichisanauto" Name="ICHISANAUTO" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Ichistrecno" Name="ICHISTRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Ichonpayment" Name="ICHONPAYMENT" IsNullable="true" Precision="1" Scale="0" />
@@ -991,7 +909,7 @@
     <Column Member="Coglbno" Name="COGLBNO" IsPrimaryKey="true" Precision="5" Scale="0" />
     <Column Member="Hofcstcode" Name="HOFCSTCODE" IsPrimaryKey="true" Size="8" />
     <Column Member="Hofclarecno" Name="HOFCLARECNO" IsPrimaryKey="true" Precision="10" Scale="0" />
-    <Column Member="Invoiceno" Name="INVOICENO" IsPrimaryKey="true" Precision="10" Scale="0" />
+    <Column Member="Invoiceno" Name="INVOICENO" IsPrimaryKey="true" Size="12" />
     <Column Member="Dlvordno" Name="DLVORDNO" IsPrimaryKey="true" Precision="10" Scale="0" />
     <Column Member="Atrrecno" Name="ATRRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Clarecno" Name="CLARECNO" IsNullable="true" Precision="10" Scale="0" />
@@ -1007,7 +925,7 @@
     <Column Member="Invvatamt" Name="INVVATAMT" IsNullable="true" Precision="126" />
     <Column Member="Ordcstcode" Name="ORDCSTCODE" IsNullable="true" Size="8" />
     <Column Member="Orddate" Name="ORDDATE" IsNullable="true" />
-    <Column Member="Ordno" Name="ORDNO" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Ordno" Name="ORDNO" IsNullable="true" Size="12" />
     <Column Member="Ordref" Name="ORDREF" IsNullable="true" Size="15" />
     <Column Member="Porrecno" Name="PORRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Saloffno" Name="SALOFFNO" IsNullable="true" Precision="5" Scale="0" />
@@ -1093,6 +1011,13 @@
     <Column Member="Cdtdprrecno" Name="CDTDPRRECNO" IsPrimaryKey="true" Precision="10" Scale="0" />
     <Column Member="Orgdprrecno" Name="ORGDPRRECNO" IsNullable="true" Precision="10" Scale="0" />
   </Entity>
+  <Entity Id="DelPriceCreditRef">
+    <Table Name="DELPRICE_CREDITREF" />
+    <Column Member="Dprcdtrefno" Name="DPRCDTREFNO" IsPrimaryKey="true" Precision="10" Scale="0" />
+    <Column Member="Creditref" Name="CREDITREF" IsNullable="true" Size="20" />
+    <Column Member="Dlvordno" Name="DLVORDNO" Precision="10" Scale="0" />
+    <Column Member="Invstatus" Name="INVSTATUS" Precision="5" Scale="0" />
+  </Entity>
   <Entity Id="DelPrice">
     <Table Name="DELPRICE" />
     <Column Member="Dprrecno" Name="DPRRECNO" IsPrimaryKey="true" Precision="10" Scale="0" />
@@ -1119,6 +1044,7 @@
     <Column Member="Delvatrate2" Name="DELVATRATE2" IsNullable="true" Precision="126" />
     <Column Member="Delvatrecno" Name="DELVATRECNO" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Delvatvalue" Name="DELVATVALUE" IsNullable="true" Precision="126" />
+    <Column Member="Dprcdtrefno" Name="DPRCDTREFNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Dprcreationdate" Name="DPRCREATIONDATE" IsNullable="true" />
     <Column Member="Dprdelrecno" Name="DPRDELRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Dprisprcccdtdbt" Name="DPRISPRCCCDTDBT" IsNullable="true" Precision="1" Scale="0" />
@@ -1201,7 +1127,10 @@
     <Column Member="Detsyscalcpals" Name="DETSYSCALCPALS" IsNullable="true" Precision="126" />
     <Column Member="Dlvprtstat" Name="DLVPRTSTAT" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Edilineno" Name="EDILINENO" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Ppccltrecno" Name="PPCCLTRECNO" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Prllineno" Name="PRLLINENO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Prllinno" Name="PRLLINNO" IsNullable="true" Precision="10" Scale="0" />
+    <Column Member="Profileheadrecno" Name="PROFILEHEADRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Prtstat" Name="PRTSTAT" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Qtyper" Name="QTYPER" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Rndapportpals" Name="RNDAPPORTPALS" IsNullable="true" Precision="126" />
@@ -1228,7 +1157,6 @@
     <Column Member="Formno" Name="FORMNO" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Logonno" Name="LOGONNO" IsNullable="true" Precision="5" Scale="0" />
   </Entity>
-
   <Entity Id="EdiCoSuppNo">
     <Table Name="COSUPPNO" />
     <Column Member="Hocode" Name="HOCODE" IsPrimaryKey="true" Precision="10" Scale="0" />
@@ -1259,6 +1187,7 @@
     <Column Member="Caselabelprtor" Name="CASELABELPRTOR" IsNullable="true" Size="1" />
     <Column Member="Combinedeliveries" Name="COMBINEDELIVERIES" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Crossdockupload" Name="CROSSDOCKUPLOAD" IsNullable="true" Precision="1" Scale="0" />
+    <Column Member="Cstprodrequired" Name="CSTPRODREQUIRED" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Discountcondition" Name="DISCOUNTCONDITION" IsNullable="true" Size="100" />
     <Column Member="Duplicateorders" Name="DUPLICATEORDERS" IsNullable="true" Size="12" />
     <Column Member="Edidbtcdtfileext" Name="EDIDBTCDTFILEEXT" IsNullable="true" Size="3" />
@@ -1319,6 +1248,7 @@
     <Column Member="Orderbydlvdate" Name="ORDERBYDLVDATE" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Ordernolength" Name="ORDERNOLENGTH" IsNullable="true" Precision="5" Scale="0" />
     <Column Member="Ordernostartposition" Name="ORDERNOSTARTPOSITION" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Ordnoatlinelevel" Name="ORDNOATLINELEVEL" IsNullable="true" Precision="1" Scale="0" />
     <Column Member="Palletlabelprtnm" Name="PALLETLABELPRTNM" IsNullable="true" Size="20" />
     <Column Member="Palletlabelprtor" Name="PALLETLABELPRTOR" IsNullable="true" Size="1" />
     <Column Member="Paymentmethod" Name="PAYMENTMETHOD" IsNullable="true" Size="5" />
@@ -1370,6 +1300,7 @@
     <Column Member="Batchtaxdate" Name="BATCHTAXDATE" IsNullable="true" />
     <Column Member="Batchtimestamp" Name="BATCHTIMESTAMP" IsNullable="true" />
     <Column Member="Batchtypeno" Name="BATCHTYPENO" Precision="5" Scale="0" />
+    <Column Member="Interdeptprocessed" Name="INTERDEPTPROCESSED" Precision="1" Scale="0" />
   </Entity>
   <Entity Id="AuditRecord">
     <Table Name="AUDITRECORD" />
@@ -1403,7 +1334,7 @@
     <Column Member="Avagoods" Name="AVAGOODS" IsNullable="true" Precision="126" />
     <Column Member="Avaisrevcrdr" Name="AVAISREVCRDR" Precision="1" Scale="0" />
     <Column Member="Avarptdate" Name="AVARPTDATE" IsNullable="true" />
-    <Column Member="Avarptno" Name="AVARPTNO" IsNullable="true" Precision="5" Scale="0" />
+    <Column Member="Avarptno" Name="AVARPTNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Avavat" Name="AVAVAT" IsNullable="true" Precision="126" />
     <Column Member="Avavatrate" Name="AVAVATRATE" IsNullable="true" Precision="126" />
     <Column Member="Avaveano" Name="AVAVEANO" IsNullable="true" Precision="5" Scale="0" />

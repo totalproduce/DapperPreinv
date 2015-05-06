@@ -376,6 +376,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <DelPrice>.GetProperty(x => x.Dprcdtrefno),
+         "DPRCDTREFNO", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  10, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(DelPrice)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <DelPrice>.GetProperty(x => x.Dprcreationdate),
          "DPRCREATIONDATE", // columnName
          false,                    //isKey
@@ -817,6 +831,23 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private int? _fDprcdtrefno;
+        /// <summary>
+        /// The credit reference. Foreign Key - DELPRICE_CREDITREF
+        /// </summary>
+        public int? Dprcdtrefno
+        {
+            get { return _fDprcdtrefno; }
+            set
+            {
+                if (_fDprcdtrefno != value)
+                {
+                    Modify();
+                    _fDprcdtrefno = value;
+                }
+            }
+        }
+
         private DateTime? _fDprcreationdate;
         public DateTime? Dprcreationdate
         {
@@ -952,6 +983,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Delvatrate2 = Delvatrate2,
                     Delvatrecno = Delvatrecno,
                     Delvatvalue = Delvatvalue,
+                    Dprcdtrefno = Dprcdtrefno,
                     Dprcreationdate = Dprcreationdate,
                     Dprdelrecno = Dprdelrecno,
                     Dprisprcccdtdbt = Dprisprcccdtdbt,
@@ -991,6 +1023,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  DELVATRATE2 = "DELVATRATE2";
             public const string  DELVATRECNO = "DELVATRECNO";
             public const string  DELVATVALUE = "DELVATVALUE";
+            public const string  DPRCDTREFNO = "DPRCDTREFNO";
             public const string  DPRCREATIONDATE = "DPRCREATIONDATE";
             public const string  DPRDELRECNO = "DPRDELRECNO";
             public const string  DPRISPRCCCDTDBT = "DPRISPRCCCDTDBT";

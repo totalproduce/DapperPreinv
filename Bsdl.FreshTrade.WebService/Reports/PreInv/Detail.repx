@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ScriptsSource="private object GetVal(object obj, string propName)&#xD;&#xA;{return obj.GetType().GetProperty(propName).GetValue(obj, null);}&#xD;&#xA;&#xD;&#xA;private void Rebate_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) {&#xD;&#xA;e.Value = (decimal?)GetVal(GetVal(e.Row, &quot;InvTot&quot;), &quot;OffInvOnPay&quot;) + (decimal?)GetVal(GetVal(e.Row, &quot;InvTot&quot;), &quot;OffInvRbt&quot;);}&#xD;&#xA;&#xD;&#xA;private void CommHandAmt_GetValue(object sender, DevExpress.XtraReports.UI.GetValueEventArgs e) {&#xD;&#xA;e.Value = (decimal)GetVal(e.Row, &quot;RawHandAmt&quot;) + (decimal)GetVal(e.Row, &quot;RawCommAmt&quot;);}&#xD;&#xA;" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
+<XtraReportsLayoutSerializer SerializerVersion="14.2.6.0" Ref="1" Name="DXReportDesign" ControlType="DevExpress.XtraReports.UI.XtraReport, DevExpress.XtraReports.v14.2, Version=14.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" DataSource="#Ref-0" Font="Arial, 10pt, charSet=0" Dpi="254" Version="14.2" ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="2100" Margins="148, 150, 180, 180">
   <Bands>
     <Item1 Ref="2" ControlType="DetailBand" Name="Detail" TextAlignment="TopLeft" Dpi="254" Padding="0,0,0,0,254" HeightF="0" />
     <Item2 Ref="3" Name="TopMargin" ControlType="TopMarginBand" Dpi="254" Padding="0,0,0,0,254" TextAlignment="TopLeft" HeightF="180" />
@@ -183,7 +183,7 @@
                     </Item8>
                     <Item9 Ref="93" Name="xrTableCell20" ControlType="XRTableCell" Dpi="254" TextAlignment="TopRight" Weight="0.1411111111111111">
                       <DataBindings>
-                        <Item1 Ref="94" PropertyName="Text" DataMember="InvTotList.InvoiceTotal" />
+                        <Item1 Ref="94" PropertyName="Text" DataMember="InvTotList.InvTot.InvoiceTotal" />
                       </DataBindings>
                       <StylePriority Ref="95" UseTextAlignment="false" />
                       <Summary Ref="96" FormatString="{0:n}" Running="Group" />
@@ -516,7 +516,7 @@
                 </Item8>
                 <Item9 Ref="264" Name="xrTableCell28" ControlType="XRTableCell" Dpi="254" TextAlignment="MiddleRight" Weight="0.1411111111111111">
                   <DataBindings>
-                    <Item1 Ref="265" PropertyName="Text" DataMember="InvTotList.InvoiceTotal" />
+                    <Item1 Ref="265" PropertyName="Text" DataMember="InvTotList.InvTot.InvoiceTotal" />
                   </DataBindings>
                   <StylePriority Ref="266" UseTextAlignment="false" />
                   <Summary Ref="267" FormatString="{0:n}" Running="Report" />
@@ -530,12 +530,8 @@
     </Item6>
   </Bands>
   <CalculatedFields>
-    <Item1 Ref="269" Name="SalesOffice" FieldType="String" Expression="Trim([ExtractHeader.SalesOfficeName])+' ('+[ExtractHeader.SalesOfficeId]+')'" DataMember="InvTotList" />
-    <Item2 Ref="270" Name="Rebate" FieldType="Decimal" DataMember="InvTotList">
-      <Scripts Ref="271" OnGetValue="Rebate_GetValue" />
-    </Item2>
-    <Item3 Ref="272" Name="CommHandAmt" FieldType="Decimal" DataMember="InvTotList.InvPrtList.InvPrt2List">
-      <Scripts Ref="273" OnGetValue="CommHandAmt_GetValue" />
-    </Item3>
+    <Item1 Ref="269" Name="SalesOffice" FieldType="String" Expression="Trim([ExtractHeader.SalesOfficeName])+' ('+[ExtractHeader.SalesOfficeId]+')'" />
+    <Item2 Ref="270" Name="Rebate" FieldType="Decimal" Expression="[InvTot.OffInvOnPay]+[InvTot.OffInvRbt]" DataMember="InvTotList" />
+    <Item3 Ref="271" Name="CommHandAmt" FieldType="Decimal" Expression="[RawHandAmt]+[RawCommAmt]" DataMember="InvTotList.InvPrtList.InvPrt2List" />
   </CalculatedFields>
 </XtraReportsLayoutSerializer>

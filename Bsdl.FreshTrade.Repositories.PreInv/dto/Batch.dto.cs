@@ -74,6 +74,10 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.dto
        [DataMember]              
         public int Batchtypeno {get;set;}
 
+    
+       [DataMember]              
+        public short Interdeptprocessed {get;set;}
+
     }
 
 /*
@@ -92,6 +96,7 @@ result.Batrecno = item.Batrecno;
   result.Batchtaxdate = item.Batchtaxdate;
   result.Batchtimestamp = item.Batchtimestamp;
   result.Batchtypeno = item.Batchtypeno;
+  result.Interdeptprocessed = item.Interdeptprocessed;
 
 
             
@@ -113,6 +118,7 @@ Batchsaloffno = item.Batchsaloffno,
 Batchtaxdate = item.Batchtaxdate,
 Batchtimestamp = item.Batchtimestamp,
 Batchtypeno = item.Batchtypeno,
+Interdeptprocessed = item.Interdeptprocessed,
 
 
             

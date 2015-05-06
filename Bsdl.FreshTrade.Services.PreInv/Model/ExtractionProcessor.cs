@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Entities;
@@ -67,6 +68,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private readonly IDeliveryPriceRepository _deliveryPriceRepository;
         private readonly IDeliveryToItemStockRepository _deliveryToItemStockRepository;
         private readonly IDeliveryPriceToCreditNoteRepository _deliveryToCreditNoteRepository;
+        private readonly IDeliveryPriceCreditRefRepository _deliveryPriceCreditRefRepository;
         private readonly ICurrencyDictionaryRepository _currencyDictionaryRepository;
         private readonly IProductRepository _productRepository;
         private readonly IStockLocationRepository _stockLocationRepository;
@@ -487,6 +489,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
 
             var relatedCreditNotes = _deliveryToCreditNoteRepository.CheckRelatedCreditNotes(deliveryPriceIds);
+            var groupedDeliveryPriceCreditRefs =
+                _deliveryPriceCreditRefRepository.GetByIds
+                    (
+                        deliveryPrices.Where(i => i.DeliveryPriceCreditRefId.HasValue)
+                            .Select(i => i.DeliveryPriceCreditRefId.GetValueOrDefault())
+                            .ToList()
+                    ).ToDictionary(x => x.Id, x => x);
 
             foreach (var deliveryPrice in deliveryPrices)
             {
@@ -532,6 +541,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 }
 
                 deliveryPrice.HasRelatedCreditNotes = relatedCreditNotes.Contains(deliveryPrice.Id);
+                if (deliveryPrice.DeliveryPriceCreditRefId.HasValue)
+                {
+                    deliveryPrice.DeliveryPriceCreditRef = groupedDeliveryPriceCreditRefs[deliveryPrice.DeliveryPriceCreditRefId.Value];
+                }            
             }
         }
 
@@ -1324,7 +1337,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return true;
         }
 
-        private void InitializeInvoiceTotals(DTOPreInvExtractParams extractParams)
+        private void InitializeInvoiceTotals(DTOPreInvExtractParams extractParams, bool needToMergeCreditNotes, int? deliveryPriceCreditRefId)
         {
             if (
                     GetInvoiceTotals
@@ -1334,7 +1347,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         _context.AccountClass.AccountCode,
                         _context.Order.Id,
                         _context.DeliveryHead.Id,
-                        true
+                        needToMergeCreditNotes,
+                        deliveryPriceCreditRefId
                     )
                 )
             {
@@ -2277,19 +2291,35 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             //            endIf
         }*/
 
-        private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, bool createIfNotExists)
+        private bool NeedToMergeCreditNotes(PreInvInvoiceType invoiceType, DTOAccount account, DTODeliveryHead delivery)
         {
-            string invoiceTypeCode = ((int)invoiceType).ToString();
-            string invoiceKey = invoiceTypeCode + "D" + deliveryId.ToString();
+            if ((invoiceType != PreInvInvoiceType.CreditNote) || (account == null) || (delivery == null))
+            {
+                return true;
+            }
+
+            return (delivery.DeliveryStatus != DTODeliveryStatus.Invoiced) && account.InvoiceType.IsNettOfCredit();
+        }
+
+        private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, bool needToMergeCreditNotes, int? deliveryPriceCreditRefId)
+        {
+            string deliveryPriceCreditRefGroup = string.Empty;
+            if (!needToMergeCreditNotes)
+            {
+                deliveryPriceCreditRefGroup = "M" + deliveryPriceCreditRefId.GetValueOrDefault();
+            }
+
+            string invoiceTypeCode = ((int)invoiceType).ToString(CultureInfo.InvariantCulture);
+            string invoiceKey = string.Format("{0}{1}D{2}", invoiceTypeCode, deliveryPriceCreditRefGroup, deliveryId);
             if (batchType == PreInvBatchType.PerOrder)
             {
-                invoiceKey = invoiceTypeCode + "O" + orderId.ToString();
+                invoiceKey = string.Format("{0}{1}O{2}", invoiceTypeCode, deliveryPriceCreditRefGroup, orderId);
             }
             else
-                if (batchType == PreInvBatchType.PerCustomer)
-                {
-                    invoiceKey = invoiceTypeCode + "C" + accountCode;
-                }
+            if (batchType == PreInvBatchType.PerCustomer)
+            {
+                invoiceKey = string.Format("{0}{1}C{2}", invoiceTypeCode, deliveryPriceCreditRefGroup, accountCode);
+            }
 
             DTOInvTot result;
             if (_invoiceTotals.TryGetValue(invoiceKey, out result))
@@ -3148,7 +3178,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             invPrt.DlvPODNo = _context.DeliveryHead.PoDNo;
             invPrt.OrdRecNo = _context.Order.Id;
             invPrt.OrdCstCode = _context.LocalAccountCode;
-            invPrt.OrdCustOrdNo = _context.Order.CustomerOrderNo;
+            invPrt.OrdCustOrdNo = _context.DeliveryPriceCreditRefId.HasValue ? _context.DeliveryPriceCreditRefId.ToString() : _context.Order.CustomerOrderNo; 
             invPrt.OrdDate = _context.Order.OrderDate;
             invPrt.OrdSmnNo = _context.Order.SalesPerson;
             invPrt.HofCstCode = _context.HofLocalAccountCode;
@@ -3264,34 +3294,54 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                         foreach (var delivery in order.Deliveries)
                         {
-                            bool deliveryProcessingOK = true;
-                            bool atLeastOneDeliveryDetailWritten = false;
                             _context.DeliveryHead = delivery;
                             _context.IsDeliveryGoodsOnConsignment = false;
-
-                            _currentDeliveryInvoicePart2Items.Clear();
-                            _currentInvoiceDiscTypItems.Clear();
 
                             PreInvInvoiceType allowedInvoiceTypes;
                             if (!IsAllowedInvoiceTypesForDeliveryHead(delivery.TranInd, _context.InvoiceTypeForAccount, out allowedInvoiceTypes))
                             {
-                                deliveryProcessingOK = false;
+                                if (CheckIfSkipedDeliveryEscalatesToScipedOrder(_context.InvoiceTypeForAccount))
+                                {
+                                    //TODO: Ask if undo of complete order details is needed as lUndoDetail() doesn't do that.
+                                    break; //Abort to process complete order 
+                                }
                             }
 
-                            if (deliveryProcessingOK)
+                            if (delivery.DeliveryTypeId.HasValue)
                             {
-                                if (delivery.DeliveryTypeId.HasValue)
-                                {
-                                    _context.IsDeliveryGoodsOnConsignment =
-                                        _deliveryTypeRepository.GetData(null, CachingStrategy.GlobalCache).First(
-                                            i => i.Id == delivery.DeliveryTypeId).GoodsOnConsignment;
-                                }
-                                if ((delivery.Details == null) || (delivery.Details.Count == 0))
-                                {
-                                    RegisterExtractionError(PreInvExtractionErrorTypes.DeliveryDetailsIsEmpty);
-                                    continue;
-                                }
-                                InitializeInvoiceTotals(extractParams);
+                                _context.IsDeliveryGoodsOnConsignment =
+                                    _deliveryTypeRepository.GetData(null, CachingStrategy.GlobalCache).First(
+                                        i => i.Id == delivery.DeliveryTypeId).GoodsOnConsignment;
+                            }
+                            if ((delivery.Details == null) || (delivery.Details.Count == 0))
+                            {
+                                RegisterExtractionError(PreInvExtractionErrorTypes.DeliveryDetailsIsEmpty);
+                                continue;
+                            }
+
+                            bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.DeliveryHead);
+                            var deliveryPriceCreditRefIds = new List<int?>{ null };
+                            if (!needToMergeCreditNotes)
+                            {
+                                deliveryPriceCreditRefIds = 
+                                    delivery.Details
+                                        .SelectMany(x => x.Prices)
+                                        .Where(x => x != null)
+                                        .Select(x => x.DeliveryPriceCreditRefId)
+                                        .Distinct()
+                                        .ToList();
+                            }
+                            foreach(var deliveryPriceCreditRefId in deliveryPriceCreditRefIds)
+                            {
+                                bool deliveryProcessingOK = true;
+                                bool atLeastOneDeliveryDetailWritten = false;
+
+                                _currentDeliveryInvoicePart2Items.Clear();
+                                _currentInvoiceDiscTypItems.Clear();
+
+                                _context.DeliveryPriceCreditRefId = deliveryPriceCreditRefId;
+
+                                InitializeInvoiceTotals(extractParams, needToMergeCreditNotes, deliveryPriceCreditRefId);
 
                                 foreach (var deliveryDetail in delivery.Details)
                                 {
@@ -3304,10 +3354,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                     {
                                         if (
                                             !(
-                                                 ((deliveryDetail.DeliveryStatus == DTODeliveryStatus.Picked) ||
-                                                  (deliveryDetail.DeliveryStatus == DTODeliveryStatus.Delivered)) &&
-                                                 (delivery.DeliveryStatus == DTODeliveryStatus.Released)
-                                             )
+                                                    ((deliveryDetail.DeliveryStatus == DTODeliveryStatus.Picked) ||
+                                                    (deliveryDetail.DeliveryStatus == DTODeliveryStatus.Delivered)) &&
+                                                    (delivery.DeliveryStatus == DTODeliveryStatus.Released)
+                                                )
                                             )
                                         {
                                             continue;
@@ -3339,8 +3389,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                             foreach (var deliveryPrice in deliveryDetail.Prices)
                                             {
                                                 _context.DeliveryPrice = deliveryPrice;
+                                                if (!needToMergeCreditNotes && (deliveryPriceCreditRefId != deliveryPrice.DeliveryPriceCreditRefId))
+                                                {
+                                                    continue; //Skipping delivery price
+                                                }
                                                 var delPriceValidationResult = ValidateDeliveryPrice(extractParams,
-                                                                                                     deliveryPrice);
+                                                                                                        deliveryPrice);
                                                 if (delPriceValidationResult == ValidateDeliveryPriceResult.Valid)
                                                 {
                                                     string processingErrorMessage;
@@ -3377,57 +3431,58 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                         break;
                                     }
                                 }
-                            }
-                            _context.DeliveryDetail = null;
-                            _context.DiscountRates.Clear();
-                            if (!atLeastOneDeliveryDetailWritten)
-                            {
-                                deliveryProcessingOK = false;
-                            }
 
-
-                            if (deliveryProcessingOK)
-                            {
-                                if (_currentDeliveryInvoicePart2Items.Count > 0)
+                                _context.DeliveryDetail = null;
+                                _context.DiscountRates.Clear();
+                                if (!atLeastOneDeliveryDetailWritten)
                                 {
-                                    _extractResult.InvoicePart2Items.AddRange(_currentDeliveryInvoicePart2Items);
+                                    deliveryProcessingOK = false;
                                 }
-                                if (_currentInvoiceDiscTypItems.Count > 0)
+
+
+                                if (deliveryProcessingOK)
                                 {
-                                    _extractResult.InvoiceDiscTypItems.AddRange(_currentInvoiceDiscTypItems);
+                                    if (_currentDeliveryInvoicePart2Items.Count > 0)
+                                    {
+                                        _extractResult.InvoicePart2Items.AddRange(_currentDeliveryInvoicePart2Items);
+                                    }
+                                    if (_currentInvoiceDiscTypItems.Count > 0)
+                                    {
+                                        _extractResult.InvoiceDiscTypItems.AddRange(_currentInvoiceDiscTypItems);
+                                    }
+                                    _currentDeliveryInvoicePart2Items.Clear();
+                                    _currentInvoiceDiscTypItems.Clear();
+                                    WriteDeliveryInformation(extractParams);
                                 }
-                                _currentDeliveryInvoicePart2Items.Clear();
-                                _currentInvoiceDiscTypItems.Clear();
-                                WriteDeliveryInformation(extractParams);
+                                else
+                                {
+                                    _currentDeliveryInvoicePart2Items.Clear();
+                                    _currentInvoiceDiscTypItems.Clear();
+
+                                    //stopWatch.PopTime("Throw time");
+
+                                    // If don't continue with this Delhed then if have written something
+                                    // to the extract tables for it then delete all extracted data for this Invoice
+                                    // and if extracting 'Invoices' + ('Per Delivery' and Cust Type = No Splits) or Cust Type = Per Order
+                                    // then cancel rest of deliveries for order.
+                                    if (atLeastOneDeliveryDetailWritten)
+                                    {
+                                        UndoDeliveryChanges();
+                                    }
+                                    if (CheckIfSkipedDeliveryEscalatesToScipedOrder(_context.InvoiceTypeForAccount))
+                                    {
+                                        //TODO: Ask if undo of complete order details is needed as lUndoDetail() doesn't do that.
+                                        break; //Abort to process complete order 
+                                    }
+                                    //Moving to the new delivery head record
+                                }
                             }
-                            else
-                            {
-                                _currentDeliveryInvoicePart2Items.Clear();
-                                _currentInvoiceDiscTypItems.Clear();
-
-                                //stopWatch.PopTime("Throw time");
-
-                                // If don't continue with this Delhed then if have written something
-                                // to the extract tables for it then delete all extracted data for this Invoice
-                                // and if extracting 'Invoices' + ('Per Delivery' and Cust Type = No Splits) or Cust Type = Per Order
-                                // then cancel rest of deliveries for order.
-                                if (atLeastOneDeliveryDetailWritten)
-                                {
-                                    UndoDeliveryChanges();
-                                }
-                                if (CheckIfSkipedDeliveryEscalatesToScipedOrder(_context.InvoiceTypeForAccount))
-                                {
-                                    //TODO: Ask if undo of complete order details is needed as lUndoDetail() doesn't do that.
-                                    break; //Abort to process complete order 
-                                }
-                                //Moving to the new delivery head record
-                            }
-
+                            _context.DeliveryPriceCreditRefId = null;
+                            _context.InvoiceTotal = null;
+                            _context.InvoiceTotalBeforeLastDelivery = null;
                         }
                         _context.DeliveryHead = null;
                         _context.IsDeliveryGoodsOnConsignment = false;
-                        _context.InvoiceTotal = null;
-                        _context.InvoiceTotalBeforeLastDelivery = null;
                     }
                     _context.Order = null;
                 }
@@ -3466,6 +3521,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _deliveryPriceRepository = unitOfWorkCurrent.GetRepository<IDeliveryPriceRepository>();
             _deliveryToItemStockRepository = unitOfWorkCurrent.GetRepository<IDeliveryToItemStockRepository>();
             _deliveryToCreditNoteRepository = unitOfWorkCurrent.GetRepository<IDeliveryPriceToCreditNoteRepository>();
+            _deliveryPriceCreditRefRepository = unitOfWorkCurrent.GetRepository<IDeliveryPriceCreditRefRepository>();             
             _currencyDictionaryRepository = unitOfWorkCurrent.GetRepository<ICurrencyDictionaryRepository>();
             _productRepository = unitOfWorkCurrent.GetRepository<IProductRepository>();
             _stockLocationRepository = unitOfWorkCurrent.GetRepository<IStockLocationRepository>();

@@ -934,29 +934,29 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
 
         private void PrintReportDX(string reportName, bool showPreview = false)
         {
+            byte[] buffer;
             using (var service = new ReportingServiceClient())
             {
 
-                var buffer = 
-                    service.GetReport(reportName, null);
+                buffer = service.GetReport(reportName, null);
+            }
 
-                var ps = new PrintingSystem();
-                using (var reader = new MemoryStream(buffer))
-                {
-                    ps.LoadDocument(reader);
-                    reader.Close();
-                }
+            var ps = new PrintingSystem();
+            using (var reader = new MemoryStream(buffer))
+            {
+                ps.LoadDocument(reader);
+                reader.Close();
+            }
 
-                if (showPreview)
-                {
-                    var preview = new PrintPreviewFormEx { PrintingSystem = ps };
+            if (showPreview)
+            {
+                var preview = new PrintPreviewFormEx {PrintingSystem = ps};
 
-                    preview.ShowDialog();
-                }
-                else
-                {
-                    ps.PrintDlg();
-                }
+                preview.ShowDialog();
+            }
+            else
+            {
+                ps.PrintDlg();
             }
 
         }
