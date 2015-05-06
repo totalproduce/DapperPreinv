@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Bsdl.FreshTrade.Services.PreInv.Model
 {
@@ -2058,6 +2059,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _unitOfWorkCurrent.BeginTransaction();
             try
             {
+                if (_systemPreferences.LogUpdateResults)
+                {
+                    LogUpdateResults(updateInfo);
+                }
+
                 // 11 Additions
                 _accAllocRepository.Debug("pre");
                 _accAllocRepository.Add(updateInfo.AccAlloc);
@@ -2141,7 +2147,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
                 ProgressChanged(100);
-                _unitOfWorkCurrent.Commit();
+                if (_systemPreferences.RollbackUpdateResults)
+                {
+                    _unitOfWorkCurrent.Rollback();
+                }
+                else
+                {
+                    _unitOfWorkCurrent.Commit();
+                }
                 return PreInvUpdateStatusType.OK;
             }
             catch (Exception)
@@ -2166,6 +2179,186 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 throw;
             }
             return PreInvUpdateStatusType.Failed;
+        }
+
+        private void LogUpdateResults(DTOUpdateInfo updateInfo)
+        {
+
+            _logger.Debug("Here comes JSON!");
+            _logger.Debug("Counts:");
+            _logger.Debug(JsonConvert.SerializeObject(new
+            {
+                AccAlloc = updateInfo.AccAlloc.Count,
+                AccTrnFilAdditions = updateInfo.AccTrnFilAdditions.Count,
+                AcciteAdditions = updateInfo.AcciteAdditions.Count,
+                AccVatAdditions = updateInfo.AccVatAdditions.Count,
+                AccReChgAdditions = updateInfo.AccReChgAdditions.Count,
+                AccAllValAdditions = updateInfo.AccAllValAdditions.Count,
+                ExpChaAdditions = updateInfo.ExpChaAdditions.Count,
+                BatchDetAdditions = updateInfo.BatchDetAdditions.Count,
+                BatchAdditions = updateInfo.BatchAdditions.Count,
+                IchDiscTypAdditions = updateInfo.IchDiscTypAdditions.Count,
+                IteChgAdditions = updateInfo.IteChgAdditions.Count,
+                AuditRecordAdditions = updateInfo.AuditRecordAdditions.Count,
+                DelAuditRecordAdditions = updateInfo.DelAuditRecordAdditions.Count,
+                DeliveryHeadUpdates = updateInfo.DeliveryHeadUpdates.Count,
+                DeliveryDetailUpdates = updateInfo.DeliveryDetailUpdates.Count,
+                DeliveryPriceUpdates = updateInfo.DeliveryPriceUpdates.Count,
+                AccTrnFilUpdates = updateInfo.AccTrnFilUpdates.Count,
+                OrderCleanAccountClassID = updateInfo.OrderCleanAccountClassID.Count,
+                IteChgDeletions = updateInfo.IteChgDeletions.Count,
+            }, Formatting.Indented));
+
+            _logger.Debug("AccTrnFilAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.AccTrnFilAdditions
+                .Select(x => new
+                {
+                    x.AtrAmount,
+                    x.AtrBalance,
+                    x.AtrBaseAmount,
+                    x.AtrBaseRate,
+                    x.Atrclarecno,
+                    x.Atrclass,
+                    x.AtrCoGlbRecNo,
+                    x.AtrCurRecNo,
+                    x.AtrDbNo,
+                    x.AtrDbType,
+                    x.AtrDelClaRecNo,
+                    x.Atrdispute,
+                    x.AtrEuroAmount,
+                    x.AtrEuroRate,
+                    x.AtrPstDate,
+                    x.AtrPstTyp,
+                    x.Atrref,
+                    x.AtrRef2,
+                    x.AtrSalOffNo,
+                    x.AtrStatInd,
+                    x.AtrTriangulate,
+                    x.Clrddate
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("AcciteAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.AcciteAdditions
+                .Select(x => new
+                {
+                    x.AitAmount,
+                    x.AitBaseAmount,
+                    x.AitDrCr,
+                    x.AitEuroAmount,
+                    x.AitGanRecNo,
+                    x.AitPstRecNo
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("BatchDetAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.BatchDetAdditions
+                .Select(x => new
+                {
+                    x.BdtCurTotal
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("BatchAdditions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.BatchAdditions
+                .Select(x => new
+                {
+                    x.BatchCutOffDate,
+                    x.BatchInvPeriod,
+                    x.BatchInvType,
+                    x.Batchmarketind,
+                    x.BatchMergeTrans,
+                    x.BatchNetUserName,
+                    x.BatchNo,
+                    x.Batchprintno,
+                    x.BatchPstRecNo,
+                    x.BatchSalOffNo,
+                    x.BatchTaxDate,
+                    x.BatchTimeStamp,
+                    x.Batchtypeno
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("DeliveryHeadUpdates:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.DeliveryHeadUpdates
+                .Select(x => x.New)
+                .Select(x => new
+                {
+                    x.CurrencyNo,
+                    x.IsInterCompanyTransfer,
+                    x.SalesOfficeTransferTo,
+                    x.DeliverySalesOfficeNo,
+                    x.InvoiceSalesOfficeNo,
+                    x.TransferFlag,
+                    x.TranInd,
+                    x.PoDNo,
+                    DeliveryStatus = Enums<DTODeliveryStatus>.GetCode(x.DeliveryStatus),
+                    x.ShipDate,
+                    x.DeliveryDate,
+                    x.DeliveryTypeId,
+                    x.IsInterDepartment,
+                    x.IsOpenPriceDelivery,
+                    x.ProgrammeHeadId,
+                    x.StockLocationId
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("DeliveryDetailUpdates:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.DeliveryDetailUpdates
+                .Select(x => x.New)
+                .Select(x => new
+                {
+                    x.Quantity,
+                    x.WeightInKg,
+                    x.IsPricedByWeight,
+                    x.ProductId,
+                    x.ClientProductNo,
+                    x.QuantityPer,
+                    x.PricePer,
+                    x.DeliveryStatus
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("DeliveryPriceUpdates:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo.DeliveryPriceUpdates
+                .Select(x => x.New)
+                .Select(x => new
+                {
+                    x.Quantity,
+                    x.Price,
+                    x.PriceWeight,
+                    x.NettValue,
+                    x.DeliveryPriceStatus,
+                    x.FreeOfCharge,
+                    x.IsPriceAdjustment,
+                    x.AdjustedBy,
+                    x.VatRecNo,
+                    x.VatRate,
+                    x.VatRate2,
+                    x.DelToEuroRate,
+                    x.DelToBaseRate,
+                    x.DelTriangulate,
+                    x.DelEuroNettVal,
+                    x.DelEuroVatValue,
+                    x.DelBaseNettVal,
+                    x.DelBaseVatValue,
+                    x.DelVatValue,
+                    x.Delallwkrecno,
+                    x.Delisguideprice,
+                    x.Delprccomno,
+                    x.Delretailprice,
+                    x.Dprcreationdate,
+                    x.Dprnominalprice,
+                    x.Dprmanwgtchg,
+                    x.Dprisprcccdtdbt,
+                    x.Dprpreas
+                })
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("OrderCleanAccountClassID:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo
+                .OrderCleanAccountClassID.Select(x => x.Id)
+                .ToArray(), Formatting.Indented));
         }
     }
 }

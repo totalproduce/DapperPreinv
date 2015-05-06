@@ -39,6 +39,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model.Reports
         /// <summary> Curdesc </summary>
         public virtual string CurDesc { get; set; }
 
+        /// <summary> Offinvonpay </summary>
+        public virtual decimal OffInvOnPay { get; set; }
+        /// <summary> Offinvrbt </summary>
+        public virtual decimal OffInvRbt { get; set; }
+
         ///// <summary> Accglanl </summary>
         //public virtual int AccGlAnl { get; set; }
         ///// <summary> Accntsaloffno </summary>
@@ -103,10 +108,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model.Reports
         //public virtual bool? IsInterDept { get; set; }
         ///// <summary> Isseqinvno </summary>
         //public virtual bool? IsSeqInvNo { get; set; }
-        ///// <summary> Offinvonpay </summary>
-        //public virtual decimal OffInvOnPay { get; set; }
-        ///// <summary> Offinvrbt </summary>
-        //public virtual decimal OffInvRbt { get; set; }
         ///// <summary> Prcglbrecno </summary>
         //public virtual int PrcGlbRecNo { get; set; }
         ///// <summary> Sort2 </summary>

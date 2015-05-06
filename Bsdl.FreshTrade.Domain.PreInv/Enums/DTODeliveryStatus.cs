@@ -10,15 +10,15 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Enums
     public enum DTODeliveryStatus
     {
         [EnumTitle(Code = "Pik")]
-        Picked,
+        Picked = 1,
 
         [EnumTitle(Code = "Dlv")]
-        Delivered,
+        Delivered = 2,
         
         [EnumTitle(Code = "Rel")]
-        Released, //for Invoicing
+        Released = 3, //for Invoicing
         
         [EnumTitle(Code = "Inv")]
-        Invoiced
+        Invoiced = 4
     }
 }
