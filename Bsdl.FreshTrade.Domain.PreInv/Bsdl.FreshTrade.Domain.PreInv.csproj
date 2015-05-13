@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{655A8F38-83A5-4BFB-887D-45C0BF1E5A07}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Domain.PreInv</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Domain.PreInv</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\DTOAuditRecord.cs" />
+    <Compile Include="Entities\DTOBatchDet.cs" />
+    <Compile Include="Entities\DTOAccReChg.cs" />
+    <Compile Include="Entities\DTOAccAlloc.cs" />
+    <Compile Include="Entities\DTOAccAllVal.cs" />
+    <Compile Include="Entities\DTOAccite.cs" />
+    <Compile Include="Entities\DTOAccTrnFil.cs" />
+    <Compile Include="Entities\DTOAccVAT.cs" />
+    <Compile Include="Entities\DTODelAuditRecord.cs" />
+    <Compile Include="Entities\DTOBatch.cs" />
+    <Compile Include="Entities\DTOCustDiscountRates.cs" />
+    <Compile Include="Entities\DTOCustomerProductInfo.cs" />
+    <Compile Include="Entities\DTODelAudToDo.cs" />
+    <Compile Include="Entities\DTODeliveryDetail.cs" />
+    <Compile Include="Entities\DTODeliveryHead.cs" />
+    <Compile Include="Entities\DTODeliveryPrice.cs" />
+    <Compile Include="Entities\DTODeliveryPriceCreditRef.cs" />
+    <Compile Include="Entities\DTODeliveryPriceToCreditNote.cs" />
+    <Compile Include="Entities\DTODeliveryToCreditNoteByItemStock.cs" />
+    <Compile Include="Entities\DTODeliveryToItemStock.cs" />
+    <Compile Include="Entities\DTODeliveryType.cs" />
+    <Compile Include="Entities\DTODiscountRates.cs" />
+    <Compile Include="Entities\DTOEdiCoSuppNo.cs" />
+    <Compile Include="Entities\DTOEdiInv.cs" />
+    <Compile Include="Entities\DTOEditLogHeader.cs" />
+    <Compile Include="Entities\DTOErrorDescription.cs" />
+    <Compile Include="Entities\DTOExpCha.cs" />
+    <Compile Include="Entities\DTOGLLookupParams.cs" />
+    <Compile Include="Entities\DTOGLTrans.cs" />
+    <Compile Include="Entities\DTOIchDiscTyp.cs" />
+    <Compile Include="Entities\DTOInvDISCTYP.cs" />
+    <Compile Include="Entities\DTOInvEdi.cs" />
+    <Compile Include="Entities\DTOInvExtractHead.cs" />
+    <Compile Include="Entities\DTOInvPrt.cs" />
+    <Compile Include="Entities\DTOInvPrt2.cs" />
+    <Compile Include="Entities\DTOInvTot.cs" />
+    <Compile Include="Entities\DTOHeadOffice.cs" />
+    <Compile Include="Entities\DTOInvTotGroup.cs" />
+    <Compile Include="Entities\DTOInvTotVatInfo.cs" />
+    <Compile Include="Entities\DTOIteChg.cs" />
+    <Compile Include="Entities\DTOOrder.cs" />
+    <Compile Include="Entities\DTOPostType.cs" />
+    <Compile Include="Entities\DTOPreInvExtractAccountParams.cs" />
+    <Compile Include="Entities\DTOPreInvExtractionErrorsItem.cs" />
+    <Compile Include="Entities\DTOPreInvExtractParams.cs" />
+    <Compile Include="Entities\DTOPreInvExtractResult.cs" />
+    <Compile Include="Entities\DTOPreInvUpdateParams.cs" />
+    <Compile Include="Entities\DTOPriceGroupLookupResult.cs" />
+    <Compile Include="Entities\DTOEdiLogInvoice.cs" />
+    <Compile Include="Entities\DTOPriceListVatCheckResult.cs" />
+    <Compile Include="Entities\DTOProduct.cs" />
+    <Compile Include="Entities\DTOProductStandardUnitRecord.cs" />
+    <Compile Include="Entities\DTOStockLocation.cs" />
+    <Compile Include="Entities\DTOUpdateInfo.cs" />
+    <Compile Include="Entities\DTOVatLink.cs" />
+    <Compile Include="Entities\DTOVatRate.cs" />
+    <Compile Include="Enums\EnumDiscTypes.cs" />
+    <Compile Include="Enums\DTODeliveryPriceStatus.cs" />
+    <Compile Include="Enums\DTODeliveryStatus.cs" />
+    <Compile Include="Enums\EnumPostType.cs" />
+    <Compile Include="Enums\PreInvGLLookupType.cs" />
+    <Compile Include="Enums\PreInvBatchType.cs" />
+    <Compile Include="Enums\PreInvExtractAccountFilterType.cs" />
+    <Compile Include="Enums\PreInvExtractionErrorTypes.cs" />
+    <Compile Include="Enums\PreInvExtractStatusType.cs" />
+    <Compile Include="Enums\PreInvInvoicePeriodType.cs" />
+    <Compile Include="Enums\PreInvInvoiceType.cs" />
+    <Compile Include="Enums\PreInvUpdateStatusType.cs" />
+    <Compile Include="Exceptions\AbortDeliveryProcessing.cs" />
+    <Compile Include="Exceptions\AbortEntireProcessing.cs" />
+    <Compile Include="Exceptions\AbortOrderProcessing.cs" />
+    <Compile Include="Interfaces\IDTOInvPrt2.cs" />
+    <Compile Include="Interfaces\IDTOInvTot.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WideObjects\WideAccountInfo.cs" />
+    <Compile Include="WideObjects\WideReportItems.cs" />
+    <Compile Include="Utilities\PreInvTotalCalculator.cs" />
+    <Compile Include="Utilities\SessionContext\PreInvSessionContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Account\Bsdl.FreshTrade.Domain.Account.csproj">
+      <Project>{6198000A-B37E-41E2-9FCB-1F777FAC182D}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

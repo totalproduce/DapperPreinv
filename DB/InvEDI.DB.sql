@@ -1,0 +1,14 @@
+DROP TABLE PREINVTEMP_InvEDI;
+CREATE TABLE  PREINVTEMP_InvEDI(
+  ExtractSessionID NUMBER(10,0)  NOT NULL ENABLE,
+  HofCstCode VARCHAR(8),
+  PrcGlbRecNo NUMBER(10,0),
+  HofCstName VARCHAR(40),
+  CompanyName VARCHAR(40),
+  FileNo NUMBER(10,0),
+  EdiFile VARCHAR(12),
+  NewFile NUMBER(1,0),
+  NewTransRef NUMBER(1,0),
+  HofClaRecNo NUMBER(10,0),
+  EHHeadID NUMBER(10,0)
+);
