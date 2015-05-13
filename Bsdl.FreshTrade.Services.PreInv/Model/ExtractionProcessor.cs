@@ -2293,7 +2293,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         private bool NeedToMergeCreditNotes(PreInvInvoiceType invoiceType, DTOAccount account, DTODeliveryHead delivery)
         {
-            if ((invoiceType != PreInvInvoiceType.CreditNote) || (account == null) || (delivery == null))
+            if ((invoiceType == PreInvInvoiceType.Invoice) || (account == null) || (delivery == null))
             {
                 return true;
             }
