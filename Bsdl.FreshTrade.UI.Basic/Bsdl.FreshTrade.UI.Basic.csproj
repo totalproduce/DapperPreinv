@@ -32,6 +32,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.2.1.0\lib\net40\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -62,8 +65,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\ConfigurationExtentions.cs" />
     <Compile Include="Utilities\FreshTrade.cs" />
     <Compile Include="Utilities\Globals.cs" />
+    <Compile Include="Utilities\Sessions\ClientRequestInfo.cs" />
     <Compile Include="Utilities\Sessions\CookieSessionBehavior.cs" />
     <Compile Include="Utilities\Sessions\CookieSessionManagerInspector.cs" />
     <Compile Include="Utilities\SingleInstanceApplicationWrapper.cs" />

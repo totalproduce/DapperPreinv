@@ -77,7 +77,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         public bool UseAutoCosting { get; set; } // Logical(GetSysPref("USEAUTOCOSTING", True, False))
 
         /*Other properties*/
-        public string FormName { get; set; }
+        private string a = null;
+        public string FormName
+        {
+            get { return a; }
+            set
+            {
+                a = value;
+            }
+        }
+
         public int FormNo { get; set; }
 
         public bool SalesOfficeNeedLock { get; set; }
