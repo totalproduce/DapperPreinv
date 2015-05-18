@@ -342,7 +342,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
                 .GroupBy(t => t.InvoiceNo).Select(g => g.First()).ToList();
 
             var invPrts = Mapper.Map<List<PreInvPrt>>(invDetailSrc)
-                .GroupBy(t => t.DlvOrdNo).Select(g => g.First()).ToList();
+                .GroupBy(t => new { t.DlvOrdNo, t.DlvInvoiceNo }).Select(g => g.First()).ToList();
             var invPrt2S = Mapper.Map<List<PreInvPrt2>>(invDetailSrc);
 
             var resTotList = new List<object>();
@@ -355,7 +355,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
                         (new
                         {
                             InvPrt = invPrt,
-                            InvPrt2List = invPrt2S.Where(p2 => p2.DeliveryHead.Id == invPrt.DlvOrdNo).ToList()
+                            InvPrt2List = invPrt2S.Where(p2 => p2.DeliveryHead.Id == invPrt.DlvOrdNo && p2.InvoiceNo == invPrt.DlvInvoiceNo).ToList()
                         }
                         );
                 }
