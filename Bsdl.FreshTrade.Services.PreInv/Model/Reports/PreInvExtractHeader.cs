@@ -29,6 +29,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model.Reports
         public virtual int LastInvoiceNo { get; set; }
         /// <summary> Logonno </summary>
         public virtual int UserId { get; set; }
+        public string LogonName { get; set; }
         /// <summary> Reqdate </summary>
         public virtual DateTime CutOffDeliveryDate { get; set; }
         /// <summary> Salesofficename </summary>

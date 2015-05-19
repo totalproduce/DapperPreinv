@@ -43,7 +43,7 @@ ReportUnit="TenthsOfAMillimeter" PageHeight="2970" PaperKind="A4" PageWidth="210
         </Item8>
         <Item9 Ref="22" Name="xrLabel3" ControlType="XRLabel" TextAlignment="TopRight" SizeF="459.3168,58.41999" LocationFloat="1340.683, 56.80667" Dpi="254" Padding="4,4,0,0,254">
           <DataBindings>
-            <Item1 Ref="23" PropertyName="Text" DataMember="ExtractHeader.UserId" />
+            <Item1 Ref="23" PropertyName="Text" DataMember="ExtractHeader.LogonName" />
           </DataBindings>
           <StylePriority Ref="24" UseTextAlignment="false" />
         </Item9>

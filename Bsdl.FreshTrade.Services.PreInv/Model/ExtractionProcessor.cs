@@ -3713,7 +3713,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                          InvoiceOrderType = extractParams.BatchType.ConvertToString(),
                                                          IsInterCompanyTransfer = extractParams.IsInterCompanyTransfer,
                                                          CompanyNo = extractParams.CompanyNo,
-                                                         LastInvoiceNo = _nextInvoiceNo
+                                                         LastInvoiceNo = _nextInvoiceNo,
+                                                         LogonName = _user.UserName.Trim().ToLower()
                                                      });
                     _preInvTotRepository.Add(_invoiceTotals.Values);
                     _preInvPrtRepository.Add(_extractResult.InvoicePartItems);
