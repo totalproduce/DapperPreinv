@@ -1,0 +1,83 @@
+﻿<#@ import namespace="System.Collections.Generic" #>
+
+<#    
+    
+
+    //
+    // Settings
+    //
+
+
+    string tnsconnectionString = "Data Source=TOTALPRODUCE;User ID=LOCALTPIE;Password=LOCALTPIE;";
+    string connectionString = "user id=LOCALTPIE;password=LOCALTPIE;data source=(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=totalproducedb)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=TOTALPRODUCE)))";
+
+    IDictionary<string, string> lookupTables = new Dictionary<string, string>
+                {
+//                    { "FX_YES_NO", "YesNo"},
+//                    { "FX_STATUS", "StatusEnum"},
+                };
+
+    IDictionary<string, DB_TABLE_INFO> entityTables = new Dictionary<string, DB_TABLE_INFO>
+        {
+            { "LOGONS", new DB_TABLE_INFO {
+                      TABLE_NAME="LOGONS",
+                      CS_CLASS_NAME= "Logons"
+                    }},
+            { "LOGTOSALOFF", new DB_TABLE_INFO {
+                      TABLE_NAME="LOGTOSALOFF",
+                      CS_CLASS_NAME= "LogToSalOff"
+                    }},
+            { "ACCCURRDESC", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCCURRDESC",
+                      CS_CLASS_NAME= "AccCurrDesc"
+                    }},
+      { "ACCCURRRATE", new DB_TABLE_INFO {
+                      TABLE_NAME="ACCCURRRATE",
+                      CS_CLASS_NAME= "CurrencyRate"
+                    }},
+      { "COMPANY", new DB_TABLE_INFO {
+                      TABLE_NAME="COMPANY",
+                      CS_CLASS_NAME= "Company"
+                    }},
+      { "SMN", new DB_TABLE_INFO {
+                      TABLE_NAME="SMN",
+                      CS_CLASS_NAME= "SalesPerson"
+                    }},                    
+      { "WIZSYSPREF", new DB_TABLE_INFO {
+                      TABLE_NAME="WIZSYSPREF",
+                      CS_CLASS_NAME= "WizSysPref"
+                    }}
+        };
+
+    bool generateEntityTablesOnly= true;
+    bool generateDTOCode= false;
+    string dtoNameTemplate = "dto/DTO{0}.cs";
+
+    string entityNameTemplate = "DBModel/{0}.db.cs";
+    string configurationNameTemplate = "Configurations/{0}Configuration.cs";
+    string enumNameTemplate = "Enums/{0}.cs";
+
+    bool generateDBStorageCode = false;
+    string dbStorageGenerated = "Storage/DbStorage.generated.cs";
+    string idbStorageGenerated = "Storage/IDbStorage.generated.cs";
+    string dbStorageXml = "DbStorage.xml";
+
+    string entitiesNamespace = "Bsdl.FreshTrade.Repositories.Basic.DBModel";
+    string configurationsNamespace = "Bsdl.FreshTrade.Repositories.Basic.Configurations";
+    string dtoNamespace = "Bsdl.FreshTrade.Repositories.Basic.dto";
+    string enumsNamespace = null;
+    string storageNamespace = "Bsdl.FreshTrade.Repositories.Basic.DBModel";
+#>
+
+
+<#+
+    public class DB_TABLE_INFO {
+        public string TABLE_NAME {get;set;}
+        public string CS_CLASS_NAME {get;set;}
+        public string CS_CLASS_KIND {get;set;}
+        public string HAS_AUTO_PK {get;set;}
+        public string PK_SEQUENCE_NAME {get;set;}
+        public string IS_NEW_ID_NEGATIVE {get; set;}
+        public string HIS_TABLE_NAME {get; set;}
+    };
+#>

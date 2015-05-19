@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Bsdl.FreshTrade.Services.ReportingDX.ReportingService, Bsdl.FreshTrade.Services.ReportingDX" Factory="Autofac.Integration.Wcf.AutofacServiceHostFactory, Autofac.Integration.Wcf" %>
