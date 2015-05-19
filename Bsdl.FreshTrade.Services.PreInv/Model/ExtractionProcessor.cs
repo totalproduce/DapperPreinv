@@ -1338,7 +1338,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return true;
         }
 
-        private void InitializeInvoiceTotals(DTOPreInvExtractParams extractParams, bool needToMergeCreditNotes, int? deliveryPriceCreditRefId)
+        private void InitializeInvoiceTotals(DTOPreInvExtractParams extractParams, bool needToMergeCreditNotes, string deliveryPriceCreditRef)
         {
             if (
                     GetInvoiceTotals
@@ -1349,7 +1349,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         _context.Order.Id,
                         _context.DeliveryHead.Id,
                         needToMergeCreditNotes,
-                        deliveryPriceCreditRefId
+                        deliveryPriceCreditRef
                     )
                 )
             {
@@ -2302,12 +2302,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return (delivery.DeliveryStatus != DTODeliveryStatus.Invoiced) && account.InvoiceType.IsNettOfCredit();
         }
 
-        private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, bool needToMergeCreditNotes, int? deliveryPriceCreditRefId)
+        private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, bool needToMergeCreditNotes, string deliveryPriceCreditRef)
         {
             string deliveryPriceCreditRefGroup = string.Empty;
             if (!needToMergeCreditNotes)
             {
-                deliveryPriceCreditRefGroup = "M" + deliveryPriceCreditRefId.GetValueOrDefault();
+                deliveryPriceCreditRefGroup = "M" + deliveryPriceCreditRef;
             }
 
             string invoiceTypeCode = ((int)invoiceType).ToString(CultureInfo.InvariantCulture);
@@ -3179,8 +3179,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             invPrt.DlvPODNo = _context.DeliveryHead.PoDNo;
             invPrt.OrdRecNo = _context.Order.Id;
             invPrt.OrdCstCode = _context.LocalAccountCode;
-            invPrt.OrdCustOrdNo = _context.DeliveryPriceCreditRefId.HasValue && _context.DeliveryPriceCreditRef != null && !string.IsNullOrEmpty(_context.DeliveryPriceCreditRef.CreditRef) ?
-                _context.DeliveryPriceCreditRef.CreditRef.Trim() : _context.Order.CustomerOrderNo; 
+            invPrt.OrdCustOrdNo = !string.IsNullOrEmpty(_context.DeliveryPriceCreditRef) ? _context.DeliveryPriceCreditRef : _context.Order.CustomerOrderNo; 
             invPrt.OrdDate = _context.Order.OrderDate;
             invPrt.OrdSmnNo = _context.Order.SalesPerson;
             invPrt.HofCstCode = _context.HofLocalAccountCode;
@@ -3322,18 +3321,18 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                             }
 
                             bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.DeliveryHead);
-                            var deliveryPriceCreditRefIds = new List<int?>{ null };
+                            var deliveryPriceCreditRefs = new List<string> { null };
                             if (!needToMergeCreditNotes)
                             {
-                                deliveryPriceCreditRefIds = 
+                                deliveryPriceCreditRefs = 
                                     delivery.Details
                                         .SelectMany(x => x.Prices)
-                                        .Where(x => x != null)
-                                        .Select(x => x.DeliveryPriceCreditRefId)
+                                        .Where(x => x != null && x.DeliveryPriceCreditRef != null)
+                                        .Select(x => x.DeliveryPriceCreditRef.CreditRef != null ? x.DeliveryPriceCreditRef.CreditRef.Trim() : null)
                                         .Distinct()
                                         .ToList();
                             }
-                            foreach(var deliveryPriceCreditRefId in deliveryPriceCreditRefIds)
+                            foreach (var deliveryPriceCreditRef in deliveryPriceCreditRefs)
                             {
                                 bool deliveryProcessingOK = true;
                                 bool atLeastOneDeliveryDetailWritten = false;
@@ -3341,9 +3340,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 _currentDeliveryInvoicePart2Items.Clear();
                                 _currentInvoiceDiscTypItems.Clear();
 
-                                _context.DeliveryPriceCreditRefId = deliveryPriceCreditRefId;
+                                _context.DeliveryPriceCreditRef = deliveryPriceCreditRef;
 
-                                InitializeInvoiceTotals(extractParams, needToMergeCreditNotes, deliveryPriceCreditRefId);
+                                InitializeInvoiceTotals(extractParams, needToMergeCreditNotes, deliveryPriceCreditRef);
 
                                 foreach (var deliveryDetail in delivery.Details)
                                 {
@@ -3393,14 +3392,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                             {
                                                 _context.DeliveryPrice = deliveryPrice;
 
-                                                if (_context.DeliveryPriceCreditRefId ==
-                                                    deliveryPrice.DeliveryPriceCreditRefId)
-                                                {
-                                                    _context.DeliveryPriceCreditRef =
-                                                        deliveryPrice.DeliveryPriceCreditRef;
-                                                }
-
-                                                if (!needToMergeCreditNotes && (deliveryPriceCreditRefId != deliveryPrice.DeliveryPriceCreditRefId))
+                                                if (!needToMergeCreditNotes && (deliveryPrice.DeliveryPriceCreditRef == null || deliveryPriceCreditRef != deliveryPrice.DeliveryPriceCreditRef.CreditRef))
                                                 {
                                                     continue; //Skipping delivery price
                                                 }
@@ -3488,7 +3480,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                     //Moving to the new delivery head record
                                 }
                             }
-                            _context.DeliveryPriceCreditRefId = null;
+                            _context.DeliveryPriceCreditRef = null;
                             _context.InvoiceTotal = null;
                             _context.InvoiceTotalBeforeLastDelivery = null;
                         }
