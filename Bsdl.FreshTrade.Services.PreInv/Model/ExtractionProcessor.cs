@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Security.Cryptography.X509Certificates;
 using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
@@ -3178,7 +3179,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             invPrt.DlvPODNo = _context.DeliveryHead.PoDNo;
             invPrt.OrdRecNo = _context.Order.Id;
             invPrt.OrdCstCode = _context.LocalAccountCode;
-            invPrt.OrdCustOrdNo = _context.DeliveryPriceCreditRefId.HasValue ? _context.DeliveryPriceCreditRefId.ToString() : _context.Order.CustomerOrderNo; 
+            invPrt.OrdCustOrdNo = _context.DeliveryPriceCreditRefId.HasValue && _context.DeliveryPriceCreditRef != null && !string.IsNullOrEmpty(_context.DeliveryPriceCreditRef.CreditRef) ?
+                _context.DeliveryPriceCreditRef.CreditRef.Trim() : _context.Order.CustomerOrderNo; 
             invPrt.OrdDate = _context.Order.OrderDate;
             invPrt.OrdSmnNo = _context.Order.SalesPerson;
             invPrt.HofCstCode = _context.HofLocalAccountCode;
@@ -3367,6 +3369,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                     _context.Product =
                                         _productRepository.GetData(null, CachingStrategy.GlobalCache).FirstOrDefault(
                                             i => i.Id == deliveryDetail.ProductId); //TODO: Validate caching strategy
+
                                     if (_context.Product == null)
                                     {
                                         RegisterExtractionError(
@@ -3389,6 +3392,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                             foreach (var deliveryPrice in deliveryDetail.Prices)
                                             {
                                                 _context.DeliveryPrice = deliveryPrice;
+
+                                                if (_context.DeliveryPriceCreditRefId ==
+                                                    deliveryPrice.DeliveryPriceCreditRefId)
+                                                {
+                                                    _context.DeliveryPriceCreditRef =
+                                                        deliveryPrice.DeliveryPriceCreditRef;
+                                                }
+
                                                 if (!needToMergeCreditNotes && (deliveryPriceCreditRefId != deliveryPrice.DeliveryPriceCreditRefId))
                                                 {
                                                     continue; //Skipping delivery price
