@@ -1,11 +1,12 @@
 /*
 REM @ECHO OFF
 SET hgPath= %cd%
+for /f "tokens=* delims= " %%a in ("%hgPath%") do set hgPath=%%a
 
 echo %hgpath%
-IF NOT EXIST %hgPath%\NUL exit 5
+IF NOT EXIST "%hgPath%" exit 5
 
-hg id -n %hgpath% > tmpfile
+hg id -n "%hgpath%" > tmpfile
 set /p myvar= < tmpfile
 echo %myvar%
 del tmpfile
