@@ -24,7 +24,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         public DTODeliveryDetail DeliveryDetail { get; set; }
         public DTODeliveryPrice DeliveryPrice { get; set; }
 
-        public int? DeliveryPriceCreditRefId { get; set; }
+        public string DeliveryPriceCreditRef { get; set; }
 
         public DTOProduct Product { get; set; }
 
