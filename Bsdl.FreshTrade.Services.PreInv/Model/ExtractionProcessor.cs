@@ -3400,6 +3400,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                                                                         deliveryPrice);
                                                 if (delPriceValidationResult == ValidateDeliveryPriceResult.Valid)
                                                 {
+                                                    if (needToMergeCreditNotes)
+                                                    {
+                                                        _context.DeliveryPriceCreditRef = deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim(); //"claim number" should be present for merged credit notes Issue#8
+                                                    }
+
                                                     string processingErrorMessage;
                                                     if (WriteDetail(extractParams, out processingErrorMessage))
                                                     {
