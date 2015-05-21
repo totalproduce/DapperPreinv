@@ -1,0 +1,449 @@
+﻿<Window x:Name="WndPreInvoiceMain" x:Class="Bsdl.FreshTrade.UI.PreInv.View.PreInvoice"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:viewModel="clr-namespace:Bsdl.FreshTrade.UI.PreInv.ViewModel"
+        xmlns:wpfControls="clr-namespace:Bsdl.FreshTrade.UI.Basic.Utilities.WpfControls;assembly=Bsdl.FreshTrade.UI.Basic"
+        xmlns:Converters="clr-namespace:Bsdl.FreshTrade.UI.PreInv.Converters"
+        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
+        xmlns:Helpers="clr-namespace:Bsdl.FreshTrade.UI.PreInv.Helpers"
+        xmlns:Globalization="clr-namespace:System.Globalization;assembly=mscorlib" Title="Sales Pre-Invoicing Report" MinHeight="640" MinWidth="980" Height="640" Width="980" FontFamily="MS Sans Serif" 
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:PreInvMainViewModel}">
+        </DataTemplate>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:TrimStringConverter x:Key="TrimStringConverter" />
+        <Converters:OfficeNumberToVisibilityConverter x:Key="OfficeNumberConverter" />
+        <Converters:BooleanToStringConverter x:Key="BooleanToStringConverter" />        
+    </Window.Resources>
+    <Grid Margin="0">
+        <TabControl x:Name="TabctrlParent" Margin="0" TabStripPlacement="Bottom" SelectedIndex="{Binding Path=ActiveTabItemIndex    }">
+            <TabItem x:Name="TabExtract" Header="Extract Data" Margin="0,0,0,0" Height="30" Width="150">
+                <Grid  Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="270"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Border BorderBrush="DarkGray" BorderThickness="1" CornerRadius="3" HorizontalAlignment="Center"  Height="200" VerticalAlignment="Center" Width="650" >
+                            <Grid Width="Auto" Height="Auto" Margin="4,2,4,2">
+                                <Label Content="For" Margin="39,28,546,119" FontWeight="Bold"/>
+                                <RadioButton x:Name="rbAllCustomers" Content="All Customers" HorizontalAlignment="Left" Margin="79,34,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=FilterAllCustomers, Mode=TwoWay}"/>
+                                <RadioButton x:Name="rbByCategory" Content="Category(s)" HorizontalAlignment="Left" Margin="274,34,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=FilterByCategory, Mode=TwoWay}"/>
+                                <RadioButton x:Name="rbByCustomer" Content="Specific Customer" HorizontalAlignment="Left" Margin="448,34,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=FilterByCustomer, Mode=TwoWay}"/>
+                                <Border HorizontalAlignment="Center" Height="107" Margin="35,64,424.2,0" VerticalAlignment="Top" Width="160" BorderThickness="1" BorderBrush="Gray" CornerRadius="3" >
+                                    <Grid Background="#FFE5E5E5" Margin="4,2,4,2">
+                                        <Label x:Name="lblCustCode" Content="Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-1,5,0,0"
+                                               IsEnabled="{Binding Path=FilterByCustomer, Mode=OneWay}" />
+                                        <toolkit:AutoCompleteBox 
+                                            HorizontalAlignment="Left" 
+                                            Height="23" 
+                                            VerticalAlignment="Top" 
+                                            Width="90" 
+                                            Margin="42,7,0,0" 
+                                            Helpers:AutoCompleteBoxBehaviour.RightClickCommand="{Binding SelectCustomerAccount}"
+                                            SelectedItem="{Binding Path=FilterCustomer, Mode=TwoWay}" 
+                                            ItemsSource="{Binding Customers}" 
+                                            ValueMemberPath="LocalAccountCode" 
+                                            IsEnabled="{Binding Path=FilterByCustomer, Mode=OneWay}" 
+                                            Text="{Binding CustomerCodeText, Mode=TwoWay}">
+                                            <toolkit:AutoCompleteBox.TextBoxStyle>
+                                                <Style TargetType="TextBox">
+                                                    <Setter Property="CharacterCasing" Value="Upper"/>
+                                                </Style>
+                                            </toolkit:AutoCompleteBox.TextBoxStyle>
+                                            <toolkit:AutoCompleteBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding LocalAccountCode}"/>
+                                                </DataTemplate>
+                                            </toolkit:AutoCompleteBox.ItemTemplate>
+                                        </toolkit:AutoCompleteBox>
+                                        <TextBlock x:Name="lblCustNameDisp" Text="{Binding Path=FilterCustomerAccountName, Mode=OneWay}" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="4,37,2.4,0" Width="132"
+                                               IsEnabled="{Binding Path=FilterByCustomer, Mode=OneWay}"/>
+                                    </Grid>
+                                </Border>
+                                <Border x:Name="grbByCategory" HorizontalAlignment="Center" Height="107" Margin="203,64,19.2,0" VerticalAlignment="Top" Width="397" BorderThickness="1" BorderBrush="Gray" CornerRadius="3">
+                                    <Grid Background="#FFE5E5E5" Margin="4,2,0,0">
+                                        <Label Content="Customer categories..." HorizontalAlignment="Left" Margin="20,5,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.521,0.008"
+                                           IsEnabled="{Binding Path=FilterByCategory}"/>
+                                        <Button Content="Select" HorizontalAlignment="Left" Height="22" Margin="186,5,0,0" VerticalAlignment="Top" Width="102"
+                                            IsEnabled="{Binding Path=FilterByCategory}"
+                                            Command="{Binding SelectCustomerCats}" />
+                                        <DataGrid Name="grdSelCategories" HorizontalAlignment="Left" Height="60" Margin="7,29,0,0" VerticalAlignment="Top" Width="359"
+                                             IsEnabled="{Binding Path=FilterByCategory}" AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="None"
+                                             ItemsSource="{Binding Path=FilterCustomerCategories, Mode=OneWay}">
+                                            <DataGrid.Columns>
+                                                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Category" Width="*"/>
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Grid>
+                                </Border>
+                                <CheckBox x:Name="chbInterCompTrans" Content="InterCompany Transfers" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="274,176,0,0" IsChecked="{Binding Path=InterCompanyTransfer, Mode=TwoWay}"/>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <Border Grid.Row="1" BorderBrush="DarkGray" BorderThickness="1" CornerRadius="3" HorizontalAlignment="Center">
+                        <Grid>
+                            <Border BorderBrush="DarkGray" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="350" Margin="30,10,0,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox 
+                                        x:Name="CmbCompany" 
+                                        Width="250"
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center" 
+                                        ItemsSource="{Binding Path=CompanyList, Mode=OneTime}" 
+                                        SelectedItem="{Binding Path=AccountCompany, Mode=TwoWay}"
+                                        IsSynchronizedWithCurrentItem="True"
+                                        Grid.Column="1"
+                                        Grid.Row="0">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border>
+                                                    <TextBlock Text="{Binding Path=Name}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <ComboBox x:Name="CmbCurrency" HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" 
+                                              ItemsSource="{Binding Path=CurrencyList, Mode=OneTime}" SelectedItem="{Binding Path=Currency, Mode=TwoWay}" Grid.Row="1" Grid.Column="1">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border>
+                                                    <TextBlock Text="{Binding Path=Description}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+
+                                    <Label Content="Company" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+                                    <Label Content="Currency" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
+                                </Grid>
+                            </Border>
+
+                            <Border BorderBrush="DarkGray" BorderThickness="1" Height="60" Width="350" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,30,0" CornerRadius="3">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="24"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Content="Cut-off Dlvry Date" HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" Grid.Column="0" Grid.Row="0"/>
+                                    <Label Content="Tax Point Date" HorizontalAlignment="Center"  VerticalAlignment="Center" FontWeight="Bold" Grid.Column="1" Grid.Row="0"/>
+
+                                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding Path=CutOffDate, Mode=TwoWay}" Width="140" Grid.Column="0" Grid.Row="1" LostKeyboardFocus="DatePicker_OnLostKeyboardFocus" />
+                                    <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" SelectedDate="{Binding Path=TaxDate, Mode=TwoWay}" Width="140" Grid.Column="1" Grid.Row="1" LostKeyboardFocus="DatePicker_OnLostKeyboardFocus"/>
+                                </Grid>
+                            </Border>
+
+                            <CheckBox Content="Check/Uncheck All" FontWeight="Normal" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30,88,0,0" IsThreeState="True" IsChecked="{Binding Path=CheckAllCheckBoxes, Mode=TwoWay}"/>
+
+                            <GroupBox Header="Invoice Period" HorizontalAlignment="Left" Margin="30,110,0,0" VerticalAlignment="Top" Height="50" Width="350" FontWeight="Bold" BorderBrush="Gray">
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton Content="Daily Only" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" Grid.Column="0" IsChecked="{Binding Path=PeriodDaily, Mode=TwoWay}"/>
+                                    <RadioButton Content="Daily + Weekly" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" Grid.Column="1" IsChecked="{Binding Path=PeriodWeekly, Mode=TwoWay}"/>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Invoice Type" HorizontalAlignment="Left" Height="50" Margin="450,110,30,0" VerticalAlignment="Top" Width="350" BorderBrush="Gray">
+                                <Grid HorizontalAlignment="Stretch" x:Name="grdInvKind" VerticalAlignment="Stretch" Margin="3" >
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Content="Per Delivery" HorizontalAlignment="Left" Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding Path=InvKindPerDelivery, Mode=TwoWay}"/>
+                                    <CheckBox Content="Per Order" HorizontalAlignment="Left" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Path=InvKindPerOrder, Mode=TwoWay}"/>
+                                    <CheckBox Content="Per Customer" HorizontalAlignment="Left" Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding Path=InvKindPerCustomer, Mode=TwoWay}"/>
+                                </Grid>
+                            </GroupBox>
+                            <Border BorderThickness="1" BorderBrush="DarkGray" CornerRadius="3" HorizontalAlignment="Left" Margin="30,180,0,0" VerticalAlignment="Top" Height="40" Width="350" >
+                                <Grid HorizontalAlignment="Stretch" x:Name="grdInvType" VerticalAlignment="Stretch" Margin="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox Content="Invoices" HorizontalAlignment="Left" Height="16" Grid.Column="0" VerticalAlignment="Center" IsChecked="{Binding Path=InvTypeInvoice, Mode=TwoWay}"/>
+                                    <CheckBox Content="Credit Notes" HorizontalAlignment="Left" Height="16" Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding Path=InvTypeCreditNote, Mode=TwoWay}"/>
+                                    <CheckBox Content="Debit Notes" HorizontalAlignment="Left" Height="16" Grid.Column="2" VerticalAlignment="Center" IsChecked="{Binding Path=InvTypeDebitNote, Mode=TwoWay}"/>
+                                </Grid>
+                            </Border>
+
+                            <Border Margin="0,180,30,0" VerticalAlignment="Top" HorizontalAlignment="Right" Height="40" Width="350" BorderThickness="1" BorderBrush="DarkGray" CornerRadius="3">
+                                <ComboBox  Margin="10,0,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Center" ItemsSource="{Binding Path=SalesOfficeList, Mode=OneTime}" 
+                                        SelectedItem="{Binding Path=SelectedSalesOffice, Mode=TwoWay}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding SalesOfficeDescription, Converter={StaticResource TrimStringConverter}}" />
+                                                    <TextBlock Visibility="{Binding SalesOfficeNumber, Converter={StaticResource OfficeNumberConverter}}">
+                                                        <TextBlock.Text>
+                                                            <Binding Path="SalesOfficeNumber" StringFormat=" ({0})" />
+                                                        </TextBlock.Text>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Border>
+
+                            <Button x:Name="btnExtract" Content="Extract Data" Command="{Binding ExtractDataCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="100" Height="22" Margin="0,0,0,10" />
+                            
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Grid.Row="2" Margin="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Visibility="{Binding ExtractionInProgress, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <ProgressBar Minimum="0" Maximum="100" Name="ProgressBarProcess" Height="25" Width="300" Margin="5" 
+                                     VerticalAlignment="Center" Value="{Binding CurrentProgress}" />
+                        <Button Content="Abort" Margin="10 0 0 0" Height="22" Width="80" VerticalAlignment="Center" Command="{Binding AbortExtractionCommand}"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabError" Header="Error Messages" Width="150" IsEnabled="{Binding Path=TabEnabledError}">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid x:Name="AccountsResultsGrid" Margin="3" CanUserReorderColumns="False" AutoGenerateColumns="False"
+                              ItemsSource="{Binding ExtractErrorList}"
+                              CanUserAddRows="false">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="ErrorReason" Header="Reason" MinWidth="450" Binding="{Binding ErrorDescription.Reason}"  IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="ErrorDlvrdToCst" Header="Dlvrd To Cst" Binding="{Binding CustomerCode}" MinWidth="120" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="ErrorOrderNo" Header="Order No." Binding="{Binding  OrderNo}" MinWidth="120" IsReadOnly="True"/>
+                            <DataGridTextColumn x:Name="ErrorCustOrderNo" Header="Cust Order No." Binding="{Binding DeliveryNo}" MinWidth="180" IsReadOnly="True"/>
+                            <DataGridTemplateColumn x:Name="ErrorCritical" Header="Critical" Width="50" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=ErrorDescription.IsCritial, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsHitTestVisible="False" Focusable="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5" Height="30" Width="100" Content="Print Errors" Command="{Binding PrintErrors}"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TabSave" Width="150" Header="Select &amp; Print" IsEnabled="{Binding Path=TabEnabledSave}">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="180"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Border HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="170" BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Margin="3"
+                            IsEnabled="True">
+                        <StackPanel Background="#FFE5E5E5" VerticalAlignment="Top">
+                            <CheckBox x:Name="chkMergeLikePrices" Content="Merge like prices" HorizontalAlignment="Left" Margin="14,18,0,0" VerticalAlignment="Top" Height="16" Width="110" IsChecked="{Binding Path=PreinvIsMergeLikePrices, Mode=TwoWay}"/>
+                            <CheckBox x:Name="chkPrintSummary" Content="Summary" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" Height="15" Width="70" IsChecked="{Binding Path=PreinvIsSummaryPrint, Mode=TwoWay}"/>
+                            <CheckBox x:Name="chkPrintDetail" Content="Detail" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" Height="15" Width="51" IsChecked="{Binding Path=PreinvIsDetailPrint, Mode=TwoWay}"/>
+                            <Button x:Name="btnPrint" Content="Print" HorizontalAlignment="Left" Height="29" Margin="7,10,0,0" VerticalAlignment="Top" Width="152" Command="{Binding PrintDataCommand}"/>
+                            <Button x:Name="btnUpdate" Content="Update" HorizontalAlignment="Left" Height="29" Margin="7,10,0,0" VerticalAlignment="Top" Width="152" Command="{Binding UpdateDataCommand}"/>
+                            <RadioButton x:Name="chkPrintToPrinter" Content="Printer" GroupName="PrintTo" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" Height="15" Width="54" IsChecked="{Binding Path=PrintToPrinter, Mode=TwoWay}"/>
+                            <RadioButton x:Name="chkPrintToScreen" Content="Screen" GroupName="PrintTo" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" Height="15" Width="56" IsChecked="{Binding Path=PrintToScreen, Mode=TwoWay}"/>
+                            <RadioButton x:Name="chkPrintToSpreadsheet" Content="Spreadsheet" GroupName="PrintTo" HorizontalAlignment="Left" Margin="34,10,0,0" VerticalAlignment="Top" Height="15" Width="86" IsChecked="{Binding Path=PrintToFile, Mode=TwoWay}" />
+                            <ProgressBar Minimum="0" Maximum="100" Name="ProgressBarUpdateProcess" Height="25" Margin="7,10,7,0" 
+                                     VerticalAlignment="Center" Value="{Binding CurrentProgress}" HorizontalAlignment="Stretch"
+                                     Visibility="{Binding UpdateInProgress, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </Border>
+                    <TextBlock Text="Invoices"/>
+                    <DataGrid x:Name="grdResInvoice" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="3,18,3,3"
+                              AutoGenerateColumns="False" 
+                              SelectionMode="Single"
+                              ItemsSource="{Binding ExtractInvoiceTotalList}"
+                              EnableColumnVirtualization="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Standard"
+                              CanUserAddRows="false">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding HofCstCode}" Header="Invcd Cst" MinWidth="90" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding InvoiceNo}" Header="Invoice No." MinWidth="90" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding IsEdiCst, Converter={StaticResource BooleanToStringConverter}}" Header="Is Edi" MinWidth="45" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding QtyTotal}" Header="Total Qty" MinWidth="90" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding GoodsTotal, StringFormat={}{0:N}, ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Header="Goods Total" MinWidth="115" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding VatTotal, StringFormat={}{0:N}, ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Header="Vat Total" MinWidth="115" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding InvoiceTotal, StringFormat={}{0:N}, ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Header="Invoice Total" MinWidth="100" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Cancel">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=CancelledInv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="CancelClick"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>                            
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="#C7E2C7"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CancelledInv}" Value="True">
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                                </Style.Resources>
+                            </Style>
+                        </DataGrid.Resources>
+                    </DataGrid>
+                    <TextBlock Text="Orders" Grid.Row="1" Grid.Column="0"/>
+                    <DataGrid x:Name="grdResOrder" SelectionMode="Single"
+                              HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,17,3,3"  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                              AutoGenerateColumns="False" ItemsSource="{Binding ExtractInvoicePartList}"
+                              EnableColumnVirtualization="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Standard"
+                              CanUserAddRows="false">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding OrdCstCode}" Header="Dlvd to Cst" MinWidth="100"  IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding DlvInvoiceNo}" Header="Invoice No." MinWidth="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding DlvOrdNo}" Header="Order No" MinWidth="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding DlvDelDate, StringFormat=d, ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Header="Dlv Date" MinWidth="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding OrdCustOrdNo}" Header="Cust Order No" MinWidth="140" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding DlvPODNo}" Header="POD No." MinWidth="140" IsReadOnly="True"/>
+                            <DataGridTemplateColumn Header="Cancel" Width="55">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=CancelledDlv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="CancelClick"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="#C7E2C7"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CancelledDlv}" Value="True">
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                                </Style.Resources>
+                            </Style>
+                        </DataGrid.Resources>
+                    </DataGrid>
+                    <TextBlock Text="Products" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5.2,393.2,-6"/>
+                    <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="3,17,3,3" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" SelectionMode="Single" AutoGenerateColumns="False" ItemsSource="{Binding ExtractInvoicePart2List}"
+                            EnableColumnVirtualization="True"
+                              EnableRowVirtualization="True"
+                              VirtualizingStackPanel.VirtualizationMode="Standard"
+                              CanUserAddRows="false">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding InvoiceNo}" Header="Invoice No." MinWidth="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding DlvOrdNo}" Header="Order No" MinWidth="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding PrcPrdRef}" Header="Prd Ref" MinWidth="100" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding PrdDesc}" Header="Product Description" MinWidth="350" IsReadOnly="True"/>
+                            <DataGridTextColumn Binding="{Binding DelQty}" Header="Qty" MinWidth="75" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding DelPrice, StringFormat={}{0:N}, ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Header="Price" MinWidth="75" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding Ext, StringFormat={}{0:N}, ConverterCulture={x:Static Globalization:CultureInfo.CurrentCulture}}" Header="Ext" MinWidth="75" IsReadOnly="True">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="HorizontalAlignment" Value="Right" />
+                                        <Setter Property="Margin" Value="0 0 3 0" />
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Cancel" Width="60">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=CancelledLine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="CancelClick"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="#C7E2C7"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CancelledLine}" Value="True">
+                                        <Setter Property="Background" Value="White"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Style.Resources>
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Transparent" />
+                                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                                </Style.Resources>
+                            </Style>
+                        </DataGrid.Resources>
+                    </DataGrid>                    
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
