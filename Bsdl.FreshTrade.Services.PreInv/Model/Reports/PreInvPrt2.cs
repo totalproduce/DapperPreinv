@@ -1,6 +1,6 @@
 ﻿namespace Bsdl.FreshTrade.Services.PreInv.Model.Reports
 {
-    class PreInvPrt2
+    public class PreInvPrt2
     {
         /// <summary>  ALLOCTOINVRECNO </summary>
         public virtual int? AllocToInvRecNo { get; set; }
