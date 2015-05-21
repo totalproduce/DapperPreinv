@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using System.Globalization;
-using System.Security.Cryptography.X509Certificates;
-using Bsdl.FreshTrade.Domain.Account.Entities;
+﻿using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Entities;
 using Bsdl.FreshTrade.Domain.Basic.Enums;
@@ -24,6 +21,7 @@ using Bsdl.FreshTrade.Services.Basic.Profiling;
 using Bsdl.FreshTrade.Services.PreInv.Model.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 
@@ -3392,7 +3390,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                             {
                                                 _context.DeliveryPrice = deliveryPrice;
 
-                                                if (!needToMergeCreditNotes && (deliveryPrice.DeliveryPriceCreditRef == null || deliveryPriceCreditRef != deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim()))
+                                                if (!needToMergeCreditNotes && (deliveryPrice.DeliveryPriceCreditRef == null || deliveryPriceCreditRef != (deliveryPrice.DeliveryPriceCreditRef.CreditRef ?? "").Trim()))
                                                 {
                                                     continue; //Skipping delivery price
                                                 }
