@@ -3402,7 +3402,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                 {
                                                     if (needToMergeCreditNotes)
                                                     {
-                                                        _context.DeliveryPriceCreditRef = deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim(); //"claim number" should be present for merged credit notes Issue#8
+                                                        _context.DeliveryPriceCreditRef =
+                                                            (deliveryPrice.DeliveryPriceCreditRef == null || string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef))
+                                                                ? string.Empty 
+                                                                : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim(); //"claim number" should be present for merged credit notes Issue#8
                                                     }
 
                                                     string processingErrorMessage;
