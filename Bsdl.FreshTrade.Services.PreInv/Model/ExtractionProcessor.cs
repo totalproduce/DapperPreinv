@@ -3392,7 +3392,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                             {
                                                 _context.DeliveryPrice = deliveryPrice;
 
-                                                if (!needToMergeCreditNotes && (deliveryPrice.DeliveryPriceCreditRef == null || deliveryPriceCreditRef != deliveryPrice.DeliveryPriceCreditRef.CreditRef))
+                                                if (!needToMergeCreditNotes && (deliveryPrice.DeliveryPriceCreditRef == null || deliveryPriceCreditRef != deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim()))
                                                 {
                                                     continue; //Skipping delivery price
                                                 }
