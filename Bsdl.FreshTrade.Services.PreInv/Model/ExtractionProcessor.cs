@@ -1,4 +1,7 @@
-﻿using Bsdl.FreshTrade.Domain.Account.Entities;
+﻿using System.Diagnostics;
+using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
+using Bsdl.FreshTrade.Domain.Account.Entities;
 using Bsdl.FreshTrade.Domain.Account.Enums;
 using Bsdl.FreshTrade.Domain.Basic.Entities;
 using Bsdl.FreshTrade.Domain.Basic.Enums;
@@ -21,7 +24,6 @@ using Bsdl.FreshTrade.Services.Basic.Profiling;
 using Bsdl.FreshTrade.Services.PreInv.Model.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 
 
@@ -3319,16 +3321,18 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                             }
 
                             bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.DeliveryHead);
-                            var deliveryPriceCreditRefs = new List<string> { null };
-                            if (!needToMergeCreditNotes)
+                            var deliveryPriceCreditRefs =
+                                delivery.Details
+                                    .SelectMany(x => x.Prices)
+                                    .Where(x => x != null && x.DeliveryPriceCreditRef != null)
+                                    .Select(x => x.DeliveryPriceCreditRef.CreditRef != null ? x.DeliveryPriceCreditRef.CreditRef.Trim() : null)
+                                    .Distinct()
+                                    .ToList();
+
+                            if (needToMergeCreditNotes)
                             {
-                                deliveryPriceCreditRefs = 
-                                    delivery.Details
-                                        .SelectMany(x => x.Prices)
-                                        .Where(x => x != null && x.DeliveryPriceCreditRef != null)
-                                        .Select(x => x.DeliveryPriceCreditRef.CreditRef != null ? x.DeliveryPriceCreditRef.CreditRef.Trim() : null)
-                                        .Distinct()
-                                        .ToList();
+                                //Everything is merged to the single deliveryPriceCreditRefs ("claim number" should be present for merged credit notes Issue#8)
+                                deliveryPriceCreditRefs = new List<string> { deliveryPriceCreditRefs.FirstOrDefault() };
                             }
                             foreach (var deliveryPriceCreditRef in deliveryPriceCreditRefs)
                             {
@@ -3390,7 +3394,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                             {
                                                 _context.DeliveryPrice = deliveryPrice;
 
-                                                if (!needToMergeCreditNotes && (deliveryPrice.DeliveryPriceCreditRef == null || deliveryPriceCreditRef != (deliveryPrice.DeliveryPriceCreditRef.CreditRef ?? "").Trim()))
+                                                var currentDeliveryPriceCreditRef =
+                                                    deliveryPrice.DeliveryPriceCreditRef == null
+                                                        ? string.Empty
+                                                        : string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef)
+                                                            ? string.Empty
+                                                            : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim();
+                                                if (!needToMergeCreditNotes && deliveryPriceCreditRef != currentDeliveryPriceCreditRef)
                                                 {
                                                     continue; //Skipping delivery price
                                                 }
@@ -3398,13 +3408,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                                                                                         deliveryPrice);
                                                 if (delPriceValidationResult == ValidateDeliveryPriceResult.Valid)
                                                 {
-                                                    if (needToMergeCreditNotes)
-                                                    {
-                                                        _context.DeliveryPriceCreditRef =
-                                                            (deliveryPrice.DeliveryPriceCreditRef == null || string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef))
-                                                                ? string.Empty 
-                                                                : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim(); //"claim number" should be present for merged credit notes Issue#8
-                                                    }
 
                                                     string processingErrorMessage;
                                                     if (WriteDetail(extractParams, out processingErrorMessage))
