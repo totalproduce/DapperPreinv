@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Enums" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Enums" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="DTOInvoiceType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Unknown" />
+      <xs:enumeration value="PerDeliveryGrossNoSplit" />
+      <xs:enumeration value="PerDeliveryGrossAllowSplit" />
+      <xs:enumeration value="PerDeliveryNettNoSplit" />
+      <xs:enumeration value="PerDeliveryNettAllowSplit" />
+      <xs:enumeration value="CombinedDeliveriesGross" />
+      <xs:enumeration value="CombinedDeliveriesNett" />
+      <xs:enumeration value="CombinedOrdersGross" />
+      <xs:enumeration value="CombinedOrdersNett" />
+      <xs:enumeration value="DeliveryNoteInvoice" />
+      <xs:enumeration value="PerOrderNettOfRelCredits" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="DTOInvoiceType" nillable="true" type="tns:DTOInvoiceType" />
+</xs:schema>
