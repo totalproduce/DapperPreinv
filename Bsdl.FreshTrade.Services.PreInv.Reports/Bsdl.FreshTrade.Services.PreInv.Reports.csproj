@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7886820A-1BAF-44CA-8AD7-DDA0B453652A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Services.PreInv.Reports</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Services.PreInv.Reports</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IPreInvReportService.cs.cs" />
+    <Compile Include="Model\DetailReportGenerator.cs" />
+    <Compile Include="Model\ErrorReportGenerator.cs" />
+    <Compile Include="Model\ReportGeneratorBase.cs" />
+    <Compile Include="Model\SummaryReportGenerator.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PreInvReportService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.PreInv\Bsdl.FreshTrade.Domain.PreInv.csproj">
+      <Project>{655A8F38-83A5-4BFB-887D-45C0BF1E5A07}</Project>
+      <Name>Bsdl.FreshTrade.Domain.PreInv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic.Interfaces\Bsdl.FreshTrade.Repositories.Basic.Interfaces.csproj">
+      <Project>{11390DF6-D8F3-41E9-BCB4-85B8509EEB5B}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic\Bsdl.FreshTrade.Repositories.Basic.csproj">
+      <Project>{A804F48A-006F-4F3A-8B12-8AA12E76DAF5}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.PreInv.Interfaces\Bsdl.FreshTrade.Repositories.PreInv.Interfaces.csproj">
+      <Project>{6B47272B-4043-4AD6-B93E-D7A94E585EA1}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.PreInv.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces\Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces.csproj">
+      <Project>{8A798747-6D3B-4D60-B1AA-3D8AE61C7DFB}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.PreInv.Reports.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Server.Base\Bsdl.FreshTrade.Server.Basic.csproj">
+      <Project>{ECDF022D-E47C-408B-8249-5DE1278FD6BA}</Project>
+      <Name>Bsdl.FreshTrade.Server.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Services.Basic\Bsdl.FreshTrade.Services.Basic.csproj">
+      <Project>{41ED9414-1F6B-46DD-BD01-6485AA4921E3}</Project>
+      <Name>Bsdl.FreshTrade.Services.Basic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

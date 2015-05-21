@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{41ED9414-1F6B-46DD-BD01-6485AA4921E3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Services.Basic</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Services.Basic</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Elmah">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dictionary\DictionaryService.cs" />
+    <Compile Include="Errors\ErrorService.cs" />
+    <Compile Include="Interfaces\IDictionaryService.cs" />
+    <Compile Include="Interfaces\IErrorService.cs" />
+    <Compile Include="Interfaces\IFreshTradeServiceBase.cs" />
+    <Compile Include="Interfaces\IUserService.cs" />
+    <Compile Include="Profiling\PerformanceLogger.cs" />
+    <Compile Include="Profiling\StopwatchExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FreshTradeServiceBase.cs" />
+    <Compile Include="Users\UserService.cs" />
+    <Compile Include="Utilities\Errors\ElmahErrorHandler.cs" />
+    <Compile Include="Utilities\Errors\ServiceErrorBehaviorAttribute.cs" />
+    <Compile Include="Utilities\Logs\EventsLogger.cs" />
+    <Compile Include="Utilities\SessionContext\InMemorySessionContextStorage.cs" />
+    <Compile Include="Utilities\SessionContext\SessionContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic.Interfaces\Bsdl.FreshTrade.Repositories.Basic.Interfaces.csproj">
+      <Project>{11390DF6-D8F3-41E9-BCB4-85B8509EEB5B}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic\Bsdl.FreshTrade.Repositories.Basic.csproj">
+      <Project>{A804F48A-006F-4F3A-8B12-8AA12E76DAF5}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Server.Base\Bsdl.FreshTrade.Server.Basic.csproj">
+      <Project>{ECDF022D-E47C-408B-8249-5DE1278FD6BA}</Project>
+      <Name>Bsdl.FreshTrade.Server.Basic</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Readme\Elmah.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
