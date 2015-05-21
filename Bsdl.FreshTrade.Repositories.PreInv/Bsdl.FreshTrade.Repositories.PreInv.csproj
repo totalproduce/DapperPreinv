@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{03446855-F56B-4C54-9D75-AD95606536CB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Repositories.PreInv</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Repositories.PreInv</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Audit\AuditRecordRepository.cs" />
+    <Compile Include="Audit\DelAuditRecordRepository.cs" />
+    <Compile Include="Audit\DelAudToDoRecordRepository.cs" />
+    <Compile Include="ControlTablesRegister.cs" />
+    <Compile Include="CreateDBModels.cs">
+      <DependentUpon>CreateDBModels.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Include="DBModel\AuditRecord.db.cs" />
+    <Compile Include="DBModel\DelAudit.db.cs" />
+    <Compile Include="DBModel\DelAudToDo.db.cs" />
+    <Compile Include="DBModel\DelPriceCreditRef.db.cs" />
+    <Compile Include="DBModel\DiscPrds.db.cs" />
+    <Compile Include="DBModel\DisCsts.db.cs" />
+    <Compile Include="DBModel\DisGrps.db.cs" />
+    <Compile Include="DBModel\DisRates.db.cs" />
+    <Compile Include="DBModel\EdiLogHeader.db.cs" />
+    <Compile Include="DBModel\InvExtractHedEx.cs" />
+    <Compile Include="DBModel\INVPRT2.db.cs" />
+    <Compile Include="DBModel\IchDiscTyp.db.cs" />
+    <Compile Include="DBModel\PreINVPRT.db.cs" />
+    <Compile Include="DBModel\PreINVPRT2.db.cs" />
+    <Compile Include="DBModel\PreINVTOT.db.cs" />
+    <Compile Include="DeliveryRep\DeliveryPriceCreditRefRepository.cs" />
+    <Compile Include="DiscountRep\DiscountRatesRepository.cs" />
+    <Compile Include="ReChargeRep\AccReChgRepository.cs" />
+    <Compile Include="AccToProcess\AccToProcessRepository.cs" />
+    <Compile Include="BatchRep\BatchDetRepository.cs" />
+    <Compile Include="BatchRep\BatchRepository.cs" />
+    <Compile Include="DBModel\AccAlloc.db.cs" />
+    <Compile Include="DBModel\AccAllVal.db.cs" />
+    <Compile Include="DBModel\Accite.db.cs" />
+    <Compile Include="DBModel\AccReChg.db.cs" />
+    <Compile Include="DBModel\AccTrnFil.db.cs" />
+    <Compile Include="DBModel\AccVAT.db.cs" />
+    <Compile Include="DBModel\Batch.db.cs" />
+    <Compile Include="DBModel\BatchDet.db.cs" />
+    <Compile Include="DBModel\CreditNoteToDelivery.db.cs" />
+    <Compile Include="DBModel\DELDET.db.cs" />
+    <Compile Include="DBModel\DELHED.db.cs" />
+    <Compile Include="DBModel\DelPrice.db.cs" />
+    <Compile Include="DBModel\DelToCdt.db.cs" />
+    <Compile Include="DBModel\DELTOIST.db.cs" />
+    <Compile Include="DBModel\Dlvtype.db.cs" />
+    <Compile Include="DBModel\EdiCoSuppNo.db.cs" />
+    <Compile Include="DBModel\EdiInv.db.cs" />
+    <Compile Include="DBModel\EdiLogInvoice.db.cs" />
+    <Compile Include="DBModel\ExpCha.db.cs" />
+    <Compile Include="DBModel\GLBRKON.db.cs" />
+    <Compile Include="DBModel\GLTrans.db.cs" />
+    <Compile Include="DBModel\HOFCST.db.cs" />
+    <Compile Include="DBModel\INVDISCTYP.db.cs" />
+    <Compile Include="DBModel\INVEDI.db.cs" />
+    <Compile Include="DBModel\INVERR.db.cs" />
+    <Compile Include="DBModel\InvExtractHed.db.cs" />
+    <Compile Include="DBModel\INVPRT.db.cs" />
+    <Compile Include="DBModel\INVTOT.db.cs" />
+    <Compile Include="DBModel\IteChg.db.cs" />
+    <Compile Include="DBModel\Order.db.cs" />
+    <Compile Include="DBModel\PostType.db.cs" />
+    <Compile Include="DBModel\PrcCstInfo.db.cs" />
+    <Compile Include="DBModel\PRCNEWCSTS.db.cs" />
+    <Compile Include="DBModel\Prdrec.db.cs" />
+    <Compile Include="DBModel\PreInvError.db.cs" />
+    <Compile Include="DBModel\StocLoc.db.cs" />
+    <Compile Include="DBModel\VatLinks.db.cs" />
+    <Compile Include="DBModel\VatRates.db.cs" />
+    <Compile Include="DeliveryRep\DeliveryPriceRepository.cs" />
+    <Compile Include="DeliveryRep\DeliveryPriceToCreditNoteRepository.cs" />
+    <Compile Include="DeliveryRep\DeliveryToItemStockRepository.cs" />
+    <Compile Include="DeliveryRep\DeliveryTypeRepository.cs" />
+    <Compile Include="DestinationRep\AccAllocRepository.cs" />
+    <Compile Include="DestinationRep\AccAllValRepository.cs" />
+    <Compile Include="DestinationRep\AcciteRepository.cs" />
+    <Compile Include="DestinationRep\AccTrnFilRepository.cs" />
+    <Compile Include="DestinationRep\AccVATRepository.cs" />
+    <Compile Include="DestinationRep\EdiInvRepository.cs" />
+    <Compile Include="DestinationRep\EdiLogInvoiceRepository.cs" />
+    <Compile Include="DestinationRep\ExpChaRepository.cs" />
+    <Compile Include="DestinationRep\GLTransRepository.cs" />
+    <Compile Include="DestinationRep\IteChgRepository.cs" />
+    <Compile Include="DiscountRep\CustomerDiscountRatesRepository.cs" />
+    <Compile Include="EdiRep\EdiCoSuppNoRepository.cs" />
+    <Compile Include="ErrorRep\ErrorDescriptionRepository.cs" />
+    <Compile Include="PostTypeRep\PostTypeRepository.cs" />
+    <Compile Include="PriceListRep\CustomerProductInfoRepository.cs" />
+    <Compile Include="PriceListRep\PriceListVatCheckRepository.cs" />
+    <Compile Include="ProductRep\ProductRepository.cs" />
+    <Compile Include="Settings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Settings.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StockRep\StockLocationRepository.cs" />
+    <Compile Include="DestinationRep\IchDiscTypRepository.cs" />
+    <Compile Include="TempRep\INVEDIRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TempRep\InvExtractHedRepository.cs" />
+    <Compile Include="TempRep\INVPRT2Repository.cs" />
+    <Compile Include="TempRep\InvTotRepository.cs" />
+    <Compile Include="DeliveryRep\DeliveryDetailRepository.cs" />
+    <Compile Include="DeliveryRep\DeliveryHeadRepository.cs" />
+    <Compile Include="HeadOfficeRep\HeadOfficeRepository.cs" />
+    <Compile Include="OrderRep\OrderRepository.cs" />
+    <Compile Include="PriceListRep\PriceGroupRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TempRep\InvDiscTypRepository.cs" />
+    <Compile Include="TempRep\INVERRRepository.cs" />
+    <Compile Include="TempRep\INVPRTRepository.cs" />
+    <Compile Include="TempRep\PreINVPRT2Repository.cs" />
+    <Compile Include="TempRep\PreINVPRTRepository.cs" />
+    <Compile Include="TempRep\PreInvTotRepository.cs" />
+    <Compile Include="VatRep\VatLinkRepository.cs" />
+    <Compile Include="VatRep\VatRateRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Account\Bsdl.FreshTrade.Domain.Account.csproj">
+      <Project>{6198000A-B37E-41E2-9FCB-1F777FAC182D}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.PreInv\Bsdl.FreshTrade.Domain.PreInv.csproj">
+      <Project>{655A8F38-83A5-4BFB-887D-45C0BF1E5A07}</Project>
+      <Name>Bsdl.FreshTrade.Domain.PreInv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Account\Bsdl.FreshTrade.Repositories.Account.csproj">
+      <Project>{60B9E728-69F2-45B7-8229-57A0F6B2DA33}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic.Interfaces\Bsdl.FreshTrade.Repositories.Basic.Interfaces.csproj">
+      <Project>{11390DF6-D8F3-41E9-BCB4-85B8509EEB5B}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic\Bsdl.FreshTrade.Repositories.Basic.csproj">
+      <Project>{A804F48A-006F-4F3A-8B12-8AA12E76DAF5}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.PreInv.Interfaces\Bsdl.FreshTrade.Repositories.PreInv.Interfaces.csproj">
+      <Project>{6B47272B-4043-4AD6-B93E-D7A94E585EA1}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.PreInv.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DapperNET40.Modified\DapperNET40.Modified.csproj">
+      <Project>{4286FA07-C85B-4CD2-9BD8-12799DF19829}</Project>
+      <Name>DapperNET40.Modified</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateDBModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateDBModels.cs</LastGenOutput>
+    </None>
+    <None Include="Settings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Settings.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
