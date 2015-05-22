@@ -2292,14 +2292,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             //            endIf
         }*/
 
-        private bool NeedToMergeCreditNotes(PreInvInvoiceType invoiceType, DTOAccount account, DTODeliveryHead delivery)
+        private bool NeedToMergeCreditNotes(PreInvInvoiceType invoiceType, DTOAccount account, DTOOrder order, DTODeliveryHead delivery)
         {
-            if ((invoiceType == PreInvInvoiceType.Invoice) || (account == null) || (delivery == null))
+            if ((invoiceType == PreInvInvoiceType.Invoice) || (account == null) || (order == null) || (delivery == null))
             {
                 return true;
             }
 
-            return (delivery.DeliveryStatus != DTODeliveryStatus.Invoiced) && account.InvoiceType.IsNettOfCredit();
+            return (order.AccountClassId != null) && (delivery.TranInd.GetValueOrDefault() <= 10) && account.InvoiceType.IsNettOfCredit();
         }
 
         private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, bool needToMergeCreditNotes, string deliveryPriceCreditRef)
@@ -3320,7 +3320,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 continue;
                             }
 
-                            bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.DeliveryHead);
+                            bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.Order, _context.DeliveryHead);
                             var deliveryPriceCreditRefs =
                                 delivery.Details
                                     .SelectMany(x => x.Prices)
