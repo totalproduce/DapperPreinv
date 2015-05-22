@@ -2,7 +2,7 @@
 
 namespace Bsdl.FreshTrade.Services.PreInv.Model.Reports
 {
-    class PreInvPrt
+    public class PreInvPrt
     {
         /// <summary> Cancelleddlv </summary>
         public virtual bool? Cancelleddlv { get; set; }
