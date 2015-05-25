@@ -1,0 +1,52 @@
+﻿<Window x:Class="Bsdl.FreshTrade.UI.PreInv.View.CustomerCategorySelect"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        Title="Category Select" Height="373.146" Width="866.233" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Background="Silver">
+    
+    <Grid>
+        <RadioButton Content="Customer" Name="chbCustomer" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=IsCustomer}" />
+        <RadioButton Content="Supplier" Name="chbSupplier" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" IsChecked="{Binding Path=IsSupplier}"/>
+        <TextBox Name="txtAccountCount" HorizontalAlignment="Left" Height="23" Margin="10,40,0,0" TextWrapping="Wrap" TextAlignment="Center" Text="{Binding Path=AccountCount, Mode=OneWay}" VerticalAlignment="Top" Width="60" IsReadOnly="True"/>
+        <Label Content="= Total Accounts for Selection" HorizontalAlignment="Left" Margin="86,36,0,0" VerticalAlignment="Top"/>
+        <DataGrid Name="grdGroup" HorizontalAlignment="Left" Margin="10,68,0,0" VerticalAlignment="Top" Height="200" Width="300" ItemsSource="{Binding Path=CustomerGroups, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Description}" Header="Group" Width="*"/>
+                <DataGridCheckBoxColumn Header="Cont" Width="40"/>
+            </DataGrid.Columns>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding GroupItemSelect}" 
+                    CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
+        <DataGrid Name="grdGroupCategory" HorizontalAlignment="Left" Margin="350,68,0,0" VerticalAlignment="Top" Height="200" Width="200" ItemsSource="{Binding Path=CustomerGroupCats, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Description}" ClipboardContentBinding="{x:Null}" Header="Category" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Name="grdSelectedCategory" HorizontalAlignment="Left" Margin="650,68,0,0" VerticalAlignment="Top" Height="200" Width="200" ItemsSource="{Binding Path=SelectedCustGroupCats, Mode=OneWay}" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Path=Description}" ClipboardContentBinding="{x:Null}" Header="Selected Category" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="btnSelectCat" HorizontalAlignment="Left" Height="30" Margin="583,130,0,0" VerticalAlignment="Top" Width="40" 
+                Command="{Binding Path=CategoryAdd}"
+                CommandParameter="{Binding ElementName=grdGroupCategory, Path=SelectedItems}" >
+            <Button.Background>
+                <ImageBrush Stretch="None" ImageSource="/Bsdl.FreshTrade.UI.PreInv;component/Images/ArrowRight.png"/>
+            </Button.Background>
+        </Button>
+        <Button Name="btnRemoveCat" HorizontalAlignment="Left" Height="30" Margin="583,160,0,0" VerticalAlignment="Top" Width="40" 
+                Command="{Binding Path=CategoryRemove}"
+                CommandParameter="{Binding ElementName=grdSelectedCategory, Path=SelectedItems}" >
+            <Button.Background>
+                <ImageBrush Stretch="None" ImageSource="/Bsdl.FreshTrade.UI.PreInv;component/Images/ArrowLeft.png"/>
+            </Button.Background>
+        </Button>
+        <Button Content="Finished" Name="btnClose" HorizontalAlignment="Left" Height="32" Margin="768,297,0,0" VerticalAlignment="Top" Width="82" Click="Button_Click_1"/>
+
+    </Grid>
+</Window>

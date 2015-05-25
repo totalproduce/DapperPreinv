@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfDTOCustomerGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOCustomerGroup" nillable="true" type="tns:DTOCustomerGroup" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOCustomerGroup" nillable="true" type="tns:ArrayOfDTOCustomerGroup" />
+  <xs:complexType name="DTOCustomerGroup">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ContainerNo" type="xs:short" />
+      <xs:element minOccurs="0" name="CustomerCount" type="xs:int" />
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Type" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOCustomerGroup" nillable="true" type="tns:DTOCustomerGroup" />
+  <xs:complexType name="ArrayOfDTOCustomerCategory">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOCustomerCategory" nillable="true" type="tns:DTOCustomerCategory" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOCustomerCategory" nillable="true" type="tns:ArrayOfDTOCustomerCategory" />
+  <xs:complexType name="DTOCustomerCategory">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GroupId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOCustomerCategory" nillable="true" type="tns:DTOCustomerCategory" />
+</xs:schema>
