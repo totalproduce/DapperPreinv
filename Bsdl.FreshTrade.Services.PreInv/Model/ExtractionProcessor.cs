@@ -1338,7 +1338,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             return true;
         }
 
-        private void InitializeInvoiceTotals(DTOPreInvExtractParams extractParams, bool needToMergeCreditNotes, string deliveryPriceCreditRef)
+        private void InitializeInvoiceTotals(DTOPreInvExtractParams extractParams, string deliveryPriceCreditRef)
         {
             if (
                     GetInvoiceTotals
@@ -1348,7 +1348,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         _context.AccountClass.AccountCode,
                         _context.Order.Id,
                         _context.DeliveryHead.Id,
-                        needToMergeCreditNotes,
                         deliveryPriceCreditRef
                     )
                 )
@@ -2292,20 +2291,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             //            endIf
         }*/
 
-        private bool NeedToMergeCreditNotes(PreInvInvoiceType invoiceType, DTOAccount account, DTOOrder order, DTODeliveryHead delivery)
-        {
-            if ((invoiceType == PreInvInvoiceType.Invoice) || (account == null) || (order == null) || (delivery == null))
-            {
-                return true;
-            }
-
-            return (order.AccountClassId != null) && (delivery.TranInd.GetValueOrDefault() <= 10) && account.InvoiceType.IsNettOfCredit();
-        }
-
-        private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, bool needToMergeCreditNotes, string deliveryPriceCreditRef)
+        private bool GetInvoiceTotals(PreInvBatchType batchType, PreInvInvoiceType invoiceType, string accountCode, int orderId, int deliveryId, string deliveryPriceCreditRef)
         {
             string deliveryPriceCreditRefGroup = string.Empty;
-            if (!needToMergeCreditNotes)
+            if (!string.IsNullOrEmpty(deliveryPriceCreditRef))
             {
                 deliveryPriceCreditRefGroup = "M" + deliveryPriceCreditRef;
             }
@@ -3263,6 +3252,48 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _context.InvoiceTotalBeforeLastDelivery = null;
         }
 
+        private void PrepareDeliveryPriceGroups(DTODeliveryHead delivery, IDictionary<string, ISet<DTODeliveryPrice>> groupsDictionary)
+        {
+            if (
+                    _context.InvoiceTypeForAccount == PreInvInvoiceType.Invoice || //No grouping for invoices
+                    (_context.Account == null) // This shouldn't happen
+               )
+            {
+                groupsDictionary.Add(string.Empty, new HashSet<DTODeliveryPrice>(delivery.Details.SelectMany(x => x.Prices).ToList())); 
+                return;
+            }
+
+            foreach (var deliveryDetail in delivery.Details)
+            {
+                foreach (var deliveryPrice in deliveryDetail.Prices)
+                {
+                    bool isOriginalDeliveryPriceInvoiced =
+                        deliveryPrice.CreditNoteOriginalDeliveryPrice != null &&
+                        deliveryPrice.CreditNoteOriginalDeliveryPrice.DeliveryPriceStatus.IsInvoiced();
+
+                    var currentDeliveryPriceCreditRef = string.Empty; //Should be merged;
+
+                    if (isOriginalDeliveryPriceInvoiced || !_context.Account.InvoiceType.IsNettOfCredit()) // Grouping condition
+                    {
+                        currentDeliveryPriceCreditRef =
+                            deliveryPrice.DeliveryPriceCreditRef == null
+                                ? string.Empty
+                                : string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef)
+                                    ? string.Empty
+                                    : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim();
+                    }
+
+                    ISet<DTODeliveryPrice> itemsGroup;
+                    if (!groupsDictionary.TryGetValue(currentDeliveryPriceCreditRef, out itemsGroup))
+                    {
+                        itemsGroup = new HashSet<DTODeliveryPrice>();
+                        groupsDictionary.Add(currentDeliveryPriceCreditRef, itemsGroup);
+                    }
+                    itemsGroup.Add(deliveryPrice);
+                }
+            }
+        }
+
         private void ProcessAccountOrders(DTOPreInvExtractParams extractParams, int accountClassId)
         {
             var orders = _localCache.Get<DTOOrder>(accountClassId);
@@ -3320,22 +3351,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 continue;
                             }
 
-                            bool needToMergeCreditNotes = NeedToMergeCreditNotes(_context.InvoiceTypeForAccount, _context.Account, _context.Order, _context.DeliveryHead);
-                            var deliveryPriceCreditRefs =
-                                delivery.Details
-                                    .SelectMany(x => x.Prices)
-                                    .Where(x => x != null && x.DeliveryPriceCreditRef != null)
-                                    .Select(x => x.DeliveryPriceCreditRef.CreditRef != null ? x.DeliveryPriceCreditRef.CreditRef.Trim() : null)
-                                    .Distinct()
-                                    .ToList();
+                            var deliveryPriceCreditRefGroupsDictionary = new Dictionary<string, ISet<DTODeliveryPrice>>();
+                            PrepareDeliveryPriceGroups(delivery, deliveryPriceCreditRefGroupsDictionary);
 
-                            if (needToMergeCreditNotes)
+                            foreach (var deliveryPriceCreditRef in deliveryPriceCreditRefGroupsDictionary.Keys)
                             {
-                                //Everything is merged to the single deliveryPriceCreditRefs ("claim number" should be present for merged credit notes Issue#8)
-                                deliveryPriceCreditRefs = new List<string> { deliveryPriceCreditRefs.FirstOrDefault() };
-                            }
-                            foreach (var deliveryPriceCreditRef in deliveryPriceCreditRefs)
-                            {
+                                var delPricesFromCurrentCreditRefGroup = deliveryPriceCreditRefGroupsDictionary[deliveryPriceCreditRef];
                                 bool deliveryProcessingOK = true;
                                 bool atLeastOneDeliveryDetailWritten = false;
 
@@ -3344,7 +3365,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                                 _context.DeliveryPriceCreditRef = deliveryPriceCreditRef;
 
-                                InitializeInvoiceTotals(extractParams, needToMergeCreditNotes, deliveryPriceCreditRef);
+                                InitializeInvoiceTotals(extractParams, deliveryPriceCreditRef);
 
                                 foreach (var deliveryDetail in delivery.Details)
                                 {
@@ -3392,18 +3413,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                         {
                                             foreach (var deliveryPrice in deliveryDetail.Prices)
                                             {
+
                                                 _context.DeliveryPrice = deliveryPrice;
 
-                                                var currentDeliveryPriceCreditRef =
-                                                    deliveryPrice.DeliveryPriceCreditRef == null
-                                                        ? string.Empty
-                                                        : string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef)
-                                                            ? string.Empty
-                                                            : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim();
-                                                if (!needToMergeCreditNotes && deliveryPriceCreditRef != currentDeliveryPriceCreditRef)
+                                                if (!delPricesFromCurrentCreditRefGroup.Contains(deliveryPrice))
                                                 {
-                                                    continue; //Skipping delivery price
+                                                    continue; // Skipped. Will be processed on later iterations
                                                 }
+
                                                 var delPriceValidationResult = ValidateDeliveryPrice(extractParams,
                                                                                                         deliveryPrice);
                                                 if (delPriceValidationResult == ValidateDeliveryPriceResult.Valid)
