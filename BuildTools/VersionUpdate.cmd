@@ -1,16 +1,17 @@
 /*
 REM @ECHO OFF
 SET hgPath= %cd%
+for /f "tokens=* delims= " %%a in ("%hgPath%") do set hgPath=%%a
 
 echo %hgpath%
-IF NOT EXIST %hgPath%\NUL exit 5
+IF NOT EXIST "%hgPath%" exit 5
 
-hg id -n %hgpath% > tmpfile
+hg id -n "%hgpath%" > tmpfile
 set /p myvar= < tmpfile
 echo %myvar%
 del tmpfile
 
-set csc="%WinDir%\Microsoft.NET\Framework\v2.0.50727\csc.exe"
+set csc="%WinDir%\Microsoft.NET\Framework\v4.0.30319\csc.exe"
 %csc% /nologo /out:"%~0.exe" %0
 
 set destfile[1]="Bsdl.FreshTrade.UI.PreInv\Properties\AssemblyInfo.cs"
