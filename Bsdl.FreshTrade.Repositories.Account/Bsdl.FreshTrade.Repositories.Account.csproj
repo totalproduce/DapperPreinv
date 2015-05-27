@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{60B9E728-69F2-45B7-8229-57A0F6B2DA33}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Bsdl.FreshTrade.Repositories.Account</RootNamespace>
+    <AssemblyName>Bsdl.FreshTrade.Repositories.Account</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Oracle.ManagedDataAccess">
+      <HintPath>..\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Accounts\AccountClassRepository.cs" />
+    <Compile Include="Accounts\CustomerCategoryDepencencyRepository.cs" />
+    <Compile Include="Accounts\AccountRepository.cs" />
+    <Compile Include="Customer\CustomerCategoryRepository.cs" />
+    <Compile Include="Customer\CustomerGroupRepository.cs" />
+    <Compile Include="DBModel\AccClass.db.cs" />
+    <Compile Include="DBModel\AccCurrDesc.db.cs" />
+    <Compile Include="DBModel\Account.db.cs" />
+    <Compile Include="DBModel\AccountToSalesOffice.db.cs" />
+    <Compile Include="DBModel\CstAnRec.db.cs" />
+    <Compile Include="DBModel\CustomerCategory.db.cs" />
+    <Compile Include="DBModel\CustomerGroup.db.cs" />
+    <Compile Include="DBModel\GLBrakedOn.db.cs" />
+    <Compile Include="DBModel\SalesOfficeResultsLineBase.db.cs" />
+    <Compile Include="GLInfo\GLBrakedOnRepository.cs" />
+    <Compile Include="Settings.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Settings.tt</DependentUpon>
+    </Compile>
+    <None Include="CreateDBModels.cs">
+      <DependentUpon>CreateDBModels.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </None>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SalesOffice\SalesOfficeRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Account\Bsdl.FreshTrade.Domain.Account.csproj">
+      <Project>{6198000A-B37E-41E2-9FCB-1F777FAC182D}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Account</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.Basic\Bsdl.FreshTrade.Domain.Basic.csproj">
+      <Project>{41A6F4B7-421C-4739-8010-41AE43A49B43}</Project>
+      <Name>Bsdl.FreshTrade.Domain.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Domain.PreInv\Bsdl.FreshTrade.Domain.PreInv.csproj">
+      <Project>{655A8F38-83A5-4BFB-887D-45C0BF1E5A07}</Project>
+      <Name>Bsdl.FreshTrade.Domain.PreInv</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Account.Interfaces\Bsdl.FreshTrade.Repositories.Account.Interfaces.csproj">
+      <Project>{03340A1C-7FD0-43EE-A561-59052675489A}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Account.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic.Interfaces\Bsdl.FreshTrade.Repositories.Basic.Interfaces.csproj">
+      <Project>{11390DF6-D8F3-41E9-BCB4-85B8509EEB5B}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Bsdl.FreshTrade.Repositories.Basic\Bsdl.FreshTrade.Repositories.Basic.csproj">
+      <Project>{A804F48A-006F-4F3A-8B12-8AA12E76DAF5}</Project>
+      <Name>Bsdl.FreshTrade.Repositories.Basic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DapperNET40.Modified\DapperNET40.Modified.csproj">
+      <Project>{4286FA07-C85B-4CD2-9BD8-12799DF19829}</Project>
+      <Name>DapperNET40.Modified</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CreateDBModels.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CreateDBModels.cs</LastGenOutput>
+    </None>
+    <None Include="Settings.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Settings.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

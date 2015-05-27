@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="Bsdl.FreshTrade.Services.PreInv.Services.PreInvService, Bsdl.FreshTrade.Services.PreInv"  Factory="Autofac.Integration.Wcf.AutofacServiceHostFactory, Autofac.Integration.Wcf"%>

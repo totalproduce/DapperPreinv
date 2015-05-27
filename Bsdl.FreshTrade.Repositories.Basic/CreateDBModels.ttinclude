@@ -1,0 +1,1439 @@
+<#@ assembly name="$(ProjectDir)..\packages\odp.net.managed.121.1.2\lib\net40\Oracle.ManagedDataAccess.dll" #>
+<#@template language="C#" debug="true" hostspecific="true"#>
+<#@include file="EF.Utility.CS.ttinclude" #>
+<#@output extension=".cs"#>
+<#@import namespace="System.Configuration" #>
+<#@import namespace="System" #>
+<#@import namespace="System.Collections.Generic" #>
+<#@import namespace="System.Data.Common" #>
+<#@import namespace="Oracle.ManagedDataAccess" #>
+<#@import namespace="Microsoft.VisualStudio.TextTemplating"#>
+<#@import namespace="System.Globalization"#>
+<#@import namespace="Oracle.ManagedDataAccess.Client"#>
+<#@import namespace="System.Linq"#>
+<#
+//
+// setup template generator
+//
+//System.Diagnostics.Debugger.Launch();
+
+    FileManager.Init(this, Host);
+    var db = new OracleDbManager2(connectionString, lookupTables, entityTables);
+    var tables = db.Tables;
+
+    //
+    //    generate Entities
+    //
+
+    foreach (Table table in db.Tables)
+    {
+#>
+// <summary>
+// This file is generated automatically. Any changes will be lost.
+// </summary>
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+<# if(!String.IsNullOrEmpty(enumsNamespace)){ #>
+using <#=enumsNamespace #>;
+<# } #>
+using <#= storageNamespace #>;
+using Bsdl.FreshTrade.Repositories.Basic.Persistance;
+
+namespace <#= entitiesNamespace #>
+{
+    /// <summary>
+    /// <#= table.TableComments #>
+    /// </summary>
+    public partial class <#= table.EntityTypeName
+            #> : <#=table.BaseClassName
+            #><<#= table.EntityTypeName + ", "
+            #><#=table.HasKeys?table.KeyTypeName:"string"
+            #>><#=table.HasOperationLog?", IEntityWithOperationLog":""
+            #>
+    {
+#region tableDefs
+
+       public static List<EntityPropDef> GetPropDefs() {
+         var result = new List<EntityPropDef>();
+
+//EntityPropDef(string propName, string columnName, bool isKey, bool isNullable, string refEntityName, PropertyInfo keyPropInfo,
+//            int size, int? prec, int? scale)
+
+
+<#
+        foreach (Column column in table.KeyColumns)
+        {
+            if (column.IsBaseColumn)
+                continue;
+#>
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <<#=table.EntityTypeName#>>.GetProperty(x => x.<#=column.PropertyName#>),
+         "<#= column.ColumnName #>", // columnName
+         true,                    //isKey
+         <#= column.IsNullable.ToString().ToLower() #>, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         <#= column.Size #>,       // int size   
+         <# if(column.Precision == null){ #>  
+         null, // int? prec
+         <# } else { #>
+         <#= column.Precision #>, // int? prec
+         <# } #>
+         <# if(column.Scale == null){ #>  
+         null // int? Scale
+         <# } else { #>
+         <#= column.Scale#>  // int? Scale
+         <# } #>,
+         typeof(<#= table.EntityTypeName#>)
+       ));
+<#
+        }
+#>
+
+<#
+        foreach (Column column in table.Columns)
+        {
+            if (column.IsBaseColumn)
+                continue;
+#>
+
+         result.Add(new EntityPropDef(
+         PropertyHelper <<#=table.EntityTypeName#>>.GetProperty(x => x.<#=column.PropertyName#>),
+         "<#= column.ColumnName #>", // columnName
+         false,                    //isKey
+         <#= column.IsNullable.ToString().ToLower() #>, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         <#= column.Size #>,       // int size   
+         <# if(column.Precision == null){ #>
+         null, // int? prec
+         <# } else { #>
+         <#= column.Precision #>, // int? prec
+         <# } #>
+         <# if(column.Scale == null){ #> 
+         null // int? Scale
+         <# } else { #>
+         <#= column.Scale#>  // int? Scale
+         <# } #>,
+         typeof(<#= table.EntityTypeName#>)
+         ));
+<#
+
+        }
+#>
+         return result; 
+       }
+
+#endregion     
+<#
+        foreach (Column column in table.KeyColumns)
+        {
+            if (column.IsBaseColumn)
+                continue;
+#>
+        private <#= column.PropertyType #> <#=column.FieldName#>;
+<#
+            if(!string.IsNullOrEmpty(column.ColumnComments))
+            {
+#>
+        /// <summary>
+        /// <#= column.ColumnComments #>
+        /// </summary>
+<#
+            }
+#>
+        public <#= column.PropertyType #> <#=column.PropertyName#>
+        {
+            get { return <#=column.FieldName#>; }
+            set
+            {
+                var oldKey = Key;
+                if (<#=column.FieldName#> != value)
+                {
+                    Modify();
+                    <#=column.FieldName#> = value;
+                    KeyChanged(oldKey);
+                }
+            }
+        }
+
+<#
+        } // end KeyColumns
+
+        foreach (Column column in table.Columns.Concat(table.EnumColumns))
+        {
+            if (column.IsBaseColumn)
+                continue;
+            if (column.IsKeyColumn)
+                continue;
+#>
+        private <#= column.PropertyType #> <#=column.FieldName#>;
+<#
+            if(!string.IsNullOrEmpty(column.ColumnComments))
+            {
+#>
+        /// <summary>
+        /// <#= column.ColumnComments #>
+        /// </summary>
+<#
+            }
+#>
+        public <#= column.PropertyType #> <#=column.PropertyName#>
+        {
+            get { return <#=column.FieldName#>; }
+            set
+            {
+                if (<#=column.FieldName#> != value)
+                {
+                    Modify();
+                    <#=column.FieldName#> = value;
+                }
+            }
+        }
+
+<#
+        } // end Columns
+
+
+        if (table.HasCompositePrimaryKey)
+        {
+#>
+        public override <#=table.KeyTypeName#> Key
+        {
+            get
+            {
+                return new <#=table.KeyTypeName#> { <#=string.Join(", ", table.KeyColumns.Select(c => c.PropertyName + " = " + c.PropertyName))#> };
+            }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException("value", "Entity key can not be null.");
+<#
+            foreach (Column pkColumn in table.KeyColumns)
+            {
+#>
+                <#=pkColumn.PropertyName#> = value.<#=pkColumn.PropertyName#>;
+<#
+            }
+#>
+            }
+        }
+
+        public override string KeyAsString { get { return Key.AsString; } }
+
+<#
+        }
+        else if (table.HasKeys) // table.HasCompositePrimaryKey
+        {
+#>
+        public override <#=table.KeyTypeName#> Key
+        {
+            get { return <#=table.KeyColumns[0].PropertyName#>; }
+            set { <#= table.KeyColumns[0].PropertyName#> = value; }
+        }
+
+<#
+            if ((table.KeyTypeName == "long")||(table.KeyTypeName == "int"))
+            {
+#>
+        public override string KeyAsString { get { return Key.ToString(CultureInfo.InvariantCulture); } }
+
+<#
+            }
+            else if (table.KeyTypeName == "string")
+            {
+#>
+        public override string KeyAsString { get { return Key; } }
+
+<#
+            }
+        } // end table.HasCompositePrimaryKey
+#>
+
+        public override <#=table.EntityTypeName#> Clone()
+        {
+            var obj = new <#=table.EntityTypeName#>
+                {
+<#
+        foreach (Column column in table.KeyColumns.Concat(table.Columns).Concat(table.EnumColumns.Where(c=>!c.IsKeyColumn)))
+        {
+#>
+                    <#=column.PropertyName#> = <#=column.PropertyName#>,
+<#
+        }
+#>
+                };
+
+            return obj;
+        }
+
+        public static class FieldNames
+        {
+// ReSharper disable InconsistentNaming
+<# 
+        foreach (Column column in table.KeyColumns.Concat(table.Columns).Concat(table.EnumColumns.Where(c=>!c.IsKeyColumn)))
+        {
+#>
+            public const string  <#=column.ColumnName#> = "<#=column.ColumnName#>";
+<#
+        }
+#> // ReSharper restore InconsistentNaming
+        }
+
+
+    }
+<#
+    if (table.HasCompositePrimaryKey)
+    {
+#>
+
+    /// <summary>
+    /// Define type of the primary key property of the <#= table.TableName#> entity.
+    /// </summary>
+    public class <#= table.KeyTypeName #> : ICompositeKey
+    {
+<#
+        foreach (Column pkColumn in table.KeyColumns)
+        {
+#>
+        public <#= pkColumn.PropertyType #> <#= pkColumn.PropertyName#> { get; set; }
+<#
+        }
+#>
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((<#=table.KeyTypeName#>)obj);
+        }
+
+        protected bool Equals(<#=table.KeyTypeName#> other)
+        {
+            return <#=string.Join(" && ", table.KeyColumns.Select(c=>c.PropertyName).Select(c=>c + " == other." + c))#>;
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = 0;
+<# foreach (Column pkColumn in table.KeyColumns) { #>
+                hashCode = (hashCode * 397) ^ (<#= pkColumn.PropertyName#><#=pkColumn.PropertyType == "string" ? " ?? \"\"" : "" #>).GetHashCode();
+<# } #>
+                return hashCode;
+            }
+        }
+
+        public static <#=table.KeyTypeName#> Parse(string key)
+        {
+            var parts = key.Split('|');
+            return new <#=table.KeyTypeName#>
+            {
+        <#
+            int index = 0;
+            foreach (Column pkColumn in table.KeyColumns)
+            {
+                if(pkColumn.IsEnumColumn) {
+        #>        <#= pkColumn.PropertyName#> = <#=pkColumn.PropertyType#>Ext.Parse(parts[<#=index#>]),
+        <#
+                }
+                else if(pkColumn.PropertyType != "string") {
+        #>        <#= pkColumn.PropertyName#> = <#=pkColumn.PropertyType#>.Parse(parts[<#=index#>]),
+        <#
+                }
+                else {
+        #>        <#= pkColumn.PropertyName#> = parts[<#=index#>],
+        <#
+                }
+                index++;
+            }
+        #>    };
+        }
+
+        public string AsString
+        {
+            get { return <#=string.Join(" + \"|\" + ", table.KeyColumns.Select(c=>c.PropertyName).Select(c => c + ".ToString()"))#>; }
+        }
+
+        public override string ToString()
+        {
+            return AsString;
+        }
+
+    }
+<#}#>
+
+}
+<#
+        FileManager.FlushToFile(string.Format(entityNameTemplate, table.EntityTypeName), false);
+    }
+#>
+
+<#
+/// DTO
+    if (generateDTOCode) {
+#>
+<#
+        foreach (Table table in db.Tables)
+        {
+#>
+// <summary>
+// This file is generated automatically. Any changes will be lost.
+// </summary>
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.Serialization;
+
+namespace <#=                dtoNamespace #>
+{
+    /// <summary>
+    /// <#=                table.TableComments #>
+    /// </summary>
+    [DataContract]
+    public class <#=                table.EntityTypeName  #> 
+    {
+<#
+            foreach (Column column in table.KeyColumns)
+            {
+                if (column.IsBaseColumn)
+                    continue;
+#>
+<#
+                if(!string.IsNullOrEmpty(column.ColumnComments))
+                {
+#>
+        /// <summary>
+        /// <#=                        column.ColumnComments #>
+        /// </summary>
+<#
+                }
+#>      
+        [DataMember]            
+        public <#=                    column.PropertyType #> <#=                    column.PropertyName#> {get; set;}
+<#
+            } // end KeyColumns
+
+            foreach (Column column in table.Columns.Concat(table.EnumColumns))
+            {
+                if (column.IsBaseColumn)
+                    continue;
+                if (column.IsKeyColumn)
+                    continue;
+#>
+<#
+                if(!string.IsNullOrEmpty(column.ColumnComments))
+                {
+#>
+        /// <summary>
+        /// <#=                        column.ColumnComments #>
+        /// </summary>
+<#
+                }
+#>    
+       [DataMember]              
+        public <#=                    column.PropertyType #> <#=                    column.PropertyName#> {get;set;}
+
+<#
+            } // end Columns
+#>
+    }
+
+/*
+<#
+            foreach (Column column in table.KeyColumns)
+            {
+                if (column.IsBaseColumn)
+                    continue;
+#>
+result.<#=column.PropertyName #> = item.<#=column.PropertyName #>;
+<# }
+            foreach (Column column in table.Columns.Concat(table.EnumColumns))
+            {
+                if (column.IsBaseColumn)
+                    continue;
+                if (column.IsKeyColumn)
+                    continue;
+#>
+  result.<#=column.PropertyName #> = item.<#=column.PropertyName #>;
+<#            }#>
+
+
+            
+*/  
+
+/*
+<#
+            foreach (Column column in table.KeyColumns)
+            {
+                if (column.IsBaseColumn)
+                    continue;
+#>
+<#=column.PropertyName #> = item.<#=column.PropertyName #>,
+<# }
+            foreach (Column column in table.Columns.Concat(table.EnumColumns))
+            {
+                if (column.IsBaseColumn)
+                    continue;
+                if (column.IsKeyColumn)
+                    continue;
+#>
+<#=column.PropertyName #> = item.<#=column.PropertyName #>,
+<#            }#>
+
+
+            
+*/  
+
+    }
+
+}
+<#
+            FileManager.FlushToFile(string.Format(dtoNameTemplate, table.EntityTypeName), false);
+        }
+#>
+
+<#
+    }
+/// /DTO
+#>
+
+
+<#
+    //
+    // Generate enums
+    //
+#>
+<#
+    foreach (EnumTable enumTable in db.EnumTables)
+    {
+#>
+// <summary>
+// This file is generated automatically. Any changes will be lost.
+// </summary>
+
+using System;
+using System.Globalization;
+
+namespace <#=enumsNamespace#>
+{
+    /// <summary>
+    /// Enumeration generated based on data from the <#=enumTable.TableName#> table
+    /// </summary>
+    public enum <#=enumTable.EnumName#> : <#=enumTable.EnumType#>
+    {
+<#
+        foreach (EnumItem enumItem in enumTable.Items)
+        {
+#>
+        [EnumTitle(Title = "<#=enumItem.Name#>", FullTitle = "<#=enumItem.FullName#>")]
+        <#=enumItem.Code#> = <#=enumItem.Id#>,
+
+<#
+        }
+#>
+    }
+
+    /// <summary>
+    /// Helper class for <#=enumTable.EnumName#> enumeration
+    /// </summary>
+    public static class <#=enumTable.EnumName#>Ext
+    {
+        public static string ToKey(this <#=enumTable.EnumName#> val)
+        {
+            return ((<#=enumTable.EnumType#>)val).ToString(CultureInfo.InvariantCulture);
+        }
+
+        public static <#=enumTable.EnumName#> Parse(string str)
+        {
+            return (<#=enumTable.EnumName#>)<#=enumTable.EnumType#>.Parse(str, CultureInfo.InvariantCulture);
+        }
+    }
+
+}
+<#
+        FileManager.FlushToFile(string.Format(enumNameTemplate, enumTable.EnumName), false);
+    }
+#>
+<#
+    //
+    // Generate DbStorage
+    //
+#>
+// <summary>
+// This file is generated automatically. Any changes will be lost.
+// </summary>
+
+using System;
+using System.Collections.Generic;
+using <#= configurationsNamespace #>;
+using <#= entitiesNamespace #>;
+
+namespace <#= storageNamespace #>
+{
+    /// <summary>
+    /// Generated part of the DbStorage class.
+    /// Contains one queryable property for each entity.
+    /// Initializes entity configurations.
+    /// </summary>
+    partial class DbStorage
+    {
+<#
+    foreach (Table table in db.Tables)
+    {
+#>
+        private IDbTable<<#=table.EntityTypeName#>, <#=table.KeyTypeName#>> _f<#=table.PropertyName#>;
+        public IDbTable<<#=table.EntityTypeName#>, <#=table.KeyTypeName#>> <#=table.PropertyName#>
+        {
+            get { CheckDbValid(); return _f<#=table.PropertyName#> ?? (_f<#=table.PropertyName#> = GetDbTable<<#=table.EntityTypeName#>, <#=table.KeyTypeName#>>()); }
+        }
+
+<#
+    }
+#>
+        static partial void InitEntities(Dictionary<Type, Func<DbStorage, IDbTableInternal>> tableActivators)
+        {
+<#
+    foreach (Table table in db.Tables)
+    {
+#>
+            tableActivators.Add(typeof(<#=table.EntityTypeName#>), db => new DbTable<#=!table.HasHistory ? "" : "WithHistory"#><<#=table.EntityTypeName#>, <#=table.KeyTypeName#>>(db, db._context));
+<#}#>
+        }
+
+        public static void InitEntityTypes(Action<DbEntityTypeConfiguration> add)
+        {
+<#
+    foreach (Table table in db.Tables)
+    {
+#>
+            add(new DbEntityTypeConfiguration(typeof(<#=table.EntityTypeName
+                #>), typeof(<#=table.KeyTypeName
+                #>), <#= string.IsNullOrEmpty(table.SequenceName) ? "null" : string.Concat("\"", table.SequenceName, "\"")
+                #>, <#=table.IsSequenceNegative ? "true": "false"
+                #>, <#=!table.HasHistory ? "null": "\"" + table.HisTableName + "\""
+                #>));
+<#
+    }
+#>
+        }
+    }
+}
+<#
+    //
+    // write file on disk
+    //
+    FileManager.FlushToFile(dbStorageGenerated, !generateDBStorageCode);
+#>
+<#
+    //
+    // Generate IDbStorage
+    //
+#>
+// <summary>
+// This file is generated automatically. Any changes will be lost.
+// </summary>
+
+using System;
+using <#= entitiesNamespace #>;
+
+namespace <#= storageNamespace #>
+{
+    /// <summary>
+    /// Generated part of the IDbStorage interface.
+    /// Contains one queryable property for each entity.
+    /// </summary>
+    public partial interface IDbStorage
+    {
+<#
+    foreach (Table table in db.Tables)
+    {
+#>
+        IDbTable<<#=table.EntityTypeName#>, <#=table.KeyTypeName#>> <#=table.PropertyName#> { get; }
+<#
+    }
+#>
+    }
+}
+<#
+    //
+    // write file on disk
+    //
+    FileManager.FlushToFile(idbStorageGenerated, !generateDBStorageCode);
+
+#>
+<#
+    db.StoreEtityMetadataToXml(FileManager.GetFullFileName(dbStorageXml));
+#>
+<# db.Dispose(); #>
+<#+
+    public static class FileManager
+    {
+        private static TextTransformation _textTransformation;
+        private static StringBuilder _generationEnvironment;
+        private static ITextTemplatingEngineHost _host;
+
+        public static void Init(TextTransformation textTransformation, ITextTemplatingEngineHost host)
+        {
+            _textTransformation = textTransformation;
+            _host = host;
+            Type type = textTransformation.GetType();
+            var prop = type.GetProperty("GenerationEnvironment", BindingFlags.Instance | BindingFlags.NonPublic);
+            _generationEnvironment = (StringBuilder)prop.GetValue(textTransformation, null);
+        }
+
+        public static void FlushToFile(string fileName, bool emulateOnly)
+        {
+            string content = _generationEnvironment.ToString();
+            _generationEnvironment.Clear();
+            if (emulateOnly) return;
+            string fullFileName = GetFullFileName(fileName);
+            //string fullFileName = _host.ResolvePath(fileName);
+            File.WriteAllText(fullFileName, content);
+        }
+
+        public static string GetFullFileName(string fileName)
+        {
+            string fullFileName = Path.Combine(Path.GetDirectoryName(_host.TemplateFile), fileName);
+            return fullFileName;
+        }
+    }
+
+    public class OracleDbManager2 : IDisposable
+    {
+        public void Dispose()
+        {
+            OracleConnection.Dispose();
+        }
+
+        private readonly IDictionary<string, string> _enumTableNames;
+        private readonly IDictionary<string, DB_TABLE_INFO> _entityTables;
+        public readonly OracleConnection OracleConnection;
+        public readonly List<Table> Tables = new List<Table>();
+        public readonly List<EnumTable> EnumTables = new List<EnumTable>();
+
+        public OracleDbManager2(string connectionString, IDictionary<string, string> enumTableNames, IDictionary<string, DB_TABLE_INFO> entityTables)
+        {
+            _entityTables = entityTables;
+            _enumTableNames = enumTableNames;
+            OracleConnection = new OracleConnection(connectionString);
+            OracleConnection.Open();
+
+            LoadEnumTables();
+            LoadEtityMetadata();
+        }
+
+        public string entityTablesWhere (){
+            if ((_entityTables == null)||(_entityTables.Count == 0)) {
+                return "";
+            } else {
+                var sb = new StringBuilder();
+                foreach (string key in _entityTables.Keys) {
+                    sb.Append(String.Format("'{0}',",key));
+                }
+                sb.Append("'~~~~'");
+                return sb.ToString();
+            }
+        }
+
+
+        private static OracleDataReader ExecuteReader(string commandText, OracleConnection connection)
+        {
+            var command = new OracleCommand(commandText, connection);
+            return command.ExecuteReader();
+        }
+
+        public static string Pluralize(string objectName)
+        {
+            if (objectName.EndsWith("History"))
+            {
+                return objectName;
+            }
+
+            if (objectName.EndsWith("s")
+                || objectName.EndsWith("ch")
+                || objectName.EndsWith("x")
+                || objectName.EndsWith("sh"))
+            {
+                return string.Concat(objectName, "es");
+            }
+
+            if (objectName.EndsWith("y"))
+            {
+                return string.Concat(objectName.Remove(objectName.Length - 1), "ies");
+            }
+
+            return string.Concat(objectName, "s");
+        }
+
+        public static string DropIdSuffix(string columnName)
+        {
+            string result;
+
+            if (columnName.EndsWith("_ID", StringComparison.OrdinalIgnoreCase))
+            {
+                result = columnName.Remove(columnName.LastIndexOf("_ID", StringComparison.OrdinalIgnoreCase));
+            }
+            else
+                if (columnName.EndsWith("_CODE", StringComparison.OrdinalIgnoreCase))
+                {
+                    result = columnName.Remove(columnName.LastIndexOf("_CODE", StringComparison.OrdinalIgnoreCase));
+                }
+                else
+                {
+                    result = columnName;
+                }
+
+            return result;
+        }
+
+        public static string DbObjectNameToPropertyName(string objectName, bool pluralize)
+        {
+            string name = objectName;
+
+            CultureInfo culture = CultureInfo.CurrentCulture;
+
+            // remove spaces
+            name = name.Replace(" ", "_");
+
+            if (name.IndexOf("_", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                string[] splitted = name.Split(new[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+
+                name = splitted.Aggregate(string.Empty,
+                                          (current, next) => string.Concat(current, culture.TextInfo.ToTitleCase(next.ToLower())));
+            }
+            else
+            {
+                bool isUpperCase = true;
+                foreach (char character in name)
+                {
+                    if (!char.IsUpper(character) && !char.IsDigit(character))
+                    {
+                        isUpperCase = false;
+                        break;
+                    }
+                }
+
+                if (isUpperCase)
+                {
+                    name = culture.TextInfo.ToTitleCase(objectName.ToLower());
+                }
+            }
+
+            if (pluralize)
+            {
+                name = Pluralize(name);
+            }
+
+            return name;
+        }
+
+        public static string GetNetType(string dataType, bool isNullable, int? precision, int? scale)
+        {
+            if (dataType.StartsWith("TIMESTAMP")) // the scale can be contained in dataType - e.g. TIMESTAMP(3)
+            {
+                return "DateTime" + Nullable(isNullable);
+            }
+
+            switch (dataType)
+            {
+                // base data types
+                case "VARCHAR2":
+                case "NVARCHAR2":
+                case "CHAR":
+                case "NCHAR":
+                case "CLOB":
+                case "NCLOB":
+                case "LONG":
+                case "ROWID":
+                    return "string";
+
+                case "RAW":
+                case "LONG RAW":
+                case "BFILE":
+                case "BLOB":
+                    return "byte[]";
+
+                case "DATE":
+                case "INTERVAL DAY":
+                    return "DateTime" + Nullable(isNullable);
+
+                case "INTERVAL YEAR TO MONTH":
+                    return "int" + Nullable(isNullable);
+
+                case "INTERVAL DAY TO SECOND":
+                    return "TimeSpan" + Nullable(isNullable);
+
+                case "NUMBER": return GetNumberType(precision, scale) + Nullable(isNullable);
+
+                case "BINARY_FLOAT":
+                    return "float" + Nullable(isNullable);
+
+                case "BINARY_DOUBLE":
+                    return "double" + Nullable(isNullable);
+
+                // aliases for data types - is desirable not to use them
+                case "FLOAT": // alias for NUMBER - i.e. floating point value
+                case "INTEGER": // alias for NUMBER(38) - i.e. large integer value
+                case "UNSIGNED INTEGER": // alias for NUMBER(38) - i.e. large unsigned integer value
+                    return "decimal" + Nullable(isNullable);
+
+                default:
+                    throw new NotSupportedException(string.Concat("Unknown Db type: ", dataType));
+            }
+        }
+
+        public static string Nullable(bool nullable)
+        {
+            return nullable ? "?" : "";
+        }
+
+        public static string GetNumberType(int? precision, int? scale)
+        {
+            string type;
+
+            if (scale.HasValue && scale.Value > 0)
+            {
+                // may be extended to support double; decimal type is very slow in .NET
+                type = "decimal";
+            }
+            else
+            {
+                if (precision.HasValue)
+                {
+                    if (precision <= 4)
+                    {
+                        type = "short";
+                    }
+                    else
+                        if (precision <= 10) // TODO: for primary keys it is allowed <=
+                        {
+                            type = "int";
+                        }
+                        else
+                            if (precision < 19) // TODO: for primary keys it is allowed <=
+                            {
+                                type = "long";
+                            }
+                            else
+                            {
+                                type = "decimal";
+                            }
+                }
+                else
+                {
+                    // floating point value
+                    type = "decimal";
+                }
+            }
+
+            return type;
+        }
+
+        private List<Table> ReadTableInfo()
+        {
+            var result = new List<Table>();
+
+            const string queryold = 
+                @"SELECT I.*, TC.COMMENTS AS TABLE_COMMENTS
+                FROM DB_TABLE_INFO I 
+                JOIN USER_TAB_COMMENTS TC ON I.TABLE_NAME = TC.TABLE_NAME
+                ORDER BY I.TABLE_NAME";
+
+            string query=String.Format(
+                 @"
+                  select TC.TABLE_NAME, TC.COMMENTS as TABLE_COMMENTS
+                  FROM  USER_TAB_COMMENTS TC
+                  where TC.TABLE_NAME in ({0})
+                ",entityTablesWhere());
+
+            var hisBaseColumns = new List<string> { "SYS_VALID_FROM", "SYS_VALID_TO", "SYS_IS_DELETED" };
+            var dictBaseColumns = new List<string> { "CODE", "NAME", "IS_SYSTEM" };
+            var hierarchyTreeRelatedBaseColumns = new List<string> { "HIERARCHY_TREE_ID" };
+
+            using (var reader = ExecuteReader(query, OracleConnection))
+            {
+                while (reader.Read())
+                {
+                    var t = new Table();
+                    result.Add(t);
+
+                    t.TableName = (string)reader["TABLE_NAME"];
+                    DB_TABLE_INFO rawTableInfo= _entityTables[t.TableName];
+
+                    t.TableComments = DBNull.Value.Equals(reader["TABLE_COMMENTS"]) 
+                        ? string.Format("Entity for the {0} table", t.TableName) 
+                        : (string)reader["TABLE_COMMENTS"];
+                    t.EntityTypeName = rawTableInfo.CS_CLASS_NAME;//(string)reader["CS_CLASS_NAME"];
+                    string classKind = rawTableInfo.CS_CLASS_KIND;//reader["CS_CLASS_KIND"].ToString();
+                    t.BaseClassName = "BaseDbModel";
+                    bool hasHasAutoPk = rawTableInfo.HAS_AUTO_PK == "Y"; //((string)reader["HAS_AUTO_PK"]) == "Y";
+                    t.SequenceName = hasHasAutoPk ? rawTableInfo.PK_SEQUENCE_NAME : ""; //(string)reader["PK_SEQUENCE_NAME"] : "";
+                    t.IsSequenceNegative = rawTableInfo.IS_NEW_ID_NEGATIVE == "Y";//((string)reader["IS_NEW_ID_NEGATIVE"]) == "Y";
+                    t.HisTableName = rawTableInfo.HIS_TABLE_NAME;//Convert.ToString(reader["HIS_TABLE_NAME"]);
+                    t.PropertyName = Pluralize(t.EntityTypeName);
+                    bool hasHistory = !string.IsNullOrEmpty(t.HisTableName);
+
+                    if (hasHistory)
+                    {
+                        t.BaseClassName = "BaseDbModelWithHistory";
+                        t.BaseClassColumnNames.AddRange(hisBaseColumns);
+
+                        if (classKind == "LOCAL_DIC" || classKind == "GLOBAL_DIC")
+                        {
+                            t.BaseClassColumnNames.AddRange(dictBaseColumns);
+                            t.BaseClassName = "BaseDictionaryEntity";
+                        }
+                        else if (classKind == "HIERARCHY_TREE_RELATED_DIC")
+                        {
+                            t.BaseClassColumnNames.AddRange(dictBaseColumns);
+                            t.BaseClassColumnNames.AddRange(hierarchyTreeRelatedBaseColumns);
+                            t.BaseClassName = "BaseHierarchyTreeRelatedDictionaryEntity";
+                        }
+                    }
+
+                }
+            }
+            return result;
+        }
+
+        private List<Column> ReadColumnInfo()
+        {
+            var result = new List<Column>();
+
+            const string queryold =
+@"SELECT TC.TABLE_NAME, TC.COLUMN_NAME, TC.DATA_TYPE, TC.NULLABLE, TC.CHAR_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, CC.COMMENTS
+FROM USER_TAB_COLS TC 
+  JOIN DB_TABLE_INFO I ON TC.TABLE_NAME = I.TABLE_NAME
+  JOIN USER_COL_COMMENTS CC ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME
+ORDER BY TABLE_NAME, COLUMN_ID";
+
+            string query= String.Format(
+                @"
+SELECT TC.TABLE_NAME, TC.COLUMN_NAME, TC.DATA_TYPE, TC.NULLABLE, TC.CHAR_LENGTH, TC.DATA_PRECISION, TC.DATA_SCALE, CC.COMMENTS
+FROM USER_TAB_COLS TC 
+  JOIN USER_COL_COMMENTS CC ON TC.TABLE_NAME = CC.TABLE_NAME AND TC.COLUMN_NAME = CC.COLUMN_NAME
+where TC.TABLE_NAME in ({0})  
+ORDER BY TABLE_NAME, COLUMN_ID",entityTablesWhere());
+
+            using (var reader = ExecuteReader(query, OracleConnection))
+            {
+                while (reader.Read())
+                {
+                    var c = new Column();
+                    result.Add(c);
+                    c.TableName = (string)reader.GetValue(0);
+                    c.ColumnName = (string)reader.GetValue(1);
+                    c.ColumnComments = reader.IsDBNull(7) ? null : (string)reader.GetValue(7);
+                    c.DbType = (string)reader.GetValue(2);
+                    c.IsNullable = (string)reader.GetValue(3) == "Y";
+                    c.Size = (int)(decimal)reader.GetValue(4);
+                    c.Precision = reader.IsDBNull(5) ? (int?)null : (int)(decimal)reader.GetValue(5);
+                    c.Scale = reader.IsDBNull(6) ? (int?)null : (int)(decimal)reader.GetValue(6);
+                    //
+                    c.PropertyName = DbObjectNameToPropertyName(c.ColumnName, false);
+                    c.FieldName = "_f" + c.PropertyName;
+                    c.PropertyType = GetNetType(c.DbType, c.IsNullable, c.Precision, c.Scale);
+                }
+            }
+            return result;
+        }
+
+        private Column ReadEnumColumnInfo(string enumTableName, string columnName)
+        {
+            Column result = null;
+
+            const string query =
+@"SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE, NULLABLE, CHAR_LENGTH, DATA_PRECISION, DATA_SCALE
+FROM USER_TAB_COLS WHERE TABLE_NAME='{0}' and COLUMN_NAME = '{1}'
+ORDER BY TABLE_NAME, COLUMN_ID";
+
+            using (OracleDataReader reader = ExecuteReader(string.Format(query, enumTableName, columnName), OracleConnection))
+            {
+                if (reader.Read())
+                {
+                    var c = new Column();
+                    result = c;
+                    c.TableName = (string)reader.GetValue(0);
+                    c.ColumnName = (string)reader.GetValue(1);
+                    c.DbType = (string)reader.GetValue(2);
+                    c.IsNullable = (string)reader.GetValue(3) == "Y";
+                    c.Size = (int)(decimal)reader.GetValue(4);
+                    c.Precision = reader.IsDBNull(5) ? (int?)null : (int)(decimal)reader.GetValue(5);
+                    c.Scale = reader.IsDBNull(6) ? (int?)null : (int)(decimal)reader.GetValue(6);
+                    //
+                    c.PropertyName = DbObjectNameToPropertyName(c.ColumnName, false);
+                    c.FieldName = "_f" + c.PropertyName;
+                    c.PropertyType = GetNetType(c.DbType, c.IsNullable, c.Precision, c.Scale);
+                }
+            }
+            return result;
+        }
+
+        private List<Relation> ReadRelationsInfo()
+        {
+            var result = new List<Relation>();
+
+            const string queryold =
+@"SELECT
+  F.TABLE_NAME F_TABLE_NAME, FC.COLUMN_NAME F_COLUMN_NAME,
+  R.TABLE_NAME R_TABLE_NAME, RC.COLUMN_NAME R_COLUMN_NAME
+FROM USER_CONSTRAINTS F JOIN DB_TABLE_INFO I ON I.TABLE_NAME = F.TABLE_NAME
+  JOIN USER_CONS_COLUMNS FC ON FC.CONSTRAINT_NAME = F.CONSTRAINT_NAME
+  JOIN USER_CONSTRAINTS R ON R.CONSTRAINT_NAME = F.R_CONSTRAINT_NAME
+  JOIN USER_CONS_COLUMNS RC ON RC.CONSTRAINT_NAME = R.CONSTRAINT_NAME
+WHERE F.CONSTRAINT_TYPE='R' AND EXISTS(SELECT * FROM USER_CONS_COLUMNS CC WHERE CC.CONSTRAINT_NAME=F.CONSTRAINT_NAME HAVING COUNT(*)=1)";
+
+ string query = String.Format(
+@"
+SELECT
+  F.TABLE_NAME F_TABLE_NAME, FC.COLUMN_NAME F_COLUMN_NAME,
+  R.TABLE_NAME R_TABLE_NAME, RC.COLUMN_NAME R_COLUMN_NAME
+FROM USER_CONSTRAINTS F 
+  JOIN USER_CONS_COLUMNS FC ON FC.CONSTRAINT_NAME = F.CONSTRAINT_NAME
+  JOIN USER_CONSTRAINTS R ON R.CONSTRAINT_NAME = F.R_CONSTRAINT_NAME
+  JOIN USER_CONS_COLUMNS RC ON RC.CONSTRAINT_NAME = R.CONSTRAINT_NAME
+WHERE F.CONSTRAINT_TYPE='R' 
+AND F.TABLE_NAME in ({0})
+AND EXISTS(SELECT * FROM USER_CONS_COLUMNS CC WHERE CC.CONSTRAINT_NAME=F.CONSTRAINT_NAME HAVING COUNT(*)=1)
+",entityTablesWhere());
+
+            using (var reader = ExecuteReader(query, OracleConnection))
+            {
+                while (reader.Read())
+                {
+                    var r = new Relation();
+                    result.Add(r);
+                    r.FTableName = (string)reader.GetValue(0);
+                    r.FColumnName = (string)reader.GetValue(1);
+                    r.RTableName = (string)reader.GetValue(2);
+                    r.RColumnName = (string)reader.GetValue(3);
+                }
+            }
+            return result;
+        }
+
+        private Dictionary<string, List<string>> ReadTablePkColumnInfo()
+        {
+            const string query =
+@"SELECT UC.TABLE_NAME, UCC.COLUMN_NAME, UCC.POSITION
+FROM USER_CONSTRAINTS UC JOIN USER_CONS_COLUMNS UCC ON UC.CONSTRAINT_NAME=UCC.CONSTRAINT_NAME
+WHERE UC.CONSTRAINT_TYPE='P' ORDER BY UCC.POSITION";
+
+            var tabPkColList = new List<Tuple<string, string, int>>();
+            using (var reader = ExecuteReader(query, OracleConnection))
+            {
+                while (reader.Read())
+                {
+                    var tabName = (string)reader.GetValue(0);
+                    var colName = (string)reader.GetValue(1);
+                    var pos = (int)(decimal)reader.GetValue(2);
+                    tabPkColList.Add(new Tuple<string, string, int>(tabName, colName, pos));
+                }
+            }
+            var tabPkColDict = tabPkColList.GroupBy(t => t.Item1).ToDictionary(g => g.Key, g => g.OrderBy(c => c.Item3).Select(c => c.Item2).ToList());
+            return tabPkColDict;
+        }
+
+        private void LoadEnumTables()
+        {
+            const string idColumnName = "ID";
+            const string codeColumnName = "CODE";
+            const string nameColumnName = "NAME";
+            const string fullNameColumnName = "FULL_NAME";
+
+            foreach (string enumTableName in _enumTableNames.Keys)
+            {
+                var idColumn = ReadEnumColumnInfo(enumTableName, idColumnName);
+                var enumTable = new EnumTable
+                {
+                    TableName = enumTableName,
+                    EnumName = _enumTableNames[enumTableName],
+                    EnumType = idColumn.PropertyType
+                };
+
+                string query = string.Format("select * from {0} ORDER BY id", enumTableName);
+                using (OracleDataReader reader = ExecuteReader(query, OracleConnection))
+                {
+                    while (reader.Read())
+                    {
+                        var enumItem = new EnumItem
+                        {
+                            Id = reader[idColumnName],
+                            Code = reader[codeColumnName].ToString(),
+                            Name = reader[nameColumnName].ToString(),
+                            FullName = reader[fullNameColumnName].ToString()
+                        };
+                        enumTable.Items.Add(enumItem);
+                    }
+                }
+                EnumTables.Add(enumTable);
+            }
+        }
+
+        public void LoadEtityMetadata()
+        {
+            var tables = ReadTableInfo();
+            var tableDict = tables.ToDictionary(r => r.TableName);
+            var columnDict = ReadColumnInfo().GroupBy(t => t.TableName).ToDictionary(g => g.Key, g => g.ToList());
+            var dicTabPkColInfo = ReadTablePkColumnInfo();
+            var relations = ReadRelationsInfo();
+
+            var manyReversedRelationTables = new HashSet<Tuple<string, string>>(relations
+                .GroupBy(r => new Tuple<string, string>(r.RTableName, r.FTableName))
+                .Where(g => g.Count() > 1).Select(g => g.Key));
+
+            foreach (var table in tables)
+            {
+                Tables.Add(table);
+                var columns = columnDict[table.TableName];
+                columns.ForEach(c => table.AllColumns.Add(c.ColumnName, c));
+               
+                if(dicTabPkColInfo.ContainsKey(table.TableName)) {
+                    var pkColNames = dicTabPkColInfo[table.TableName];
+                    foreach (var pkColName in pkColNames)
+                    {
+                        var keyColumn = table.AllColumns[pkColName];
+                        table.KeyColumns.Add(keyColumn);
+                        keyColumn.IsKeyColumn = true;
+                    }
+                }
+
+                foreach (var baseColName in table.BaseClassColumnNames)
+                {
+                    var baseColumn = table.AllColumns[baseColName];
+                    baseColumn.IsBaseColumn = true;
+                }
+
+                table.Columns.AddRange(columns.Where(c => !c.IsKeyColumn));
+            }
+
+            foreach (var relation in relations)
+            {
+                Table fTable = tableDict[relation.FTableName];
+                Column fColumn = fTable.AllColumns[relation.FColumnName];
+                Table rTable;
+                tableDict.TryGetValue(relation.RTableName, out rTable);
+                Column rColumn = rTable != null ? rTable.AllColumns[relation.RColumnName] : null;
+                relation.FTable = fTable;
+                relation.FColumn = fColumn;
+                relation.RTable = rTable;
+                relation.RColumn = rColumn;
+
+                if (rTable == null)
+                {
+                    string enumTypeName;
+                    if (!_enumTableNames.TryGetValue(relation.RTableName, out enumTypeName))
+                        continue;
+                    if (fColumn.IsNullable)
+                        enumTypeName += "?";
+                    fTable.Columns.Remove(fColumn);
+                    fTable.EnumColumns.Add(fColumn);
+                    fColumn.IsEnumColumn = true;
+                    fColumn.PropertyName = DbObjectNameToPropertyName(DropIdSuffix(fColumn.ColumnName), false);
+                    fColumn.PropertyType = enumTypeName;
+                }
+                else
+                {
+                    //foreign keys
+                    fTable.ToOneRelations.Add(relation);
+                    relation.RelPropName = DbObjectNameToPropertyName(DropIdSuffix(fColumn.ColumnName), false);
+                    if (!fTable.HasCompositePrimaryKey && fColumn.IsKeyColumn)
+                        relation.RelPropName = rTable.EntityTypeName;
+
+                    if (relation.RelPropName == relation.FColumn.PropertyName)
+                        //relation.FColumn.PropertyName += "string".Equals(relation.RColumn.PropertyType, StringComparison.OrdinalIgnoreCase) ? "Code" : "Id";
+                        relation.RelPropName = rTable.EntityTypeName;
+
+                    relation.IsVal = rColumn.DbType == "NUMBER";
+                    if (!fTable.HasCompositePrimaryKey && fColumn.IsKeyColumn)
+                        relation.RelPropName = relation.RTable.EntityTypeName;
+
+                    //reversed foreign keys
+                    Relation revRelation = relation.CreateReversed();
+                    if (!revRelation.RTable.HasCompositePrimaryKey && revRelation.RColumn.IsKeyColumn)
+                    {
+                        //one to one
+                        rTable.ToOneRelations.Add(revRelation);
+                        revRelation.RelPropName = revRelation.RTable.EntityTypeName;
+                    }
+                    else
+                    {
+                        rTable.ToManyRelations.Add(revRelation);
+                        revRelation.RelPropName = Pluralize(revRelation.RTable.EntityTypeName);
+                        if (manyReversedRelationTables.Contains(new Tuple<string, string>(rTable.TableName, fTable.TableName)))
+                            revRelation.RelPropName = DbObjectNameToPropertyName(DropIdSuffix(fColumn.ColumnName), false) + revRelation.RelPropName;
+                    }
+                }
+            }
+
+            foreach (var table in tables)
+            {
+                table.Columns.Sort((c1, c2) => StringComparer.OrdinalIgnoreCase.Compare(c1.PropertyName, c2.PropertyName));
+                table.EnumColumns.Sort((c1, c2) => StringComparer.OrdinalIgnoreCase.Compare(c1.PropertyName, c2.PropertyName));
+                table.ToOneRelations.Sort((r1, r2) => StringComparer.OrdinalIgnoreCase.Compare(r1.RelPropName, r2.RelPropName));
+                table.ToManyRelations.Sort((r1, r2) => StringComparer.OrdinalIgnoreCase.Compare(r1.RelPropName, r2.RelPropName));
+            }
+        }
+
+        public void StoreEtityMetadataToXml(string fileName)
+        {
+            var settings = new XmlWriterSettings { Encoding = Encoding.UTF8, CloseOutput = true, Indent = true };
+
+            using (var writer = XmlWriter.Create(fileName, settings))
+            {
+                writer.WriteStartElement("map");
+                foreach (var table in Tables)
+                {
+                    writer.WriteStartElement("Entity");
+                    writer.WriteAttributeString("Id", table.EntityTypeName);
+
+                    writer.WriteStartElement("Table");
+                    writer.WriteAttributeString("Name", table.TableName);
+                    if (table.HasHistory)
+                        writer.WriteAttributeString("HasHistory", "true");
+                    writer.WriteEndElement(); //Table
+
+                    foreach (var column in table.KeyColumns.Concat(table.Columns).Concat(table.EnumColumns.Where(c=>!c.IsKeyColumn)))
+                    {
+                        writer.WriteStartElement("Column");
+                        writer.WriteAttributeString("Member", column.PropertyName);
+                        writer.WriteAttributeString("Name", column.ColumnName);
+                        if (column.IsNullable)
+                            writer.WriteAttributeString("IsNullable", "true");
+                        if (column.IsKeyColumn)
+                            writer.WriteAttributeString("IsPrimaryKey", "true");
+                        if (column.Size != 0)
+                            writer.WriteAttributeString("Size", column.Size.ToString(CultureInfo.InvariantCulture));
+                        if (column.Precision != null)
+                            writer.WriteAttributeString("Precision", column.Precision.Value.ToString(CultureInfo.InvariantCulture));
+                        if (column.Scale != null)
+                            writer.WriteAttributeString("Scale", column.Scale.Value.ToString(CultureInfo.InvariantCulture));
+                        writer.WriteEndElement(); //Column
+                    }
+
+                    foreach (var relation in table.ToOneRelations.Concat(table.ToManyRelations))
+                    {
+                        writer.WriteStartElement("Association");
+                        writer.WriteAttributeString("Member", relation.RelPropName);
+                        writer.WriteAttributeString("KeyMembers", relation.FColumn.PropertyName);
+                        writer.WriteAttributeString("RelatedEntityID", relation.RTable.EntityTypeName);
+                        writer.WriteAttributeString("RelatedKeyMembers", relation.RColumn.PropertyName);
+                        if (!relation.IsReversed)
+                            writer.WriteAttributeString("IsForeignKey", "true");
+
+                        writer.WriteEndElement(); //Association
+                    }
+                    writer.WriteEndElement(); //Entity
+                }
+
+                writer.WriteEndElement(); //map
+            }
+        }
+    }
+
+    public class Table
+    {
+        public string TableName;
+        public string TableComments;
+        public string EntityTypeName;
+        public string BaseClassName;
+        public List<string> BaseClassColumnNames = new List<string>();
+        public string SequenceName;
+        public bool IsSequenceNegative;
+        public string HisTableName;
+
+        public string PropertyName;
+
+        public string KeyTypeName { get { return HasCompositePrimaryKey ? EntityTypeName + "Key" : HasKeys?KeyColumns[0].PropertyType:"string"; } }
+        public bool HasKeys{get {return KeyColumns.Count>0;}}  
+        public bool HasCompositePrimaryKey { get { return KeyColumns.Count > 1; } }
+
+        public bool HasOperationLog { get { return ToOneRelations.Any(p => p.FColumnName == "OP_LOG_ID"); } }
+        public bool IsItemWithKey { get { return KeyColumns.Count == 1; } }
+        public bool HasHistory { get { return !string.IsNullOrEmpty(HisTableName); } }
+
+        public Dictionary<string, Column> AllColumns = new Dictionary<string, Column>();
+
+        public List<Column> KeyColumns = new List<Column>();
+        public List<Column> Columns = new List<Column>();
+        public List<Column> EnumColumns = new List<Column>();
+
+        public List<Relation> ToOneRelations = new List<Relation>();
+        public List<Relation> ToManyRelations = new List<Relation>();
+    }
+
+    public class Column
+    {
+        public string TableName;
+        //
+        public string ColumnName;
+        public string ColumnComments;
+        public bool IsKeyColumn;
+        public bool IsBaseColumn;
+        public bool IsEnumColumn;
+        public string FieldName;
+        public string PropertyName;
+        public string PropertyType;
+        //
+        public string DbType;
+        public bool IsNullable;
+        public int Size;
+        public int? Precision;
+        public int? Scale;
+    }
+
+    public class Relation
+    {
+        public string FTableName;
+        public string FColumnName;
+        public Table FTable;
+        public Column FColumn;
+        public string RTableName;
+        public string RColumnName;
+        public Table RTable;
+        public Column RColumn;
+        public bool IsReversed;
+        public string RelPropName;
+        public bool IsVal;
+        public Relation CreateReversed()
+        {
+            return new Relation
+            {
+                FTableName = RTableName,
+                FColumnName = RColumnName,
+                FTable = RTable,
+                FColumn = RColumn,
+                RTableName = FTableName,
+                RColumnName = FColumnName,
+                RTable = FTable,
+                RColumn = FColumn,
+                IsReversed = true,
+                IsVal = IsVal
+            };
+        }
+    }
+
+    public class EnumTable
+    {
+        public string TableName;
+        public string EnumName;
+        public string EnumType;
+        public IList<EnumItem> Items = new List<EnumItem>();
+    }
+
+    public class EnumItem
+    {
+        public object Id;
+        public string Code;
+        public string Name;
+        public string FullName;
+    }
+#>
