@@ -1,4 +1,5 @@
-﻿using Bsdl.FreshTrade.Domain.PreInv.Entities;
+﻿using Bsdl.FreshTrade.Domain.Basic.Exceptions;
+using Bsdl.FreshTrade.Domain.PreInv.Entities;
 using Bsdl.FreshTrade.Domain.PreInv.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,12 +71,16 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Utilities
                     tmpInvTot.BaseVat1Total += invDetail.BaseVat1Total;
                     tmpInvTot.BaseVat2Total += invDetail.BaseVat2Total;
 
-                    if (invDetail.VatRecNo.HasValue && (invDetail.VatRecNo != 0))
+                    if (invDetail.VatRecNo.HasValue)
                     {
                         DTOInvTotVatInfo vatInfo;
                         if (!tmpInvTot.VatInfo.TryGetValue(invDetail.VatRecNo.Value, out vatInfo))
                         {
-                            DTOInvTotVatInfo origVatInfo = invoiceTotal.VatInfo[invDetail.VatRecNo.Value];
+                            DTOInvTotVatInfo origVatInfo;
+                            if (!invoiceTotal.VatInfo.TryGetValue(invDetail.VatRecNo.Value, out origVatInfo))
+                            {
+                                throw new FreshTradeException(string.Format("VatInfo is not found for VatRecNo = {0}. Delivery Number = {1}", invDetail.VatRecNo.Value, invDetail.DlvOrdNo.GetValueOrDefault()));
+                            }
                             vatInfo =
                                 new DTOInvTotVatInfo
                                     {
