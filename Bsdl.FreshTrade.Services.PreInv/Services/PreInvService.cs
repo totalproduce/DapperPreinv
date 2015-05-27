@@ -321,7 +321,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
 
             Mapper.Initialize(cfg => cfg.AddProfile<EntitytoReportMap>());
 
-            var invTot = Mapper.Map<List<PreInvTot>>(invTotSrc);
+            var invTot = Mapper.Map<List<PreInvTot>>(invTotSrc).OrderBy(t => t.BatchNo).ThenBy(t => t.Sort1).ThenBy(t => t.HofCstCode).ToList();
 
             return new
             {
@@ -339,7 +339,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
             Mapper.Initialize(cfg => cfg.AddProfile<EntitytoReportMap>());
 
             var invTots = Mapper.Map<List<PreInvTot>>(invDetailSrc)
-                .GroupBy(t => t.InvoiceNo).Select(g => g.First()).ToList();
+                .GroupBy(t => t.InvoiceNo).Select(g => g.First()).OrderBy(t => t.BatchNo).ThenBy(t => t.Sort1).ThenBy(t => t.HofCstCode).ToList();
 
             var invPrts = Mapper.Map<List<PreInvPrt>>(invDetailSrc)
                 .GroupBy(t => new { t.DlvOrdNo, t.DlvInvoiceNo }).Select(g => g.First()).ToList();
