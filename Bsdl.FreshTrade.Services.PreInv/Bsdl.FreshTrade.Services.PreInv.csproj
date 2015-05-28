@@ -65,12 +65,14 @@
     <Compile Include="Model\Interfaces\IExtractionProcessor.cs" />
     <Compile Include="Model\PreparePrintProcessor.cs" />
     <Compile Include="Model\Reports\DeliveryHead.cs" />
+    <Compile Include="Model\Reports\DetailReportItem.cs" />
     <Compile Include="Model\Reports\PreInvErrorType.cs" />
     <Compile Include="Model\Reports\PreInvExtractHeader.cs" />
     <Compile Include="Model\Reports\PreInvExtractionErrorsItem.cs" />
     <Compile Include="Model\Reports\PreInvPrt.cs" />
     <Compile Include="Model\Reports\PreInvPrt2.cs" />
     <Compile Include="Model\Reports\PreInvTot.cs" />
+    <Compile Include="Model\Reports\SummaryReportItem.cs" />
     <Compile Include="Model\SharedProcessingHelpers.cs" />
     <Compile Include="Model\PersistanceProcessor.cs" />
     <Compile Include="Model\RequestContextCache.cs" />
