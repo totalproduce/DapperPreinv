@@ -31,7 +31,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Mappings
 
             Mapper.CreateMap<WideSummaryReportItem, PreInvTot>();
 
-            Mapper.CreateMap<WideDetailReportItem, PreInvTot>();
+            Mapper.CreateMap<WideDetailReportItem, PreInvTot>()
+                .ForMember(dest => dest.OnInvDscnt, opt => opt.MapFrom(src => src.OnInvDscntTotal));
             Mapper.CreateMap<WideDetailReportItem, PreInvPrt>();
             Mapper.CreateMap<WideDetailReportItem, PreInvPrt2>()
                 .ForMember(dest => dest.DeliveryHead, opt => opt.MapFrom(src => 
