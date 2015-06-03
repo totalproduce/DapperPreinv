@@ -71,7 +71,9 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Utilities
                     tmpInvTot.BaseVat1Total += invDetail.BaseVat1Total;
                     tmpInvTot.BaseVat2Total += invDetail.BaseVat2Total;
 
-                    if (invDetail.VatRecNo.HasValue)
+                    bool hasOnlyZeroVat = (invoiceTotal.VatInfo.Count == 1) && (invoiceTotal.VatInfo.ContainsKey(0));
+
+                    if (invDetail.VatRecNo.HasValue && (hasOnlyZeroVat || invDetail.VatRecNo.Value != 0))
                     {
                         DTOInvTotVatInfo vatInfo;
                         if (!tmpInvTot.VatInfo.TryGetValue(invDetail.VatRecNo.Value, out vatInfo))
