@@ -2229,13 +2229,13 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.AtrEuroRate,
                     x.AtrPstDate,
                     x.AtrPstTyp,
-                    x.Atrref,
                     x.AtrRef2,
                     x.AtrSalOffNo,
                     x.AtrStatInd,
                     x.AtrTriangulate,
                     x.Clrddate
                 })
+                .OrderBy(x => x.AtrAmount)
                 .ToArray(), Formatting.Indented));
 
             _logger.Debug("AcciteAdditions:");
@@ -2249,6 +2249,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.AitGanRecNo,
                     x.AitPstRecNo
                 })
+                .OrderBy(x => x.AitAmount)
+                .ThenBy(x => x.AitGanRecNo)
+                .ThenBy(x => x.AitPstRecNo)
                 .ToArray(), Formatting.Indented));
 
             _logger.Debug("BatchDetAdditions:");
@@ -2257,6 +2260,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 {
                     x.BdtCurTotal
                 })
+                .OrderBy(x => x.BdtCurTotal)
                 .ToArray(), Formatting.Indented));
 
             _logger.Debug("BatchAdditions:");
@@ -2268,13 +2272,11 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.BatchInvType,
                     x.Batchmarketind,
                     x.BatchMergeTrans,
-                    x.BatchNetUserName,
                     x.BatchNo,
                     x.Batchprintno,
                     x.BatchPstRecNo,
                     x.BatchSalOffNo,
                     x.BatchTaxDate,
-                    x.BatchTimeStamp,
                     x.Batchtypeno
                 })
                 .ToArray(), Formatting.Indented));
@@ -2301,6 +2303,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.ProgrammeHeadId,
                     x.StockLocationId
                 })
+                .OrderBy(x => x.ShipDate)
+                .ThenBy(x => x.TranInd)
+                .ThenBy(x => x.DeliveryTypeId)
                 .ToArray(), Formatting.Indented));
 
             _logger.Debug("DeliveryDetailUpdates:");
@@ -2317,6 +2322,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.PricePer,
                     x.DeliveryStatus
                 })
+                .OrderBy(x => x.ProductId)
+                .ThenBy(x => x.Quantity)
                 .ToArray(), Formatting.Indented));
 
             _logger.Debug("DeliveryPriceUpdates:");
@@ -2344,20 +2351,25 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     x.DelBaseVatValue,
                     x.DelVatValue,
                     x.Delallwkrecno,
-                    x.Delisguideprice,
                     x.Delprccomno,
                     x.Delretailprice,
                     x.Dprcreationdate,
                     x.Dprnominalprice,
                     x.Dprmanwgtchg,
-                    x.Dprisprcccdtdbt,
                     x.Dprpreas
                 })
+                .OrderBy(x => x.Price)
                 .ToArray(), Formatting.Indented));
 
             _logger.Debug("OrderCleanAccountClassID:");
             _logger.Debug(JsonConvert.SerializeObject(updateInfo
                 .OrderCleanAccountClassID.Select(x => x.Id)
+                .ToArray(), Formatting.Indented));
+
+            _logger.Debug("IteChgDeletions:");
+            _logger.Debug(JsonConvert.SerializeObject(updateInfo
+                .IteChgDeletions.Select(x => x.IchRecNo)
+                .OrderBy(x => x)
                 .ToArray(), Formatting.Indented));
         }
     }
