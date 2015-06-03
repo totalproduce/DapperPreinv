@@ -529,7 +529,6 @@
     <Item3 Ref="267" Name="Rebate" FieldType="Decimal" Expression="[InvTot.OffInvRbt]+[InvTot.OffInvOnPay]" DataMember="InvTotList" />
   </CalculatedFields>
   <ComponentStorage>
-    <Item1 Ref="268" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v14.2" Name="objectDataSource1" Base64="PE9iamVjdERhdGFTb3VyY2U+PE5hbWU+b2JqZWN0RGF0YVNvdXJjZTE8L05hbWU+PC9PYmplY3REYXRhU291cmNlPg==" />
-    <Item2 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v14.2" Name="objectDataSource2" Base64="PE9iamVjdERhdGFTb3VyY2U+PE5hbWU+b2JqZWN0RGF0YVNvdXJjZTI8L05hbWU+PERhdGFTb3VyY2UgVHlwZT0iUmVwb3J0RGVzaWduZXIuRGF0YU1vY2suTW9ja1ByZUludkRldGFpbCwgUmVwb3J0RGVzaWduZXIsIFZlcnNpb249MS4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1udWxsIiAvPjxDb25zdHJ1Y3RvciAvPjwvT2JqZWN0RGF0YVNvdXJjZT4=" />
+    <Item1 Ref="0" ObjectType="DevExpress.DataAccess.ObjectBinding.ObjectDataSource,DevExpress.DataAccess.v14.2" Name="objectDataSource1" Base64="PE9iamVjdERhdGFTb3VyY2U+PE5hbWU+b2JqZWN0RGF0YVNvdXJjZTE8L05hbWU+PERhdGFTb3VyY2UgVHlwZT0iQnNkbC5GcmVzaFRyYWRlLlNlcnZpY2VzLlByZUludi5Nb2RlbC5SZXBvcnRzLkRldGFpbFJlcG9ydEl0ZW1zTGlzdCwgQnNkbC5GcmVzaFRyYWRlLlNlcnZpY2VzLlByZUludiwgVmVyc2lvbj0xLjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPW51bGwiIC8+PC9PYmplY3REYXRhU291cmNlPg==" />
   </ComponentStorage>
 </XtraReportsLayoutSerializer>
