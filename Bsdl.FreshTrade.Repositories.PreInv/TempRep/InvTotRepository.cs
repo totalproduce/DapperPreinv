@@ -58,7 +58,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                 vatEmpty = new DTOInvTotVatInfo();
             if (item.VatInfo != null)
             {
-                var vatInfo = item.VatInfo.Values.ToList();
+                var vatInfo = item.VatInfo.Values.OrderBy(x => x.Cde).ToList();
                 if (vatInfo.Count > 0)
                 {
                     vatInfo1 = vatInfo[0];
