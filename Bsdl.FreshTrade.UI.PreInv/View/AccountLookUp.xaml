@@ -1,0 +1,156 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        mc:Ignorable="d" x:Class="Bsdl.FreshTrade.UI.PreInv.AccountLookUp"   
+        xmlns:vm="clr-namespace:Bsdl.FreshTrade.UI.PreInv.ViewModel"
+        xmlns:wpfControls="clr-namespace:Bsdl.FreshTrade.UI.Basic.Utilities.WpfControls;assembly=Bsdl.FreshTrade.UI.Basic"
+        Title="Accounts Search" Height="768" Width="1024" 
+        WindowStartupLocation="CenterScreen" Background="Silver" Loaded="Window_Loaded" Closing="Window_Closing">
+    
+    <Window.DataContext>
+        <vm:AccountLookUpViewModel/>
+    </Window.DataContext>
+    
+    <Window.Resources>
+        <Style x:Key="ControlStyle" TargetType="Control">
+            <Setter Property="FontFamily" Value="MS Sans Serif"/>
+        </Style>
+        <Style x:Key="ControlTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="MS Sans Serif"/>
+        </Style>
+        <Style TargetType="DataGrid" BasedOn="{StaticResource ControlStyle}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource ControlStyle}"/>
+        <Style TargetType="Label" BasedOn="{StaticResource ControlStyle}"/>
+        <Style TargetType="TextBlock" BasedOn="{StaticResource ControlTextBlockStyle}"/>
+        <vm:AccountLookUpViewModel x:Key="ViewModel"/>
+        <CollectionViewSource Source="{Binding Source=ViewModel, Path=DisplayAccountList}" x:Key="ViewModelCollection"/>
+    </Window.Resources>
+    
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="FormClose" />
+        <CommandBinding Command="ComponentCommands.MoveDown" Executed="GoToGrid" />
+    </Window.CommandBindings>
+    
+    <Window.InputBindings>
+        <KeyBinding Gesture="Control+F4" Command="ApplicationCommands.Close" />
+    </Window.InputBindings>
+    
+    <Grid x:Name="MainScreenGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="FilterRow" Height="Auto"/>
+            <RowDefinition x:Name="GridRow" Height="*"/>
+            <RowDefinition x:Name="ButtonsRow" Height="Auto"/>
+            <RowDefinition x:Name="FooterRow" Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="HeaderInformationGrid" Grid.Row="0" Margin="3">
+            <Border BorderBrush="Gray" BorderThickness="1"/>
+            <Expander x:Name="FilterFieldsExpander" Header="Search Selectors">
+                <WrapPanel x:Name="FilterFieldsWrapPanel">
+                    <TextBox x:Name="AccountCodeFilterFld" Width="{Binding ElementName=AccountCodeColumn, Path=ActualWidth}" Height="22" Margin="3, 3, 1, 3" CharacterCasing="Upper" TextChanged="KeyTextBoxTextChanged" PreviewKeyDown="AccountCodeFilterFld_PreviewKeyDown">
+                        <TextBox.InputBindings>
+                            <KeyBinding Gesture="Enter" Command="wpfControls:Navigation.MoveRight"/>
+                            <KeyBinding Gesture="Right" Command="wpfControls:Navigation.MoveRight"/>
+                            <KeyBinding Gesture="Down" Command="ComponentCommands.MoveDown"/>
+                            <KeyBinding Gesture="F6" Command="ComponentCommands.MoveDown"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <TextBox x:Name="AccountNameFilterFld" Width="{Binding ElementName=AccoundNameColumn, Path=ActualWidth}" Height="22" Margin="0, 3, 3, 3" TextChanged="KeyTextBoxTextChanged" >
+                        <TextBox.InputBindings>
+                            <KeyBinding Gesture="Left" Command="wpfControls:Navigation.MoveLeft"/>
+                            <KeyBinding Gesture="Enter" Command="wpfControls:Navigation.MoveRight"/>
+                            <KeyBinding Gesture="Right" Command="wpfControls:Navigation.MoveRight"/>
+                            <KeyBinding Gesture="Down" Command="ComponentCommands.MoveDown"/>
+                            <KeyBinding Gesture="F6" Command="ComponentCommands.MoveDown"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                    <TextBox Name="AccountPhoneNoFilterFld" Width="{Binding ElementName=AccountPhoneColumn, Path=ActualWidth}" Height="22" Margin="0, 3, 3, 3" TextChanged="KeyTextBoxTextChanged">
+                        <TextBox.InputBindings>
+                            <KeyBinding Gesture="Left" Command="wpfControls:Navigation.MoveLeft"/>
+                            <KeyBinding Gesture="Down" Command="ComponentCommands.MoveDown"/>
+                            <KeyBinding Gesture="F6" Command="ComponentCommands.MoveDown"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </WrapPanel>
+            </Expander>
+        </Grid>
+        <Grid x:Name="DetailsTableGrid" Grid.Row="1" Margin="3" >
+            <DataGrid   x:Name="AccountsResultsGrid" Margin="3" CanUserReorderColumns="False" 
+                IsReadOnly="True" 
+                SelectionMode="{Binding Path=DataGridSelectionMode}"
+                        AutoGenerateColumns="False"
+                        PreviewKeyDown="DataGridPreviewKeyDown"
+                        ItemsSource="{Binding DisplayAccountList}"
+                        >
+                
+                <DataGrid.CommandBindings>
+                    <CommandBinding Command="ApplicationCommands.Find" Executed="PutFocusOnFirstInput" />
+                    <CommandBinding Command="ApplicationCommands.Save" Executed="SelectAndClose" />
+                </DataGrid.CommandBindings>
+                <DataGrid.InputBindings>
+                    <KeyBinding Gesture="F6" Command="ApplicationCommands.Find"/>
+                    <KeyBinding Gesture="Enter" Command="ApplicationCommands.Save"/>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="ApplicationCommands.Save"/>
+                    <MouseBinding Gesture="RightDoubleClick" Command="ApplicationCommands.Save"/>
+                </DataGrid.InputBindings>
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="AccountCodeColumn" Header="Account Code" Width="103" Binding="{Binding LocalAccountCode}"/>
+                    <DataGridTextColumn x:Name="AccoundNameColumn" Header="Account Name" Width="506" Binding="{Binding Name}"/>
+                    <DataGridTextColumn x:Name="AccountPhoneColumn" Header="Phone Number" Width="105" Binding="{Binding  Telephone}" Visibility="{Binding Path=Visibility}"/>
+                    <DataGridTextColumn x:Name="AccountType" Header="Account Type" Binding="{Binding Type}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Grid Name="ButtonsRowGrid" Grid.Row="2" Margin="3">
+            <WrapPanel HorizontalAlignment="Right">
+                <Button Name="RefreshBut" Width="100" Height="22" Content="Refresh" Margin="3" Click="RefreshButtonClick" />                
+            </WrapPanel>
+        </Grid>
+        <Grid x:Name="KeysRowGrid" Grid.Row="3" Height="Auto" Margin="3">
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Screen Information" FontWeight="Medium" Margin="0, 2, 0, 0"/>
+                    </StackPanel>
+                </Expander.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0"
+            Orientation="Vertical">
+                        <Label  x:Name="CntrlAndF4Label" 
+              Content="Cntrl + F4"
+              FontWeight="Medium"
+              HorizontalAlignment="Left"/>
+                        <Label  Content="Enter" 
+              FontWeight="Medium"
+              HorizontalAlignment="Left"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Left">
+                        <Label  x:Name="CntrlAndF4LabelInfo" 
+              Content="= Close Screen"
+              Grid.Column="1"
+              HorizontalAlignment="Left"/>
+                        <Label
+              x:Name="EnterLabelInfo" 
+              Content="= Make Selection"
+              Grid.Column="2"
+              HorizontalAlignment="Left"/>
+                    </StackPanel>
+                    <WrapPanel Grid.Column="2" 
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom">
+                        <Label x:Name="VersionNo" 
+              Content="Version 1.0.0"
+              FontWeight="Light"/>
+                    </WrapPanel>
+                </Grid>
+            </Expander>
+        </Grid>
+    </Grid>
+</Window>

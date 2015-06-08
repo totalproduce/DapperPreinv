@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:61111/PreInvService.svc?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" />
+  <xs:import schemaLocation="http://localhost:61111/PreInvService.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:import schemaLocation="http://localhost:61111/PreInvService.svc?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Enums" />
+  <xs:complexType name="DTOPreInvExtractParams">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountParams" nillable="true" type="tns:DTOPreInvExtractAccountParams" />
+      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="BatchType" type="q1:PreInvBatchType" />
+      <xs:element minOccurs="0" name="CompanyNo" type="xs:int" />
+      <xs:element minOccurs="0" name="CurrencyNo" type="xs:int" />
+      <xs:element minOccurs="0" name="CutOffDeliveryDate" type="xs:dateTime" />
+      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="InvoicePeriodType" type="q2:PreInvInvoicePeriodType" />
+      <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="InvoiceType" type="q3:PreInvInvoiceType" />
+      <xs:element minOccurs="0" name="IsInterCompanyTransfer" type="xs:boolean" />
+      <xs:element minOccurs="0" name="SalesOfficeNo" type="xs:int" />
+      <xs:element minOccurs="0" name="TaxPointDate" type="xs:dateTime" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOPreInvExtractParams" nillable="true" type="tns:DTOPreInvExtractParams" />
+  <xs:complexType name="DTOPreInvExtractAccountParams">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountClassId" nillable="true" type="xs:int" />
+      <xs:element xmlns:q4="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Categories" nillable="true" type="q4:ArrayOfint" />
+      <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="FilterType" type="q5:PreInvExtractAccountFilterType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOPreInvExtractAccountParams" nillable="true" type="tns:DTOPreInvExtractAccountParams" />
+  <xs:complexType name="DTOPreInvExtractResult">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Errors" nillable="true" type="tns:ArrayOfDTOPreInvExtractionErrorsItem" />
+      <xs:element minOccurs="0" name="InvoiceDiscTypItems" nillable="true" type="tns:ArrayOfDTOInvDiscTyp" />
+      <xs:element minOccurs="0" name="InvoicePart2Items" nillable="true" type="tns:ArrayOfDTOInvPrt2" />
+      <xs:element minOccurs="0" name="InvoicePartItems" nillable="true" type="tns:ArrayOfDTOInvPrt" />
+      <xs:element minOccurs="0" name="InvoiceTotalItems" nillable="true" type="tns:ArrayOfDTOInvTot" />
+      <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="Status" type="q6:PreInvExtractStatusType" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOPreInvExtractResult" nillable="true" type="tns:DTOPreInvExtractResult" />
+  <xs:complexType name="ArrayOfDTOPreInvExtractionErrorsItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOPreInvExtractionErrorsItem" nillable="true" type="tns:DTOPreInvExtractionErrorsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOPreInvExtractionErrorsItem" nillable="true" type="tns:ArrayOfDTOPreInvExtractionErrorsItem" />
+  <xs:complexType name="DTOPreInvExtractionErrorsItem">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="CustomerCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DeliveryNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="ErrorDescription" nillable="true" type="tns:DTOErrorDescription" />
+      <xs:element minOccurs="0" name="ExtractSessionID" type="xs:int" />
+      <xs:element minOccurs="0" name="Id" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="OrderNo" nillable="true" type="xs:string" />
+      <xs:element xmlns:q7="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="Type" type="q7:PreInvExtractionErrorTypes" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOPreInvExtractionErrorsItem" nillable="true" type="tns:DTOPreInvExtractionErrorsItem" />
+  <xs:complexType name="DTOErrorDescription">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="IsCritial" type="xs:boolean" />
+      <xs:element minOccurs="0" name="No" type="xs:int" />
+      <xs:element minOccurs="0" name="Reason" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOErrorDescription" nillable="true" type="tns:DTOErrorDescription" />
+  <xs:complexType name="ArrayOfDTOInvDiscTyp">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOInvDiscTyp" nillable="true" type="tns:DTOInvDiscTyp" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOInvDiscTyp" nillable="true" type="tns:ArrayOfDTOInvDiscTyp" />
+  <xs:complexType name="DTOInvDiscTyp">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="DiscBaseAmt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DiscDetrStr" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DiscEuroAmt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DiscGlRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DiscLoclAmt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DiscRate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DiscSeqNo" nillable="true" type="xs:int" />
+      <xs:element xmlns:q8="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="DiscTyp" nillable="true" type="q8:EnumDiscTypes" />
+      <xs:element minOccurs="0" name="DlvInvoiceNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ExtractSessionID" type="xs:int" />
+      <xs:element minOccurs="0" name="Ichrecno" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RecNo" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOInvDiscTyp" nillable="true" type="tns:DTOInvDiscTyp" />
+  <xs:complexType name="ArrayOfDTOInvPrt2">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOInvPrt2" nillable="true" type="tns:DTOInvPrt2" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOInvPrt2" nillable="true" type="tns:ArrayOfDTOInvPrt2" />
+  <xs:complexType name="DTOInvPrt2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AllocToInvRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="AllowOneLineCancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="BaseGds" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseOffInvRbt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseOffOnPay" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseOnInvDscnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat1Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat2Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Basecommamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Basehandamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Basevatonchgs" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Cancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CancelledLine" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Commperc" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DelCdsRefNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DelCltPrdNo" nillable="true" type="xs:string" />
+      <xs:element xmlns:q9="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="DelInvStatus" nillable="true" type="q9:DTODeliveryPriceStatus" />
+      <xs:element minOccurs="0" name="DelPrcByWgt" type="xs:boolean" />
+      <xs:element minOccurs="0" name="DelPrcPrdNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DelPrice" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DelQty" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DelRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DelWeight" type="xs:decimal" />
+      <xs:element minOccurs="0" name="DetAllocNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DiscToQty" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Dispcnt" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DlvOrdNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DprRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="EuroGds" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroOffInvRbt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroOffOnPay" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroOnInvDscnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat1Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat2Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Eurocommamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Eurohandamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Eurovatonchgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Ext" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ExtractSessionID" type="xs:int" />
+      <xs:element minOccurs="0" name="Goods" type="xs:decimal" />
+      <xs:element minOccurs="0" name="GrossWgt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Handrate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="InvoiceNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NettWgt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OffInvOnPay" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OffInvRbt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OnInvDisPcnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OnInvDscnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="PpcNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PrcPrdRef" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrdDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrdGlAnl" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PrdRecDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrgRefNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PrtQty" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Rawcommamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Rawhandamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Rawvatonchgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Recno" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="TareWgt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="TradedUnit" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="UnitCount" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="UnitMeasure" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Vat" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Vat1Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Vat2Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatLnkRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="VatRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="VatVatRate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatVatRate2" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatVeaRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="Vatcodechgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Vatratechgs" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOInvPrt2" nillable="true" type="tns:DTOInvPrt2" />
+  <xs:complexType name="ArrayOfDTOInvPrt">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOInvPrt" nillable="true" type="tns:DTOInvPrt" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOInvPrt" nillable="true" type="tns:ArrayOfDTOInvPrt" />
+  <xs:complexType name="DTOInvPrt">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Cancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CancelledDlv" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CurDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DelClaRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DltRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DlvDelDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="DlvInvoiceNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DlvOrdNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DlvPODNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="DlvPrgHedNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DlvSalOffNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="DlvShpDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="ExtractSessionID" type="xs:int" />
+      <xs:element minOccurs="0" name="HofClaRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="HofCstCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InvDate" nillable="true" type="xs:dateTime" />
+      <xs:element xmlns:q10="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Enums" minOccurs="0" name="InvoiceType" type="q10:DTOInvoiceType" />
+      <xs:element minOccurs="0" name="IsEdiPrg" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OrdCstCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrdCustOrdNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="OrdDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="OrdRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="OrdSmnNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="PrcGlbRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SalOffDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sort1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sort2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Vatable" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOInvPrt" nillable="true" type="tns:DTOInvPrt" />
+  <xs:complexType name="ArrayOfDTOInvTot">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOInvTot" nillable="true" type="tns:DTOInvTot" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOInvTot" nillable="true" type="tns:ArrayOfDTOInvTot" />
+  <xs:complexType name="DTOInvTot">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccGlAnl" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="AccntSalOffNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BaseGdsTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseOffInvOnPay" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseOffInvRbt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseOnInvDscnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseRate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat1Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat2Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVatOnChgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVatTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Basehandcommamt" type="xs:decimal" />
+      <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="BatchType" type="q11:PreInvBatchType" />
+      <xs:element minOccurs="0" name="Cancel" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CancelledInv" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CompanyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CompoundVatCust" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CurDesc" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CurNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="EIInvoiceId" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="EuroGdsTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroOffInvOnPay" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroOffInvRbt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroOnInvDscnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroRate" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat1Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat2Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVatOnChgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVatTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Eurohandcommamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="ExtractSessionID" type="xs:int" />
+      <xs:element minOccurs="0" name="Finfiscrep1" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="Finvatdesc1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Finvatnumber1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="GoodsTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="HofClaRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="HofCstCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InvDate" nillable="true" type="xs:dateTime" />
+      <xs:element minOccurs="0" name="InvRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="InvoiceNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="InvoiceTotal" type="xs:decimal" />
+      <xs:element xmlns:q12="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="InvoiceType" type="q12:PreInvInvoiceType" />
+      <xs:element minOccurs="0" name="IsEdiCst" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsInterDept" type="xs:boolean" />
+      <xs:element minOccurs="0" name="IsSeqInvNo" type="xs:boolean" />
+      <xs:element minOccurs="0" name="OffInvOnPay" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OffInvRbt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OnInvDscnt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="OriginalInvoiceNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="PrcGlbRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="QtyTotal" type="xs:int" />
+      <xs:element minOccurs="0" name="RawVatOnChgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Rawhandcommamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Sort1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sort2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Sort3" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="StInvTotal" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="TriangReq" type="xs:boolean" />
+      <xs:element minOccurs="0" name="TwoVatRatesCust" type="xs:boolean" />
+      <xs:element minOccurs="0" name="Vat1Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Vat2Total" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatCodeChgs" type="xs:decimal" />
+      <xs:element xmlns:q13="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="VatInfo" nillable="true" type="q13:ArrayOfKeyValueOfintDTOInvTotVatInfoZbnCqjDj" />
+      <xs:element minOccurs="0" name="VatRateChgs" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatTotal" type="xs:decimal" />
+      <xs:element minOccurs="0" name="WriteAccReChg" type="xs:boolean" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOInvTot" nillable="true" type="tns:DTOInvTot" />
+  <xs:complexType name="DTOInvTotVatInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AvaVeaRec" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="BaseGds" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BaseVat2" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Cde" type="xs:int" />
+      <xs:element minOccurs="0" name="EuroGds" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat" type="xs:decimal" />
+      <xs:element minOccurs="0" name="EuroVat2" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Gds" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Rte" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Rte2" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Vat" type="xs:decimal" />
+      <xs:element minOccurs="0" name="Vat2" type="xs:decimal" />
+      <xs:element minOccurs="0" name="VatLnkRecNo" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOInvTotVatInfo" nillable="true" type="tns:DTOInvTotVatInfo" />
+  <xs:complexType name="DTOPreInvUpdateParams">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="MergeLikePrices" type="xs:boolean" />
+      <xs:element xmlns:q14="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SelectedPreInvPrt" nillable="true" type="q14:ArrayOfint" />
+      <xs:element xmlns:q15="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SelectedPreInvPrt2" nillable="true" type="q15:ArrayOfint" />
+      <xs:element xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="SelectedPreInvTot" nillable="true" type="q16:ArrayOfstring" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOPreInvUpdateParams" nillable="true" type="tns:DTOPreInvUpdateParams" />
+</xs:schema>

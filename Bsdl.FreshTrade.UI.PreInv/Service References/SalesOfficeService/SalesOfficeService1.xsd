@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Entities" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.Account.Entities" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfDTOSalesOffice">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="DTOSalesOffice" nillable="true" type="tns:DTOSalesOffice" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfDTOSalesOffice" nillable="true" type="tns:ArrayOfDTOSalesOffice" />
+  <xs:complexType name="DTOSalesOffice">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AccountingSalesOfficeNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="CanAccts" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CanChngStc" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CanSell" type="xs:boolean" />
+      <xs:element minOccurs="0" name="InUse" type="xs:boolean" />
+      <xs:element minOccurs="0" name="LastBatchNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="LastCreditBatchNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="LastInvoiceBatchNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="LastPreInvUpdateOK" type="xs:boolean" />
+      <xs:element minOccurs="0" name="NextCreditNoteNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="NextInvoiceNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SalesOfficeBusinessUnitNumber" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="SalesOfficeCode" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyAddress1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyAddress2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyAddress3" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyAddress4" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyAnaNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyFaxNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyPhoneNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeCompanyVatNo" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeDescription" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="SalesOfficeNumber" type="xs:int" />
+      <xs:element minOccurs="0" name="TaxDateBeforeDeliveryDate" type="xs:boolean" />
+      <xs:element minOccurs="0" name="UsedBy" nillable="true" type="xs:int" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="DTOSalesOffice" nillable="true" type="tns:DTOSalesOffice" />
+</xs:schema>

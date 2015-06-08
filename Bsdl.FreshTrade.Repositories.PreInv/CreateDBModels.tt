@@ -1,0 +1,2 @@
+<#@include file="Settings.tt" #>
+<#@ include file="../Bsdl.FreshTrade.Repositories.Basic/CreateDBModels.ttinclude" #>
