@@ -31,6 +31,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private readonly IPreInvTotRepository _preInvTotRepository;
         private readonly IPreINVPRTRepository _preInvPrtRepository;
         private readonly IPreInvPrt2Repository _preInvPrt2Repository;
+        private readonly IPreInvDiscTypRepository _preInvDiscTypRepository;
 
         private readonly IInvTotRepository _invTotRepository;
         private readonly IINVPRTRepository _invPrtRepository;
@@ -50,6 +51,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _preInvTotRepository = _unitOfWorkCurrent.GetRepository<IPreInvTotRepository>();
             _preInvPrtRepository = _unitOfWorkCurrent.GetRepository<IPreINVPRTRepository>();
             _preInvPrt2Repository = _unitOfWorkCurrent.GetRepository<IPreInvPrt2Repository>();
+            _preInvDiscTypRepository = _unitOfWorkCurrent.GetRepository<IPreInvDiscTypRepository>();
 
 
             _invTotRepository = _unitOfWorkCurrent.GetRepository<IInvTotRepository>();
@@ -100,7 +102,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var preInvTotals = _preInvTotRepository.GetInvTotByExtractionSessionId(extractSessionId, preparePrintParams.SelectedPreInvTot);
             var preInvPart = _preInvPrtRepository.GetInvPrtByExtractionSessionId(extractSessionId, preparePrintParams.SelectedPreInvPrt);
             var preInvPart2 = _preInvPrt2Repository.GetInvPrt2ByExtractionSessionId(extractSessionId, preparePrintParams.SelectedPreInvPrt2);
-            var preinvDiscTyp = _invDiscTypRepository.GetByExtractSessionID(extractSessionId);
+            var preinvDiscTyp = _preInvDiscTypRepository.GetByExtractSessionID(extractSessionId);
 
             PreInvTotalCalculator.CalcTotals(preInvTotals, preInvPart2, _systemPreferences.UserHasVat);
 

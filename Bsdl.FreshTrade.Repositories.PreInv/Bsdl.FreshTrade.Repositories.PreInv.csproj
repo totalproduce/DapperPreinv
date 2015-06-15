@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="StockRep\StockLocationRepository.cs" />
     <Compile Include="DestinationRep\IchDiscTypRepository.cs" />
+    <Compile Include="TempRep\PreInvDiscTypRepository.cs" />
     <Compile Include="TempRep\INVEDIRepository.cs">
       <SubType>Code</SubType>
     </Compile>
