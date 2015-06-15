@@ -122,6 +122,7 @@ namespace Bsdl.FreshTrade.WebService.App_Code
             result.RegisterType<PreInvTotRepository>().As<IPreInvTotRepository>();
             result.RegisterType<PreINVPRTRepository>().As<IPreINVPRTRepository>();
             result.RegisterType<PreInvPrt2Repository>().As<IPreInvPrt2Repository>();
+            result.RegisterType<PreInvDiscTypRepository>().As<IPreInvDiscTypRepository>();
 
             result.RegisterType<InvTotRepository>().As<IInvTotRepository>();
             result.RegisterType<InvDiscTypRepository>().As<IInvDiscTypRepository>();

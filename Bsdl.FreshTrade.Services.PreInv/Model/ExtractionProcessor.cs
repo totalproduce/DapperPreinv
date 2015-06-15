@@ -48,7 +48,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private readonly IPreInvTotRepository _preInvTotRepository;
         private readonly IInvErrRepository _invErrRepository;
         private readonly IInvExtractHedRepository _invExtractHedRepository;
-        private readonly IInvDiscTypRepository _invDiscTypRepository;
+        private readonly IPreInvDiscTypRepository _preInvDiscTypRepository;
 
         private readonly ISalesPersonRepository _salesPersonRepository;
         private readonly ICompanyDictionaryRepository _companyDictionaryRepository;
@@ -3563,7 +3563,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _preInvTotRepository = unitOfWorkCurrent.GetRepository<IPreInvTotRepository>();
             _invErrRepository = unitOfWorkCurrent.GetRepository<IInvErrRepository>();
             _invExtractHedRepository = unitOfWorkCurrent.GetRepository<IInvExtractHedRepository>();
-            _invDiscTypRepository = unitOfWorkCurrent.GetRepository<IInvDiscTypRepository>();
+            _preInvDiscTypRepository = unitOfWorkCurrent.GetRepository<IPreInvDiscTypRepository>();
             _ediCoSuppNoRepository = unitOfWorkCurrent.GetRepository<IEdiCoSuppNoRepository>();
             _priceListVatCheckRepository = unitOfWorkCurrent.GetRepository<IPriceListVatCheckRepository>();
             _customerDiscountRatesRepository = unitOfWorkCurrent.GetRepository<ICustomerDiscountRatesRepository>();
@@ -3723,7 +3723,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     _preInvTotRepository.DeleteByExtractSessionID(_extractSessionID);
                     _preInvPrtRepository.DeleteByExtractSessionID(_extractSessionID);
                     _preInvPrt2Repository.DeleteByExtractSessionID(_extractSessionID);
-                    _invDiscTypRepository.DeleteByExtractSessionID(_extractSessionID);
+                    _preInvDiscTypRepository.DeleteByExtractSessionID(_extractSessionID);
                     _invErrRepository.DeleteByExtractSessionID(_extractSessionID);
 
                     _invExtractHedRepository.Add(new DTOInvExtractHead
@@ -3748,7 +3748,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     _preInvTotRepository.Add(_invoiceTotals.Values);
                     _preInvPrtRepository.Add(_extractResult.InvoicePartItems);
                     _preInvPrt2Repository.Add(_extractResult.InvoicePart2Items);
-                    _invDiscTypRepository.Add(_extractResult.InvoiceDiscTypItems);
+                    _preInvDiscTypRepository.Add(_extractResult.InvoiceDiscTypItems);
                     _invErrRepository.Add(_extractResult.Errors);
 
                     _unitOfWorkCurrent.Commit();
