@@ -997,28 +997,37 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             ltext.AppendLine(difference.Select(i => i.ToString()).ToList().Aggregate((i, j) => i + "," + j));
         }
 
+        private void StoreDeliveryAudits(DTOUpdateInfo updateInfo)
+        {
+            _delAuditRecordRepository.Debug("pre");
+            _delAuditRecordRepository.Add(updateInfo.DelAuditRecordAdditions);
+            _delAuditRecordRepository.Debug("post");
+
+            var delAuditToDoItems = updateInfo.DelAuditRecordAdditions.Where(a => a.DprRecNo > 0)
+                .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true }).ToList();
+
+            _delAudToDoRecordRepository.Debug("pre");
+            _delAudToDoRecordRepository.Add(delAuditToDoItems);
+            _delAudToDoRecordRepository.Debug("post");            
+        }
+
         private void ProcessAutoCosting(DTOUpdateInfo updateInfo)
         {
+            if (!_systemPreferences.UseAutoCosting)
+            {
+                return;
+            }
+
             _unitOfWorkCurrent.BeginTransaction();
             try
             {
 
-                var delAuditToDoItems = updateInfo.DelAuditRecordAdditions.Where(a => a.DprRecNo > 0)
-                    .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true }).ToList();
-
-                _delAudToDoRecordRepository.Debug("pre");
-                _delAudToDoRecordRepository.Add(delAuditToDoItems);
-                _delAudToDoRecordRepository.Debug("post");
-
-                if (_systemPreferences.UseAutoCosting)
-                {
-                    var delPricesForCostingIds =
-                        updateInfo.DelAuditRecordAdditions.Where(
-                            a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
-                            .Select(i => i.DprRecNo.Value)
-                            .ToList();
-                    _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
-                }
+                var delPricesForCostingIds =
+                    updateInfo.DelAuditRecordAdditions.Where(
+                        a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
+                        .Select(i => i.DprRecNo.Value)
+                        .ToList();
+                _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
                 _unitOfWorkCurrent.Commit();
             }
             catch (Exception)
@@ -2123,9 +2132,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _auditRecordRepository.Add(updateInfo.AuditRecordAdditions);
                 _auditRecordRepository.Debug("post");
 
-                _delAuditRecordRepository.Debug("pre");
-                _delAuditRecordRepository.Add(updateInfo.DelAuditRecordAdditions);
-                _delAuditRecordRepository.Debug("post");
+                StoreDeliveryAudits(updateInfo);
 
                 //2 updates                
                 _deliveryHeadRepository.Debug("pre");
