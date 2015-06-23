@@ -997,27 +997,35 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             ltext.AppendLine(difference.Select(i => i.ToString()).ToList().Aggregate((i, j) => i + "," + j));
         }
 
-        private void StoreDeliveryAudits(DTOUpdateInfo updateInfo)
+        private void ProcessAutoCosting(DTOUpdateInfo updateInfo)
         {
-            _delAuditRecordRepository.Debug("pre");
-            _delAuditRecordRepository.Add(updateInfo.DelAuditRecordAdditions);
-            _delAuditRecordRepository.Debug("post");
-
-            var delAuditToDoItems = updateInfo.DelAuditRecordAdditions.Where(a => a.DprRecNo > 0)
-                .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true }).ToList();
-
-            _delAudToDoRecordRepository.Debug("pre");
-            _delAudToDoRecordRepository.Add(delAuditToDoItems);
-            _delAudToDoRecordRepository.Debug("post");
-
-            if (_systemPreferences.UseAutoCosting)
+            _unitOfWorkCurrent.BeginTransaction();
+            try
             {
-                var delPricesForCostingIds =
-                    updateInfo.DelAuditRecordAdditions.Where(
-                        a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
-                        .Select(i => i.DprRecNo.Value)
-                        .ToList();
-                _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
+
+                var delAuditToDoItems = updateInfo.DelAuditRecordAdditions.Where(a => a.DprRecNo > 0)
+                    .Select(a => new DTODelAudToDo() { DelAuditID = a.Id, UpdateIndicator = true }).ToList();
+
+                _delAudToDoRecordRepository.Debug("pre");
+                _delAudToDoRecordRepository.Add(delAuditToDoItems);
+                _delAudToDoRecordRepository.Debug("post");
+
+                if (_systemPreferences.UseAutoCosting)
+                {
+                    var delPricesForCostingIds =
+                        updateInfo.DelAuditRecordAdditions.Where(
+                            a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
+                            .Select(i => i.DprRecNo.Value)
+                            .ToList();
+                    _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
+                }
+            }
+            catch (Exception)
+            {
+                _unitOfWorkCurrent.Rollback();
+                RecordFailedUpdate();
+
+                throw;
             }
         }
 
@@ -2114,7 +2122,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _auditRecordRepository.Add(updateInfo.AuditRecordAdditions);
                 _auditRecordRepository.Debug("post");
 
-                StoreDeliveryAudits(updateInfo);
+                _delAuditRecordRepository.Debug("pre");
+                _delAuditRecordRepository.Add(updateInfo.DelAuditRecordAdditions);
+                _delAuditRecordRepository.Debug("post");
 
                 //2 updates                
                 _deliveryHeadRepository.Debug("pre");
@@ -2146,7 +2156,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 _iteChgRepository.Delete(updateInfo.IteChgDeletions);
 
-                ProgressChanged(100);
+                ProgressChanged(95);
                 if (_systemPreferences.RollbackUpdateResults)
                 {
                     _unitOfWorkCurrent.Rollback();
@@ -2155,30 +2165,46 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 {
                     _unitOfWorkCurrent.Commit();
                 }
-                return PreInvUpdateStatusType.OK;
             }
             catch (Exception)
             {
                 ProgressChanged(100);
                 _unitOfWorkCurrent.Rollback();
-
-                _unitOfWorkCurrent.BeginTransaction();
-                try
-                {
-                    var failedUpdateSalOff = ObjectHandling.CloneDTO(_context.SalesOffice);
-                    failedUpdateSalOff.LastPreInvUpdateOK = false;
-                    failedUpdateSalOff.InUse = false;
-                    _salesOfficeRepository.Update(_context.SalesOffice, failedUpdateSalOff);
-                    _unitOfWorkCurrent.Commit();
-                }
-                catch (Exception)
-                {
-                    _unitOfWorkCurrent.Rollback();
-                }
+                RecordFailedUpdate();
 
                 throw;
             }
-            return PreInvUpdateStatusType.Failed;
+
+            try
+            {
+                if (!_systemPreferences.RollbackUpdateResults)
+                {
+                    ProcessAutoCosting(updateInfo);
+                }
+            }
+            finally
+            {
+                ProgressChanged(100);
+            }
+
+            return PreInvUpdateStatusType.OK;
+        }
+
+        private void RecordFailedUpdate()
+        {
+            _unitOfWorkCurrent.BeginTransaction();
+            try
+            {
+                var failedUpdateSalOff = ObjectHandling.CloneDTO(_context.SalesOffice);
+                failedUpdateSalOff.LastPreInvUpdateOK = false;
+                failedUpdateSalOff.InUse = false;
+                _salesOfficeRepository.Update(_context.SalesOffice, failedUpdateSalOff);
+                _unitOfWorkCurrent.Commit();
+            }
+            catch (Exception)
+            {
+                _unitOfWorkCurrent.Rollback();
+            }            
         }
 
         private void LogUpdateResults(DTOUpdateInfo updateInfo)
