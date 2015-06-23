@@ -1019,6 +1019,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                             .ToList();
                     _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
                 }
+                _unitOfWorkCurrent.Commit();
             }
             catch (Exception)
             {
