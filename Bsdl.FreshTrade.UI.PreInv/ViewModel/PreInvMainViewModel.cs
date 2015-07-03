@@ -1201,6 +1201,13 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                     });
                     break;
                 case PreInvExtractStatusType.NothingToExtract:
+                    if ((extractResult.Errors != null) && (extractResult.Errors.Count > 0))
+                    {
+                        ExtractErrorList = extractResult.Errors.ToList();
+                        TabEnabledError = true;
+                        ActiveTabItemIndex = 1; //Swiching to Errors Screen
+                    }
+
                     InvokeInUiThread(() =>
                     {
                         MessageBox.Show("No Invoices extracted.", "Sorry", MessageBoxButton.OK, MessageBoxImage.Error);
