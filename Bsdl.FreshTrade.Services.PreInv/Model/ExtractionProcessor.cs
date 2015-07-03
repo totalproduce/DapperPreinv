@@ -682,6 +682,16 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             InitializeProductAnalysisGroups();
         }
 
+        private DTOPreInvExtractResult ReturnNothingToExtract()
+        {
+            _progressDelegate(100);
+            return new DTOPreInvExtractResult
+            {
+                Status = PreInvExtractStatusType.NothingToExtract,
+                Errors = _extractResult.Errors
+            };
+        }
+
         private void ValidateAccountRecords(DTOPreInvExtractParams extractParams, List<int> accToProcess)
         {
             var toRemove = new List<int>();
@@ -3607,8 +3617,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _progressDelegate(5);
                 if (!LoadAccountsData(accToProcess))
                 {
-                    _progressDelegate(100);
-                    return new DTOPreInvExtractResult { Status = PreInvExtractStatusType.NothingToExtract };
+                    return ReturnNothingToExtract();
                 }
 
                 stopWatch.PushTime();
@@ -3626,8 +3635,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _progressDelegate(15);
                 if (accToProcess.Count == 0)
                 {
-                    _progressDelegate(100);
-                    return new DTOPreInvExtractResult { Status = PreInvExtractStatusType.NothingToExtract };
+                    return ReturnNothingToExtract();
                 }
 
                 stopWatch.PushTime();
@@ -3641,8 +3649,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _progressDelegate(20);
                 if (accToProcess.Count == 0)
                 {
-                    _progressDelegate(100);
-                    return new DTOPreInvExtractResult { Status = PreInvExtractStatusType.NothingToExtract };
+                    return ReturnNothingToExtract();
                 }
 
                 stopWatch.PushTime();
@@ -3651,8 +3658,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 _progressDelegate(25);
                 if (accToProcess.Count == 0)
                 {
-                    _progressDelegate(100);
-                    return new DTOPreInvExtractResult { Status = PreInvExtractStatusType.NothingToExtract };
+                    return ReturnNothingToExtract();
                 }
 
                 stopWatch.PushTime();
@@ -3685,8 +3691,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 if (accToProcess.Count == 0)
                 {
-                    _progressDelegate(100);
-                    return new DTOPreInvExtractResult { Status = PreInvExtractStatusType.NothingToExtract };
+                    return ReturnNothingToExtract();
                 }
 
                 stopWatch.PushTime();
@@ -3707,8 +3712,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 if ((_invoiceTotals.Count == 0) && (_extractResult.Errors.Count == 0))
                 {
-                    _progressDelegate(100);
-                    return new DTOPreInvExtractResult { Status = PreInvExtractStatusType.NothingToExtract };
+                    return ReturnNothingToExtract();
                 }
 
                 // lRoundVatByRate method implementation
