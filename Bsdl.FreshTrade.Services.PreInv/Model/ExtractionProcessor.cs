@@ -108,6 +108,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private Dictionary<int, PreInvInvoiceType> _accountPossibleInvoiceTypes = new Dictionary<int, PreInvInvoiceType>();
         //private SortedSet<int> _ordersToSkipForInvoiceRun = new SortedSet<int>();
 
+        private Dictionary<string, IGrouping<string, DTOCustomerProductInfo>> _groupedCustomerProductInfos;
+
         private Dictionary<DTOInvoiceType, PreInvBatchType> _invoiceTypeToBatchTypeMapping;
         private ISet<DTOInvoiceType> _allowedNotRelDeliveryInvoiceTypes;
         private Dictionary<int, PreInvInvoiceType> _deliveryTranIndToInvoiceTypeMapping;
@@ -440,33 +442,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             }
 
             var customerProductInfos = _customerProductInfoRepository.GetCustomerProductInfosByClientProductNos(deliveryDetails.Select(i => i.ClientProductNo).Distinct().Where(i => !string.IsNullOrEmpty(i)).ToList());
-            var groupedCustomerProductInfos = customerProductInfos.GroupBy(i => i.ClientProductNo).ToDictionary(i => i.Key, i => i);
-            foreach (var deliveryDetail in deliveryDetails)
-            {
-                if (!string.IsNullOrEmpty(deliveryDetail.ClientProductNo))
-                {
-                    if (!groupedCustomerProductInfos.Keys.Contains(deliveryDetail.ClientProductNo))
-                    {
-                        if (deliveryDetail.DeliveryHeadId.HasValue)
-                        {
-                            RaiseExtractionErrorFromLocalCache(
-                                string.Format
-                                (
-                                    "Error Customer <{{0}}> " + Environment.NewLine +
-                                    "Delivery No.<{0}> client product number <{1}> cannot be found in the price list " + 
-                                    "for Customer Group <{{1}}>."+ Environment.NewLine + Environment.NewLine +
-                                    "Either the customer has been moved to a different price group or "+
-                                    "the client product has been removed from the price group."
-                                    ,
-                                    deliveryDetail.DeliveryHeadId.Value, deliveryDetail.ClientProductNo.Trim()
-                                ),
-                                deliveryDetail.DeliveryHeadId.Value);
-                        }
-                    }
-
-                    deliveryDetail.CustomerProductInfos = groupedCustomerProductInfos[deliveryDetail.ClientProductNo].ToList();
-                }
-            }
+            _groupedCustomerProductInfos = customerProductInfos.GroupBy(i => i.ClientProductNo).ToDictionary(i => i.Key, i => i);
 
             var deliveryToItemStocks = _deliveryToItemStockRepository.GetDeliveryToItemStockByDeliveryPriceIDs(deliveryPrices.Select(i => i.Id).ToList());
             _localCache.Put(deliveryToItemStocks, i => i.DeliveryPriceId);
@@ -3396,6 +3372,30 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                         {
                                             continue;
                                         }
+                                    }
+
+                                    if (_context.RequiredPriceGroupNo > 0 && !string.IsNullOrEmpty(deliveryDetail.ClientProductNo))
+                                    {
+                                        if (!_groupedCustomerProductInfos.Keys.Contains(deliveryDetail.ClientProductNo))
+                                        {
+                                            if (deliveryDetail.DeliveryHeadId.HasValue)
+                                            {
+                                                RaiseExtractionErrorFromLocalCache(
+                                                    string.Format
+                                                    (
+                                                        "Error Customer <{{0}}> " + Environment.NewLine +
+                                                        "Delivery No.<{0}> client product number <{1}> cannot be found in the price list " +
+                                                        "for Customer Group <{{1}}>." + Environment.NewLine + Environment.NewLine +
+                                                        "Either the customer has been moved to a different price group or " +
+                                                        "the client product has been removed from the price group."
+                                                        ,
+                                                        deliveryDetail.DeliveryHeadId.Value, deliveryDetail.ClientProductNo.Trim()
+                                                    ),
+                                                    deliveryDetail.DeliveryHeadId.Value);
+                                            }
+                                        }
+
+                                        deliveryDetail.CustomerProductInfos = _groupedCustomerProductInfos[deliveryDetail.ClientProductNo].ToList();
                                     }
 
                                     _context.Product =
