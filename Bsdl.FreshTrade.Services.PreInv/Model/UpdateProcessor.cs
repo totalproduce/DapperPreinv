@@ -875,6 +875,14 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             ProgressChanged += (x) => { };
         }
 
+        private void CheckForDuplicatedKeys(string tableName, string keyName, IList<int?> keyValues)
+        {
+            if (keyValues.GroupBy(x => x).Any(x => x.Count() > 1))
+            {
+                throw new FreshTradeException(string.Format("During the processing, some duplicated records were created in {0}.\r\nIt must be beasue of data consistency issues for {1} = {2}.\r\n Please check these records for errors, correct or exclude them from batch.", tableName, keyName, string.Join(",", keyValues)));
+            }            
+        }
+
         private void ValidateInvTempData
         (
             DTOPreInvUpdateParams updateParams,
@@ -889,6 +897,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var requiredInvPrtIds = updateParams.SelectedPreInvPrt.OrderBy(i => i).ToList();
             var realInvPrt2Ids = invPrt2Records.Select(i => i.DelRecNo).OrderBy(i => i).ToList();
             var requiredInvPrt2Ids = updateParams.SelectedPreInvPrt2.OrderBy(i => i).ToList();
+
+            //Instead of this needs to be some validation on the extraction phase. However as this has appeared only once in Live environment, not sure how to reproduce that.
+            //As we can reproduce that - we will add some validation on extract for this case.
+            CheckForDuplicatedKeys("PreInvPrt", "DelHed.DlvOrdNo", realInvPrtIds);
+            CheckForDuplicatedKeys("PreInvPrt2", "DelDet.DelRecNo", realInvPrt2Ids);
+            //-------------------
 
             var lstatus = 0;
 
