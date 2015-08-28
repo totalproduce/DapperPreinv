@@ -877,9 +877,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
         private void CheckForDuplicatedKeys(string tableName, string keyName, IList<int?> keyValues)
         {
-            if (keyValues.GroupBy(x => x).Any(x => x.Count() > 1))
+            var duplicates = keyValues.GroupBy(x => x).Where(x => x.Count() > 1).Select(x => x.Key).ToList();
+            if (duplicates.Count > 0)
             {
-                throw new FreshTradeException(string.Format("During the processing, some duplicated records were created in {0}.\r\nIt must be beasue of data consistency issues for {1} = {2}.\r\n Please check these records for errors, correct or exclude them from batch.", tableName, keyName, string.Join(",", keyValues)));
+                throw new FreshTradeException(string.Format("During the processing, some duplicated records were created in {0}.\r\nIt must be because of data consistency issues for {1} = {2}.\r\nPlease check these records for errors, correct or exclude them from batch.", tableName, keyName, string.Join(",", duplicates)));
             }            
         }
 
