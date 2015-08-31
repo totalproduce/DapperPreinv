@@ -1356,7 +1356,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     _context.IsDeliveryGoodsOnConsignment ||
                     IsSequentialInvoiceNos(_context.InvoiceTypeForAccount, _context.SalesOffice) ||
                     _context.DeliveryHead.IsOpenPriceDelivery;
-            isSeqInvNo = isSeqInvNo && (_context.Account.InvoiceType != DTOInvoiceType.DeliveryNoteInvoice); //For delivery notes sequental numbers are not used.
+            isSeqInvNo = isSeqInvNo && (_context.Account.InvoiceType != DTOInvoiceType.DeliveryNoteInvoice); //For Delivery Note is Invoice sequental numbers are not used.
             _context.InvoiceTotal.IsSeqInvNo = isSeqInvNo;
 
             int invoiceNo;
