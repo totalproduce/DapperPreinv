@@ -1351,15 +1351,17 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             bool isPerDelivery = _context.BatchTypeForAccount == PreInvBatchType.PerDelivery;
 
             // Invoice Number Calculation
-            int invoiceNo;
-            if (
+            bool isSeqInvNo =
                     !isPerDelivery ||
                     _context.IsDeliveryGoodsOnConsignment ||
                     IsSequentialInvoiceNos(_context.InvoiceTypeForAccount, _context.SalesOffice) ||
-                    _context.DeliveryHead.IsOpenPriceDelivery
-               )
+                    _context.DeliveryHead.IsOpenPriceDelivery;
+            isSeqInvNo = isSeqInvNo && (_context.Account.InvoiceType != DTOInvoiceType.DeliveryNoteInvoice); //For delivery notes sequental numbers are not used.
+            _context.InvoiceTotal.IsSeqInvNo = isSeqInvNo;
+
+            int invoiceNo;
+            if (isSeqInvNo)
             {
-                _context.InvoiceTotal.IsSeqInvNo = true;
                 invoiceNo = _nextInvoiceNo;
                 if (_systemPreferences.AddYearToInvNo)
                 {
@@ -1377,7 +1379,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             }
             else
             {
-                _context.InvoiceTotal.IsSeqInvNo = false;
                 invoiceNo = _context.DeliveryHead.Id;
             }
 
