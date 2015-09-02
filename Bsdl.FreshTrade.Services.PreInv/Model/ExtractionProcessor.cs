@@ -1351,51 +1351,59 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             bool isPerDelivery = _context.BatchTypeForAccount == PreInvBatchType.PerDelivery;
 
             // Invoice Number Calculation
-            bool isSeqInvNo =
+            string stInvoiceNo;
+
+            if (_context.Account.InvoiceType == DTOInvoiceType.DeliveryNoteInvoice)
+            {
+                stInvoiceNo = _context.DeliveryHead.Id.ToString(CultureInfo.InvariantCulture);
+            }
+            else
+            {
+
+                bool isSeqInvNo =
                     !isPerDelivery ||
                     _context.IsDeliveryGoodsOnConsignment ||
                     IsSequentialInvoiceNos(_context.InvoiceTypeForAccount, _context.SalesOffice) ||
                     _context.DeliveryHead.IsOpenPriceDelivery;
-            isSeqInvNo = isSeqInvNo && (_context.Account.InvoiceType != DTOInvoiceType.DeliveryNoteInvoice); //For Delivery Note is Invoice sequental numbers are not used.
-            _context.InvoiceTotal.IsSeqInvNo = isSeqInvNo;
+                _context.InvoiceTotal.IsSeqInvNo = isSeqInvNo;
 
-            int invoiceNo;
-            if (isSeqInvNo)
-            {
-                invoiceNo = _nextInvoiceNo;
-                if (_systemPreferences.AddYearToInvNo)
+                int invoiceNo;
+                if (isSeqInvNo)
                 {
-                    invoiceNo = invoiceNo * 100 + (DateTime.Now.Year % 100);
-                }
+                    invoiceNo = _nextInvoiceNo;
+                    if (_systemPreferences.AddYearToInvNo)
+                    {
+                        invoiceNo = invoiceNo*100 + (DateTime.Now.Year%100);
+                    }
 
-                if
-                    (
-                        _systemPreferences.AddSoToInvNo &&
-                        DTOSalesOffice.GetUnsignedSalesOfficeNumber(extractParams.SalesOfficeNo) > 0
-                    )
-                {
-                    invoiceNo = invoiceNo * 100 + (extractParams.SalesOfficeNo % 100);
-                }
-            }
-            else
-            {
-                invoiceNo = _context.DeliveryHead.Id;
-            }
-
-            string stInvoiceNo;
-            if (extractParams.IsInterCompanyTransfer)
-            {
-                stInvoiceNo = InvPrefix_Transfer + invoiceNo;
-            }
-            else
-            {
-                if (_context.DeliveryHead.IsInterDepartment)
-                {
-                    stInvoiceNo = InvPrefix_InterDept + invoiceNo;
+                    if
+                        (
+                            _systemPreferences.AddSoToInvNo &&
+                            DTOSalesOffice.GetUnsignedSalesOfficeNumber(extractParams.SalesOfficeNo) > 0
+                        )
+                    {
+                        invoiceNo = invoiceNo*100 + (extractParams.SalesOfficeNo%100);
+                    }
                 }
                 else
                 {
-                    stInvoiceNo = InvPrefix_Normal + invoiceNo;
+                    invoiceNo = _context.DeliveryHead.Id;
+                }
+
+                if (extractParams.IsInterCompanyTransfer)
+                {
+                    stInvoiceNo = InvPrefix_Transfer + invoiceNo;
+                }
+                else
+                {
+                    if (_context.DeliveryHead.IsInterDepartment)
+                    {
+                        stInvoiceNo = InvPrefix_InterDept + invoiceNo;
+                    }
+                    else
+                    {
+                        stInvoiceNo = InvPrefix_Normal + invoiceNo;
+                    }
                 }
             }
 
