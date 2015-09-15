@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>NLog.Extended</id>
+    <version>3.1.0.0</version>
+    <title>NLog for Extended Profile</title>
+    <authors>Kim Christensen</authors>
+    <owners>Kim Christensen</owners>
+    <licenseUrl>http://raw.github.com/NLog/NLog/master/LICENSE.txt</licenseUrl>
+    <projectUrl>http://github.com/NLog/NLog/</projectUrl>
+    <iconUrl>http://nlog-project.org/N.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>NLog.Extended.dll for use with .NET Framework Extended profile. Supports server-specific targets and other extensions.</description>
+    <summary>NLog - Advanced .NET and Silverlight logging</summary>
+    <language>en-US</language>
+    <tags>logging log tracing logfiles NLog</tags>
+    <dependencies>
+      <dependency id="NLog" version="[3.1.0.0]" />
+    </dependencies>
+  </metadata>
+</package>
