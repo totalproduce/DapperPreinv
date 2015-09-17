@@ -1347,7 +1347,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                 {
                     SelectedPreInvTot = ExtractInvoiceTotalList.Where(t => !t.CancelledInv).Select(i => i.InvoiceNo).ToList(),
                     SelectedPreInvPrt = ExtractInvoicePartList.Where(t => !t.CancelledDlv && t.DlvOrdNo.HasValue).Select(i => i.DlvOrdNo.Value).ToList(),
-                    SelectedPreInvPrt2 = ExtractInvoicePart2List.Where(t => !t.CancelledLine && t.DelRecNo.HasValue).Select(i => i.DelRecNo.Value).ToList(),
+                    SelectedPreInvPrt2 = ExtractInvoicePart2List.Where(t => !t.CancelledLine && t.Recno.HasValue).Select(i => i.Recno.Value).ToList(),
                     MergeLikePrices = PreinvIsMergeLikePrices
                 }
                 );
@@ -1390,8 +1390,8 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                     .Select(i => i.DlvOrdNo.Value)
                     .ToList();
             var selectedPreInvPrt2 =
-                ExtractInvoicePart2List.Where(t => !t.CancelledLine && t.DelRecNo.HasValue)
-                    .Select(i => i.DelRecNo.Value)
+                ExtractInvoicePart2List.Where(t => !t.CancelledLine && t.Recno.HasValue)
+                    .Select(i => i.Recno.Value)
                     .ToList();
 
             if (

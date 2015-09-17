@@ -33,7 +33,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                 new List<ISearchFieldDef>
                 {
                    new SearchFieldDef<DTOInvPrt2, int>(i => i.ExtractSessionID, INVPRT2.FieldNames.EXTRACTSESSIONID, FieldType.Integer),
-                   new SearchFieldDef<DTOInvPrt2, string>(i => i.InvoiceNo, INVPRT2.FieldNames.DLVINVOICENO, FieldType.AlphaNumeric)
+                   new SearchFieldDef<DTOInvPrt2, string>(i => i.InvoiceNo, INVPRT2.FieldNames.DLVINVOICENO, FieldType.AlphaNumeric),
+                   new SearchFieldDef<DTOInvPrt2, int?>(i => i.Recno, INVPRT2.FieldNames.RECNO, FieldType.Integer)
                 })
         {
         }
@@ -249,6 +250,23 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                     new List<ISearchField> {
                         new SearchFieldGeneric<DTOInvPrt2, int>(i => i.ExtractSessionID).Apply(extractSessionID , FieldType.Integer)
                  }, CachingStrategy.NoCache).ToList();
+        }
+
+        public List<DTOInvPrt2> GetInvPrt2ByExtractionSessionId(int extractionSessionId, List<int> recNoList)
+        {
+            return GetDataInChunksCustom
+                           (
+                                i => GetData
+                                (
+                                    new List<ISearchField>
+                                        {
+                                            new SearchFieldGeneric<DTOInvPrt2, int>(k => k.ExtractSessionID).Apply(extractionSessionId, FieldType.Integer),
+                                            new SearchFieldGeneric<DTOInvPrt2, int?>(k => k.Recno).Apply(i, FieldType.List)
+                                        },
+                                    CachingStrategy.NoCache
+                                ),
+                                recNoList
+                            );
         }
 
         public void DeleteByExtractSessionID(int extractSessionID)
