@@ -18,12 +18,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
     public class DataExportProcessor
     {
-        private readonly IPreInvPrt2Repository _preInvPrt2Repository;
+        private readonly IInvPrt2Repository _preInvPrt2Repository;
 
 
         public DataExportProcessor(IUnitOfWork unitOfWorkCurrent)
         {
-            _preInvPrt2Repository = unitOfWorkCurrent.GetRepository<IPreInvPrt2Repository>();
+            _preInvPrt2Repository = unitOfWorkCurrent.GetRepository<IInvPrt2Repository>();
         }
 
 

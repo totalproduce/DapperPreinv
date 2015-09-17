@@ -33,7 +33,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                 new List<ISearchFieldDef>
                 {
                      new SearchFieldDef<DTOInvPrt2, int>(i => i.ExtractSessionID, PreINVPRT2.FieldNames.EXTRACTSESSIONID, FieldType.Integer),
-                     new SearchFieldDef<DTOInvPrt2, int?>(i => i.DelRecNo, PreINVPRT2.FieldNames.DELRECNO, FieldType.Integer)
+                     new SearchFieldDef<DTOInvPrt2, int?>(i => i.DelRecNo, PreINVPRT2.FieldNames.DELRECNO, FieldType.Integer),
+                     new SearchFieldDef<DTOInvPrt2, int?>(i => i.Recno, PreINVPRT2.FieldNames.RECNO, FieldType.Integer)
                 }
             )
         {
@@ -242,7 +243,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
             return data;
         }
 
-        public List<DTOInvPrt2> GetInvPrt2ByExtractionSessionId(int extractionSessionId, List<int> delDetailList)
+        public List<DTOInvPrt2> GetInvPrt2ByExtractionSessionId(int extractionSessionId, List<int> recNoList)
         {
             return GetDataInChunksCustom
                            (
@@ -251,28 +252,11 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                                     new List<ISearchField>
                                         {
                                             new SearchFieldGeneric<DTOInvPrt2, int>(k => k.ExtractSessionID).Apply(extractionSessionId, FieldType.Integer),
-                                            new SearchFieldGeneric<DTOInvPrt2, int?>(k => k.DelRecNo).Apply(i, FieldType.List)
+                                            new SearchFieldGeneric<DTOInvPrt2, int?>(k => k.Recno).Apply(i, FieldType.List)
                                         },
                                     CachingStrategy.NoCache
                                 ),
-                                delDetailList
-                            );
-        }
-
-        public List<DTOInvPrt2> GetByExtractionSessionId(int extractionSessionId, List<int> delDetailList)
-        {
-            return GetDataInChunksCustom
-                           (
-                                i => GetData
-                                (
-                                    new List<ISearchField>
-                                        {
-                                            new SearchFieldGeneric<DTOInvPrt2, int>(k => k.ExtractSessionID).Apply(extractionSessionId, FieldType.Integer),
-                                            new SearchFieldGeneric<DTOInvPrt2, int?>(k => k.DelRecNo).Apply(i, FieldType.List)
-                                        },
-                                    CachingStrategy.NoCache
-                                ),
-                                delDetailList
+                                recNoList
                             );
         }
 

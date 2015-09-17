@@ -896,13 +896,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var requiredInvTotIds = updateParams.SelectedPreInvTot.OrderBy(i => i).ToList();
             var realInvPrtIds = invPrtRecords.Select(i => i.DlvOrdNo).OrderBy(i => i).ToList();
             var requiredInvPrtIds = updateParams.SelectedPreInvPrt.OrderBy(i => i).ToList();
-            var realInvPrt2Ids = invPrt2Records.Select(i => i.DelRecNo).OrderBy(i => i).ToList();
+            var realInvPrt2Ids = invPrt2Records.Select(i => i.Recno).OrderBy(i => i).ToList();
             var requiredInvPrt2Ids = updateParams.SelectedPreInvPrt2.OrderBy(i => i).ToList();
 
-            //Instead of this needs to be some validation on the extraction phase. However as this has appeared only once in Live environment, not sure how to reproduce that.
-            //As we can reproduce that - we will add some validation on extract for this case.
+            //These duplicates should be already resolved. Should newer happen, for now left as a safegard to indicate and issues in the code
             CheckForDuplicatedKeys("PreInvPrt", "DelHed.DlvOrdNo", realInvPrtIds);
-            CheckForDuplicatedKeys("PreInvPrt2", "DelDet.DelRecNo", realInvPrt2Ids);
+            CheckForDuplicatedKeys("PreInvPrt2", "RecNo", realInvPrt2Ids);
             //-------------------
 
             var lstatus = 0;
@@ -955,7 +954,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                        requiredInvPrtIds, "Delivery No");
                     GetCountDifferenceDescription(ltext,
                         realInvPrt2Ids.Where(i => i.HasValue).Select(i => i.Value).ToList(),
-                        requiredInvPrt2Ids, "Delivery Rec No");
+                        requiredInvPrt2Ids, "InvPrt2 RecNo");
                     break;
                 case 2:
                     GetDifferenceDescription(ltext, realInvTotIds, requiredInvTotIds, "Invoice");
@@ -968,7 +967,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 case 4:
                     GetDifferenceDescription(ltext,
                         realInvPrt2Ids.Where(i => i.HasValue).Select(i => i.Value).ToList(),
-                        requiredInvPrt2Ids, "Delivery Rec No");
+                        requiredInvPrt2Ids, "InvPrt2 RecNo");
                     break;
             }
             _logger.Error(ltext.ToString());
