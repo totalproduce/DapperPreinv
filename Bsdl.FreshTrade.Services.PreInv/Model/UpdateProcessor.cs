@@ -61,6 +61,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private readonly IAccAllocRepository _accAllocRepository;
         private readonly IPostTypeRepository _postTypeRepository;
         private readonly IDeliveryPriceRepository _deliveryPriceRepository;
+        private readonly IDeliveryPriceToCreditNoteRepository _deliveryToCreditNoteRepository;
         private readonly IExpChaRepository _expChaRepository;
         private readonly IIteChgRepository _iteChgRepository;
         private readonly IOrderRepository _orderRepository;
@@ -853,6 +854,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _accAllocRepository = _unitOfWorkCurrent.GetRepository<IAccAllocRepository>();
             _postTypeRepository = _unitOfWorkCurrent.GetRepository<IPostTypeRepository>();
             _deliveryPriceRepository = _unitOfWorkCurrent.GetRepository<IDeliveryPriceRepository>();
+            _deliveryToCreditNoteRepository = unitOfWorkCurrent.GetRepository<IDeliveryPriceToCreditNoteRepository>();
             _expChaRepository = _unitOfWorkCurrent.GetRepository<IExpChaRepository>();
             _iteChgRepository = _unitOfWorkCurrent.GetRepository<IIteChgRepository>();
             _orderRepository = _unitOfWorkCurrent.GetRepository<IOrderRepository>();
@@ -973,6 +975,35 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             _logger.Error(ltext.ToString());
 
             throw new FreshTradeException("Update data differs to the printed data." + Environment.NewLine + ltext);
+        }
+
+        private void ValidateCreditOrDebitNotesOriginalDeliveryPrice(IEnumerable<DTOInvPrt2> invPrt2Records, IEnumerable<DTODeliveryPrice> allDeliveryPrices, IEnumerable<DTODeliveryPriceToCreditNote> deliveryPriceToCreditNoteItems)
+        {
+            var allDeliveryPricesAsDictionary = allDeliveryPrices.ToDictionary(x => x.Id, x => x);
+            var invPrt2RecordsAsDictionary = invPrt2Records.ToDictionary(x => x.DprRecNo, x => x);
+
+            foreach (var deliveryPriceToCreditNoteItem in deliveryPriceToCreditNoteItems)
+            {
+                var delPriceId = deliveryPriceToCreditNoteItem.OriginalDeliveryPriceRefNo;
+                if (delPriceId > 0)
+                {
+                    if (invPrt2RecordsAsDictionary.ContainsKey(delPriceId))
+                    {
+                        continue;
+                    }
+
+                    DTODeliveryPrice originalDelPrice;
+                    if (!allDeliveryPricesAsDictionary.TryGetValue(delPriceId, out originalDelPrice))
+                    {
+                        throw new FreshTradeException(string.Format("Original delivery price {0} is not loaded tor credit note", delPriceId));
+                    }
+                    if (!originalDelPrice.DeliveryPriceStatus.IsInvoiced())
+                    {
+                        throw new FreshTradeException(string.Format("Original Delivery Price (ID = {0}) was not yet invoiced, so cannot invoice Credit/Debit Note.", originalDelPrice.Id));
+                    }
+
+                }
+            }
         }
 
         private void GetCountDifferenceDescription<T>(StringBuilder ltext, List<T> realIds, List<T> requiredIds, string entityName)
@@ -1180,6 +1211,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             allDprRecNos.Remove(0); //remove 0 key if present
             var allDeliveryPrices = _deliveryPriceRepository.GetDeliveryPriceByDeliveryDetailIDs(allAffectedDelDetailIds);
             var allIteChgItems = _iteChgRepository.GetItemChargeByDeliveryPriceIds(allDprRecNos);
+
+            var deliveryToCreditNote = _deliveryToCreditNoteRepository.GetDeliveryPriceToCreditNoteByDeliveryPriceIDs(allDprRecNos);
+
+            ValidateCreditOrDebitNotesOriginalDeliveryPrice(allInvPrt2Records, allDeliveryPrices, deliveryToCreditNote);
 
             _auditRecordRepository.ReserveSequenceRange(allIteChgItems.Count + allDprRecNos.Count); //In UpdateItechg for each IteChgItems audit record is created; For each delPrice delAudit is created as well
             _context.ExpChaKeysReserved = false;
