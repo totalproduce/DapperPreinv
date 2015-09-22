@@ -174,8 +174,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                 var invoicePart2List = preInvPart2.Where(ip => ip.InvoiceNo == currInvoiceNo);
 
-                int tmpRecNo = 1;
-
                 foreach (var preInvPrt2 in invoicePart2List)
                 {
                     var preinvDiscTypList =
@@ -185,16 +183,12 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     {
                         var tmp = ObjectHandling.CloneDTO(preinvDisctyp);
                         tmp.DlvInvoiceNo = invTotal.InvoiceNo;
-                        tmp.RecNo = tmpRecNo;
                         invDiscTypList.Add(tmp);
                     }
 
                     var invPart2 = ObjectHandling.CloneDTO(preInvPrt2);
-                    invPart2.Recno = tmpRecNo;
                     invPart2.InvoiceNo = invTotal.InvoiceNo;
                     invPart2List.Add(invPart2);
-
-                    tmpRecNo++;
 
                     #region EDI Staff - not used now
                     /*
