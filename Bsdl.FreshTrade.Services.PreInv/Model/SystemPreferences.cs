@@ -18,9 +18,9 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
     public class SystemPreferences
     {
 
-        private const string LockSalesOffParamName = "PreInvLockSalesOffice";
-        private const string LogUpdateResultsParamName = "LogUpdateResults";
-        private const string RollbackUpdateResultsParamName = "RollbackUpdateResults";
+        private const string LockSalesOffParamName = "PreInv.LockSalesOffice";
+        private const string LogUpdateResultsParamName = "PreInv.LogUpdateResults";
+        private const string RollbackUpdateResultsParamName = "PreInv.RollbackUpdateResults";
 
         [SysPref(Name = "ALTERNATEGROUPS")]
         public bool UseAlternativeProductGroups { get; set; } //StringToLogical(dynSysPrefs["ALTERNATEGROUPS"]) ; doug 29/01/09
