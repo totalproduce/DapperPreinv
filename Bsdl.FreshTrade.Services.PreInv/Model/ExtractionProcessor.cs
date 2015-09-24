@@ -1354,7 +1354,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             // Invoice Number Calculation
             string stInvoiceNo;
 
-            if (_context.Account.InvoiceType == DTOInvoiceType.DeliveryNoteInvoice)
+            if (
+                    (_context.Account.InvoiceType == DTOInvoiceType.DeliveryNoteInvoice) && 
+                    (_context.InvoiceTypeForAccount == PreInvInvoiceType.Invoice) //Only for Invoices. Credit notes will still have sequential numbers to avoid duplicates
+               )
             {
                 stInvoiceNo = _context.DeliveryHead.Id.ToString(CultureInfo.InvariantCulture);
             }
