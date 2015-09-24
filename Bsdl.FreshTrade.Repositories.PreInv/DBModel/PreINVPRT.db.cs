@@ -362,7 +362,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          PropertyHelper <PreINVPRT>.GetProperty(x => x.Recno),
          "RECNO", // columnName
          false,                    //isKey
-         true, //isNullable
+         false, //isNullable
          "",                       //refEntityName
          null,                     //PropertyInfo keyPropInfo
          0,       // int size   
@@ -757,8 +757,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
-        private int? _fRecno;
-        public int? Recno
+        private int _fRecno;
+        public int Recno
         {
             get { return _fRecno; }
             set
