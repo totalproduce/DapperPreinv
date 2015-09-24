@@ -359,6 +359,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
+         PropertyHelper <PreINVPRT>.GetProperty(x => x.Recno),
+         "RECNO", // columnName
+         false,                    //isKey
+         true, //isNullable
+         "",                       //refEntityName
+         null,                     //PropertyInfo keyPropInfo
+         0,       // int size   
+                  10, // int? prec
+                           0  // int? Scale
+         ,
+         typeof(PreINVPRT)
+         ));
+
+         result.Add(new EntityPropDef(
          PropertyHelper <PreINVPRT>.GetProperty(x => x.Saloffdesc),
          "SALOFFDESC", // columnName
          false,                    //isKey
@@ -743,6 +757,20 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
+        private int? _fRecno;
+        public int? Recno
+        {
+            get { return _fRecno; }
+            set
+            {
+                if (_fRecno != value)
+                {
+                    Modify();
+                    _fRecno = value;
+                }
+            }
+        }
+
         private string _fSaloffdesc;
         public string Saloffdesc
         {
@@ -827,6 +855,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Ordrecno = Ordrecno,
                     Ordsmnno = Ordsmnno,
                     Prcglbrecno = Prcglbrecno,
+                    Recno = Recno,
                     Saloffdesc = Saloffdesc,
                     Sort1 = Sort1,
                     Sort2 = Sort2,
@@ -862,6 +891,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  ORDRECNO = "ORDRECNO";
             public const string  ORDSMNNO = "ORDSMNNO";
             public const string  PRCGLBRECNO = "PRCGLBRECNO";
+            public const string  RECNO = "RECNO";
             public const string  SALOFFDESC = "SALOFFDESC";
             public const string  SORT1 = "SORT1";
             public const string  SORT2 = "SORT2";
