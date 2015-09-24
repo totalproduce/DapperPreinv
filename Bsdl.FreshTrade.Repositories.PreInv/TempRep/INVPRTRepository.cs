@@ -35,7 +35,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                 {
                    new SearchFieldDef<DTOInvPrt, int>(i => i.ExtractSessionID, INVPRT.FieldNames.EXTRACTSESSIONID, FieldType.Integer),
                    new SearchFieldDef<DTOInvPrt, int?>(i => i.OrdRecNo, INVPRT.FieldNames.ORDRECNO, FieldType.Integer),
-                   new SearchFieldDef<DTOInvPrt, string>(i => i.DlvInvoiceNo, INVPRT.FieldNames.DLVINVOICENO, FieldType.AlphaNumeric)                   
+                   new SearchFieldDef<DTOInvPrt, string>(i => i.DlvInvoiceNo, INVPRT.FieldNames.DLVINVOICENO, FieldType.AlphaNumeric),
+                   new SearchFieldDef<DTOInvPrt, int?>(i => i.RecNo, INVPRT.FieldNames.RECNO, FieldType.Integer)                   
                 }
             )
         {
@@ -56,6 +57,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
         {
             var result = new INVPRT();
             result.Extractsessionid = item.ExtractSessionID;
+            result.Recno = item.RecNo;
             result.Cancelleddlv = (short)(item.CancelledDlv?1:0);
             result.Curdesc = item.CurDesc;
             result.Delclarecno = item.DelClaRecNo;
@@ -114,6 +116,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                             new DTOInvPrt
                             {
                                 ExtractSessionID = item.Extractsessionid,
+                                RecNo = item.Recno,
                                 CancelledDlv = item.Cancelleddlv>0,
                                 CurDesc = item.Curdesc,
                                 DelClaRecNo = item.Delclarecno,

@@ -3156,8 +3156,10 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             }
 
             _incrementalExtractedInvPrtRecNo++; //incremental count of records.
+
             var invPrt = new DTOInvPrt();
             invPrt.ExtractSessionID = _extractSessionID;
+            invPrt.RecNo = _incrementalExtractedInvPrtRecNo;
             invPrt.DlvInvoiceNo = _context.InvoiceTotal.InvoiceNo;
             invPrt.DlvOrdNo = _context.DeliveryHead.Id;
             invPrt.DlvShpDate = _context.DeliveryHead.ShipDate;
