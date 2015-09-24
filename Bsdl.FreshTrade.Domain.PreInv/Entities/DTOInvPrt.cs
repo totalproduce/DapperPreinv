@@ -14,6 +14,9 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public int ExtractSessionID { get; set; }
 
         [DataMember]
+        public int RecNo { get; set; }
+
+        [DataMember]
         public bool CancelledDlv { get; set; }
 
 
