@@ -279,7 +279,6 @@
     <Column Member="Goods" Name="GOODS" IsNullable="true" Precision="126" />
     <Column Member="Grosswgt" Name="GROSSWGT" IsNullable="true" Precision="126" />
     <Column Member="Handrate" Name="HANDRATE" IsNullable="true" Precision="126" />
-    <Column Member="Invprtrecno" Name="INVPRTRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Nettwgt" Name="NETTWGT" IsNullable="true" Precision="126" />
     <Column Member="Offinvonpay" Name="OFFINVONPAY" IsNullable="true" Precision="126" />
     <Column Member="Offinvrbt" Name="OFFINVRBT" IsNullable="true" Precision="126" />
@@ -498,7 +497,6 @@
     <Column Member="Goods" Name="GOODS" IsNullable="true" Precision="126" />
     <Column Member="Grosswgt" Name="GROSSWGT" IsNullable="true" Precision="126" />
     <Column Member="Handrate" Name="HANDRATE" IsNullable="true" Precision="126" />
-    <Column Member="Invprtrecno" Name="INVPRTRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Nettwgt" Name="NETTWGT" IsNullable="true" Precision="126" />
     <Column Member="Offinvonpay" Name="OFFINVONPAY" IsNullable="true" Precision="126" />
     <Column Member="Offinvrbt" Name="OFFINVRBT" IsNullable="true" Precision="126" />

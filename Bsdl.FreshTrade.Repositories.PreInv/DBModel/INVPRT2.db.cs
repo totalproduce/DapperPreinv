@@ -673,20 +673,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
          ));
 
          result.Add(new EntityPropDef(
-         PropertyHelper <INVPRT2>.GetProperty(x => x.Invprtrecno),
-         "INVPRTRECNO", // columnName
-         false,                    //isKey
-         true, //isNullable
-         "",                       //refEntityName
-         null,                     //PropertyInfo keyPropInfo
-         0,       // int size   
-                  10, // int? prec
-                           0  // int? Scale
-         ,
-         typeof(INVPRT2)
-         ));
-
-         result.Add(new EntityPropDef(
          PropertyHelper <INVPRT2>.GetProperty(x => x.Nettwgt),
          "NETTWGT", // columnName
          false,                    //isKey
@@ -1747,20 +1733,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             }
         }
 
-        private int? _fInvprtrecno;
-        public int? Invprtrecno
-        {
-            get { return _fInvprtrecno; }
-            set
-            {
-                if (_fInvprtrecno != value)
-                {
-                    Modify();
-                    _fInvprtrecno = value;
-                }
-            }
-        }
-
         private decimal? _fNettwgt;
         public decimal? Nettwgt
         {
@@ -2230,7 +2202,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
                     Goods = Goods,
                     Grosswgt = Grosswgt,
                     Handrate = Handrate,
-                    Invprtrecno = Invprtrecno,
                     Nettwgt = Nettwgt,
                     Offinvonpay = Offinvonpay,
                     Offinvrbt = Offinvrbt,
@@ -2313,7 +2284,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DBModel
             public const string  GOODS = "GOODS";
             public const string  GROSSWGT = "GROSSWGT";
             public const string  HANDRATE = "HANDRATE";
-            public const string  INVPRTRECNO = "INVPRTRECNO";
             public const string  NETTWGT = "NETTWGT";
             public const string  OFFINVONPAY = "OFFINVONPAY";
             public const string  OFFINVRBT = "OFFINVRBT";

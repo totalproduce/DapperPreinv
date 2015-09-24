@@ -54,7 +54,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
         {
             var result = new INVPRT2();
             result.Extractsessionid = item.ExtractSessionID;
-            result.Invprtrecno = item.InvPrtRecNo;
             result.Alloctoinvrecno = item.AllocToInvRecNo;
             result.Allowonelinecancel = item.AllowOneLineCancel ? (short)1 : (short)0;
             result.Basecommamt = item.Basecommamt;
@@ -161,7 +160,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                             new DTOInvPrt2
                             {
                                 ExtractSessionID = item.Extractsessionid,
-                                InvPrtRecNo = item.Invprtrecno,
                                 AllocToInvRecNo = item.Alloctoinvrecno,
                                 AllowOneLineCancel = item.Allowonelinecancel > 0,
                                 Basecommamt = item.Basecommamt ?? 0,

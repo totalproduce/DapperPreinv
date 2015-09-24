@@ -11,7 +11,6 @@ namespace Bsdl.FreshTrade.UI.PreInv.Model
 
         public PreInvPrt2Model(IDTOInvPrt2 b)
         {
-            InvPrtRecNo = b.InvPrtRecNo;
             AllocToInvRecNo = b.AllocToInvRecNo;
             AllowOneLineCancel = b.AllowOneLineCancel;
             Basecommamt = b.Basecommamt;
