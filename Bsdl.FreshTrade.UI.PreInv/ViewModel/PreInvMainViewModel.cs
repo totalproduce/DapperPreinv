@@ -1261,7 +1261,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                             DlvPODNo = x.DlvPODNo,
                             OrdCstCode = x.OrdCstCode,
                             OrdCustOrdNo = x.OrdCustOrdNo,
-                            Children = resultItemsPrt2.Where(c => c.InvPrtRecNo == x.RecNo).ToList(),
+                            Children = resultItemsPrt2.Where(c => c.InvoiceNo == x.DlvInvoiceNo && c.DlvOrdNo == x.DlvOrdNo).ToList(),
                             RecNo = x.RecNo
                         })
                 .ToList();
@@ -1291,7 +1291,7 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
             foreach (var prt2Model in resultItemsPrt2)
             {
                 prt2Model.Parent =
-                    resultItemsPrt.FirstOrDefault(x => x.RecNo == prt2Model.InvPrtRecNo);
+                    resultItemsPrt.FirstOrDefault(x => x.DlvOrdNo == prt2Model.DlvOrdNo && x.DlvInvoiceNo == prt2Model.InvoiceNo);
             }
 
             foreach (var prtModel in resultItemsPrt)
