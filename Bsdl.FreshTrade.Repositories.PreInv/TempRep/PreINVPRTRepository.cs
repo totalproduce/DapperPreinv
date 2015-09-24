@@ -160,7 +160,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                                     new List<ISearchField>
                                     {
                                         new SearchFieldGeneric<DTOInvPrt, int>(k => k.ExtractSessionID).Apply(extractionSessionId, FieldType.Integer),
-                                        new SearchFieldGeneric<DTOInvPrt, int>(k => k.RecNo).Apply(i, FieldType.List)
+                                        new SearchFieldGeneric<DTOInvPrt, int?>(k => k.RecNo).Apply(i, FieldType.List)
                                     },
                                     CachingStrategy.NoCache
                                 ),

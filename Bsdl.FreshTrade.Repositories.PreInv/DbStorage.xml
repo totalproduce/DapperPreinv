@@ -335,7 +335,7 @@
     <Column Member="Ordrecno" Name="ORDRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Ordsmnno" Name="ORDSMNNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Prcglbrecno" Name="PRCGLBRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Recno" Name="RECNO" Precision="10" Scale="0" />
+    <Column Member="Recno" Name="RECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Saloffdesc" Name="SALOFFDESC" IsNullable="true" Size="23" />
     <Column Member="Sort1" Name="SORT1" IsNullable="true" Size="30" />
     <Column Member="Sort2" Name="SORT2" IsNullable="true" Size="30" />
@@ -553,7 +553,7 @@
     <Column Member="Ordrecno" Name="ORDRECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Ordsmnno" Name="ORDSMNNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Prcglbrecno" Name="PRCGLBRECNO" IsNullable="true" Precision="10" Scale="0" />
-    <Column Member="Recno" Name="RECNO" Precision="10" Scale="0" />
+    <Column Member="Recno" Name="RECNO" IsNullable="true" Precision="10" Scale="0" />
     <Column Member="Saloffdesc" Name="SALOFFDESC" IsNullable="true" Size="23" />
     <Column Member="Sort1" Name="SORT1" IsNullable="true" Size="30" />
     <Column Member="Sort2" Name="SORT2" IsNullable="true" Size="30" />

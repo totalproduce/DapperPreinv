@@ -896,7 +896,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         {
             var realInvTotIds = invTotRecords.Select(i => i.OriginalInvoiceNo).OrderBy(i => i).ToList();
             var requiredInvTotIds = updateParams.SelectedPreInvTot.OrderBy(i => i).ToList();
-            var realInvPrtIds = invPrtRecords.Select(i => (int?)i.RecNo).OrderBy(i => i).ToList();
+            var realInvPrtIds = invPrtRecords.Select(i => i.RecNo).OrderBy(i => i).ToList();
             var requiredInvPrtIds = updateParams.SelectedPreInvPrt.OrderBy(i => i).ToList();
             var realInvPrt2Ids = invPrt2Records.Select(i => i.Recno).OrderBy(i => i).ToList();
             var requiredInvPrt2Ids = updateParams.SelectedPreInvPrt2.OrderBy(i => i).ToList();
