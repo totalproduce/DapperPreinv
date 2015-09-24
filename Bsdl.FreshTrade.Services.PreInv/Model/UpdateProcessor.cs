@@ -902,7 +902,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var requiredInvPrt2Ids = updateParams.SelectedPreInvPrt2.OrderBy(i => i).ToList();
 
             //These duplicates should be already resolved. Should newer happen, for now left as a safegard to indicate and issues in the code
-            CheckForDuplicatedKeys("PreInvPrt", "DelHed.DlvOrdNo", realInvPrtIds);
+            CheckForDuplicatedKeys("PreInvPrt", "RecNo", realInvPrtIds);
             CheckForDuplicatedKeys("PreInvPrt2", "RecNo", realInvPrt2Ids);
             //-------------------
 
@@ -953,7 +953,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     GetCountDifferenceDescription(ltext, realInvTotIds, requiredInvTotIds, "Invoice");
                     GetCountDifferenceDescription(ltext,
                        realInvPrtIds.Where(i => i.HasValue).Select(i => i.Value).ToList(),
-                       requiredInvPrtIds, "Delivery No");
+                       requiredInvPrtIds, "InvPrt RecNo");
                     GetCountDifferenceDescription(ltext,
                         realInvPrt2Ids.Where(i => i.HasValue).Select(i => i.Value).ToList(),
                         requiredInvPrt2Ids, "InvPrt2 RecNo");
@@ -964,7 +964,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 case 3:
                     GetDifferenceDescription(ltext,
                        realInvPrtIds.Where(i => i.HasValue).Select(i => i.Value).ToList(),
-                       requiredInvPrtIds, "Delivery No");
+                       requiredInvPrtIds, "InvPrt RecNo");
                     break;
                 case 4:
                     GetDifferenceDescription(ltext,
