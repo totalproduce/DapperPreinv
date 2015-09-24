@@ -34,7 +34,8 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                 new List<ISearchFieldDef>
                 {
                      new SearchFieldDef<DTOInvPrt, int>(i => i.ExtractSessionID, PreINVPRT.FieldNames.EXTRACTSESSIONID, FieldType.Integer),
-                     new SearchFieldDef<DTOInvPrt, int?>(i => i.DlvOrdNo, PreINVPRT.FieldNames.DLVORDNO, FieldType.Integer)
+                     new SearchFieldDef<DTOInvPrt, int?>(i => i.DlvOrdNo, PreINVPRT.FieldNames.DLVORDNO, FieldType.Integer),
+                     new SearchFieldDef<DTOInvPrt, int?>(i => i.RecNo, PreINVPRT.FieldNames.RECNO, FieldType.Integer)
                 }
             )
         {
@@ -55,6 +56,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
         {
             var result = new PreINVPRT();
             result.Extractsessionid = item.ExtractSessionID;
+            result.Recno = item.RecNo;
             result.Cancelleddlv = (short)(item.CancelledDlv?1:0);
             result.Curdesc = item.CurDesc;
             result.Delclarecno = item.DelClaRecNo;
@@ -113,6 +115,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                             new DTOInvPrt
                             {
                                 ExtractSessionID = item.Extractsessionid,
+                                RecNo = item.Recno,
                                 CancelledDlv = item.Cancelleddlv>0,
                                 CurDesc = item.Curdesc,
                                 DelClaRecNo = item.Delclarecno,
@@ -157,7 +160,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.TempRep
                                     new List<ISearchField>
                                     {
                                         new SearchFieldGeneric<DTOInvPrt, int>(k => k.ExtractSessionID).Apply(extractionSessionId, FieldType.Integer),
-                                        new SearchFieldGeneric<DTOInvPrt, int?>(k => k.DlvOrdNo).Apply(i, FieldType.List)
+                                        new SearchFieldGeneric<DTOInvPrt, int>(k => k.RecNo).Apply(i, FieldType.List)
                                     },
                                     CachingStrategy.NoCache
                                 ),
