@@ -1261,7 +1261,8 @@ namespace Bsdl.FreshTrade.UI.PreInv.ViewModel
                             DlvPODNo = x.DlvPODNo,
                             OrdCstCode = x.OrdCstCode,
                             OrdCustOrdNo = x.OrdCustOrdNo,
-                            Children = resultItemsPrt2.Where(c => c.InvoiceNo == x.DlvInvoiceNo && c.DlvOrdNo == x.DlvOrdNo).ToList()
+                            Children = resultItemsPrt2.Where(c => c.InvoiceNo == x.DlvInvoiceNo && c.DlvOrdNo == x.DlvOrdNo).ToList(),
+                            RecNo = x.RecNo
                         })
                 .ToList();
 

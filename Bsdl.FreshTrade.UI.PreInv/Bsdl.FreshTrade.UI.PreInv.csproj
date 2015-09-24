@@ -372,6 +372,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\PreInvService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\PreInvService\configuration.svcinfo" />
+    <None Include="Service References\PreInvService\configuration91.svcinfo" />
+    <None Include="Service References\PreInvService\PreInvService.disco" />
     <None Include="Service References\ReportingService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -393,13 +400,6 @@
     <None Include="Service References\AccountService\configuration.svcinfo" />
     <None Include="Service References\AccountService\configuration91.svcinfo" />
     <None Include="Service References\AccountService\AccountService.disco" />
-    <None Include="Service References\PreInvService\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\PreInvService\configuration.svcinfo" />
-    <None Include="Service References\PreInvService\configuration91.svcinfo" />
-    <None Include="Service References\PreInvService\PreInvService.disco" />
     <Resource Include="FreshTrade.ico" />
     <Content Include="Images\ArrowLeft.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

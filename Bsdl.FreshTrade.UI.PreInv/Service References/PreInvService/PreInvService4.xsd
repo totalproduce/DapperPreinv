@@ -204,6 +204,7 @@
       <xs:element minOccurs="0" name="OrdRecNo" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="OrdSmnNo" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="PrcGlbRecNo" nillable="true" type="xs:int" />
+      <xs:element minOccurs="0" name="RecNo" nillable="true" type="xs:int" />
       <xs:element minOccurs="0" name="SalOffDesc" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Sort1" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="Sort2" nillable="true" type="xs:string" />
@@ -231,6 +232,7 @@
       <xs:element minOccurs="0" name="BaseVatOnChgs" type="xs:decimal" />
       <xs:element minOccurs="0" name="BaseVatTotal" type="xs:decimal" />
       <xs:element minOccurs="0" name="Basehandcommamt" type="xs:decimal" />
+      <xs:element minOccurs="0" name="BatchNo" type="xs:int" />
       <xs:element xmlns:q11="http://schemas.datacontract.org/2004/07/Bsdl.FreshTrade.Domain.PreInv.Enums" minOccurs="0" name="BatchType" type="q11:PreInvBatchType" />
       <xs:element minOccurs="0" name="Cancel" type="xs:boolean" />
       <xs:element minOccurs="0" name="CancelledInv" type="xs:boolean" />
