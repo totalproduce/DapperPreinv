@@ -121,7 +121,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private List<DTOInvDiscTyp> _currentInvoiceDiscTypItems = new List<DTOInvDiscTyp>();
 
         private ExtractionExecutionContext _context;
-        private int _incrementalExtractedInvPrtRecNo = 0; //incremental count of extracted records
+        private int _incrementalExtractedInvPrtRecNo = 1; //incremental count of extracted records
         private int _incrementalExtractedInvPrt2RecNo = 0; //incremental count of extracted records
         private int _nextInvoiceNo = 0;
 
@@ -2933,6 +2933,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             invPrt2.ExtractSessionID = _extractSessionID;
             invPrt2.InvoiceNo = _context.InvoiceTotal.InvoiceNo;
             invPrt2.Recno = _incrementalExtractedInvPrt2RecNo;
+            invPrt2.InvPrtRecNo = _incrementalExtractedInvPrtRecNo;
             invPrt2.DlvOrdNo = _context.DeliveryHead.Id;
             invPrt2.DelRecNo = _context.DeliveryDetail.Id;
 
@@ -3155,8 +3156,6 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 }
             }
 
-            _incrementalExtractedInvPrtRecNo++; //incremental count of records.
-
             var invPrt = new DTOInvPrt();
             invPrt.ExtractSessionID = _extractSessionID;
             invPrt.RecNo = _incrementalExtractedInvPrtRecNo;
@@ -3187,6 +3186,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             invPrt.SalOffDesc = salesOfficeDesc;
 
             _extractResult.InvoicePartItems.Add(invPrt);
+            _incrementalExtractedInvPrtRecNo++; //incremental count of records.
 
             _context.InvoiceTotal.InvoiceTotal = _context.InvoiceTotal.GoodsTotal + _context.InvoiceTotal.VatTotal - _context.InvoiceTotal.OnInvDscnt;
             if (newInvTotal)

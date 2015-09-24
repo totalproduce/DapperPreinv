@@ -8,7 +8,7 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Interfaces
 
         int ExtractSessionID { get; set; }
 
-
+        int? InvPrtRecNo { get; set; }
 
         int? AllocToInvRecNo { get; set; }
 
