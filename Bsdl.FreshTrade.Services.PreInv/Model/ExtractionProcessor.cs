@@ -121,7 +121,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
         private List<DTOInvDiscTyp> _currentInvoiceDiscTypItems = new List<DTOInvDiscTyp>();
 
         private ExtractionExecutionContext _context;
-        private int _incrementalExtractedRecNo = 0; //incremental count of extracted records
+        private int _incrementalExtractedInvPrtRecNo = 0; //incremental count of extracted records
+        private int _incrementalExtractedInvPrt2RecNo = 0; //incremental count of extracted records
         private int _nextInvoiceNo = 0;
 
 
@@ -2516,7 +2517,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 euroOffInvOnPay = 0,
                 baseOffInvOnPay = 0;
 
-            _incrementalExtractedRecNo++; //incremental count of records.
+            _incrementalExtractedInvPrt2RecNo++; //incremental count of records.
 
             if (_context.HasDiscountRates || _context.HasRebateRates)
             {
@@ -2685,7 +2686,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                 {
                                     ExtractSessionID = _extractSessionID,
                                     DlvInvoiceNo = _context.InvoiceTotal.InvoiceNo,
-                                    RecNo = _incrementalExtractedRecNo,
+                                    RecNo = _incrementalExtractedInvPrt2RecNo,
                                     DiscSeqNo = discountRateRecord.Key, //Is the Sequence no
                                     DiscTyp = discountRate.Type,
                                     DiscRate = nuDiscountRate,
@@ -2931,7 +2932,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
             var invPrt2 = new DTOInvPrt2();
             invPrt2.ExtractSessionID = _extractSessionID;
             invPrt2.InvoiceNo = _context.InvoiceTotal.InvoiceNo;
-            invPrt2.Recno = _incrementalExtractedRecNo;
+            invPrt2.Recno = _incrementalExtractedInvPrt2RecNo;
             invPrt2.DlvOrdNo = _context.DeliveryHead.Id;
             invPrt2.DelRecNo = _context.DeliveryDetail.Id;
 
@@ -3154,6 +3155,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 }
             }
 
+            _incrementalExtractedInvPrtRecNo++; //incremental count of records.
             var invPrt = new DTOInvPrt();
             invPrt.ExtractSessionID = _extractSessionID;
             invPrt.DlvInvoiceNo = _context.InvoiceTotal.InvoiceNo;
