@@ -144,7 +144,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
             return GetDataInChunks(i => i.Id, recnos);
         }
 
-        public void EnqueueForCosting(List<int> deliveryPriceIds)
+        public void EnqueueForCosting(List<int> deliveryPriceIds, int? formNo)
         {
             ExecuteCustomSqlWithArrayBinding
                 (
@@ -155,6 +155,7 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.DeliveryRep
                             var parameters = new DynamicParameters();
                             GenSqlScriptHelper.GenStoredProcedureParam(parameters, "DPRRECS_IN", typeof(int), i.ToArray());
                             GenSqlScriptHelper.GenStoredProcedureParam(parameters, "COSTCHNGTYPE_IN", typeof(int), 2);
+                            GenSqlScriptHelper.GenStoredProcedureParam(parameters, "FORMNO_IN", typeof(int), formNo);
                             return parameters;
                         },
                         CommandType.StoredProcedure
