@@ -179,7 +179,7 @@ namespace Bsdl.FreshTrade.Repositories.Basic.Persistance
                     if (isArray)
                     {
                         param.CollectionType = OracleCollectionType.PLSQLAssociativeArray;
-                        param.Size = 2;
+                        param.Size = i.Size;
                     }
                     param.DbType = dbType;
                 }

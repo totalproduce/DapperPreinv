@@ -2,7 +2,7 @@
 {
     public class PreInvSessionContext
     {
-        public const string PreInvSessionName = "PreInv";
+        public const string PreInvSessionName = "PREINV_NEW";
 
         public int? ExtractSessionID { get; set; }
         public int? SalesOfficeNo { get; set; }

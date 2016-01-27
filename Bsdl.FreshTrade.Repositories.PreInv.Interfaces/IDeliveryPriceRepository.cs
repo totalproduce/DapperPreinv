@@ -12,6 +12,6 @@ namespace Bsdl.FreshTrade.Repositories.PreInv.Interfaces
         List<DTODeliveryPrice> GetDeliveryPriceByDeliveryDetailIDs(List<int> deliveryDetailIds);
         List<DTODeliveryPrice> GetDeliveryPriceByDprRecNos(List<int> recnos);
 
-        void EnqueueForCosting(List<int> deliveryPriceIds);
+        void EnqueueForCosting(List<int> deliveryPriceIds, int? formNo);
     }
 }
