@@ -1072,7 +1072,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                         a => (a.DelAudTyp == 128) && a.DprRecNo.HasValue && (a.DprRecNo.Value > 0))
                         .Select(i => i.DprRecNo.Value)
                         .ToList();
-                _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds);
+                var formNo = updateInfo.DelAuditRecordAdditions.FirstOrDefault().FormNo;
+                _deliveryPriceRepository.EnqueueForCosting(delPricesForCostingIds, formNo);
                 _unitOfWorkCurrent.Commit();
             }
             catch (Exception)
@@ -2220,7 +2221,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 }
                 else
                 {
-                    _unitOfWorkCurrent.Commit();
+                    _unitOfWorkCurrent.Rollback();
+                    //bmk this need removing _unitOfWorkCurrent.Commit();
                 }
             }
             catch (Exception)
