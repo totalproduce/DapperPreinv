@@ -84,7 +84,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Services
         #region Helpers
 
         private const string _settingsCacheKey = "PreInvSettings";
-        private const string _formName = "PREINV";
+        private const string _formName = "PREINV_NEW";
 
 
         private object _settingsReadLock = new object();
