@@ -2221,8 +2221,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                 }
                 else
                 {
-                    _unitOfWorkCurrent.Rollback();
-                    //bmk this need removing _unitOfWorkCurrent.Commit();
+                    _unitOfWorkCurrent.Commit();
                 }
             }
             catch (Exception)
