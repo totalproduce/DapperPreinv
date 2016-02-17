@@ -302,7 +302,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                     foreach (DTODeliveryDetail delDetail in delDetails)
                     {
                         var delPrices = allDeliveryPrices.Where(z => z.DeliveryDetailId.Equals(delDetail.Id)).ToList();
-                        if ((delDetail.Quantity == 0) && (delDetail.DeliveryStatus == DTODeliveryStatus.Released))
+                        if (delDetail.Quantity.GetValueOrDefault() == 0 && (delDetail.DeliveryStatus == DTODeliveryStatus.Released))
                         {
                             UpdateDeliveryDetail(updateContext, delDetail);
                         }
@@ -331,7 +331,7 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
                                     foreach (DTODeliveryPrice delPriceItem in delPrices)
                                     {
                                         if (
-                                              (delPriceItem.Quantity == 0) &&
+                                              (delPriceItem.Quantity.GetValueOrDefault() == 0) &&
                                               (Math.Abs(delPriceItem.NettValue) < 0.001M)
                                            )
                                         {
