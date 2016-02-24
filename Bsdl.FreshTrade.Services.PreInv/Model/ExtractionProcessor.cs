@@ -3275,15 +3275,21 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                     var currentDeliveryPriceCreditRef = string.Empty; //Should be merged;
 
-                    if (isOriginalDeliveryPriceInvoiced || !_context.Account.InvoiceType.IsNettOfCredit()) // Grouping condition
+                    if (_context.Account.InvoiceType != DTOInvoiceType.CombinedOrdersGross 
+                            && _context.Account.InvoiceType != DTOInvoiceType.CombinedOrdersNett)
                     {
-                        currentDeliveryPriceCreditRef =
-                            deliveryPrice.DeliveryPriceCreditRef == null
-                                ? string.Empty
-                                : string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef)
+                        if (isOriginalDeliveryPriceInvoiced || !_context.Account.InvoiceType.IsNettOfCredit()) // Grouping condition
+                        {
+                            currentDeliveryPriceCreditRef =
+                                deliveryPrice.DeliveryPriceCreditRef == null
                                     ? string.Empty
-                                    : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim();
+                                    : string.IsNullOrEmpty(deliveryPrice.DeliveryPriceCreditRef.CreditRef)
+                                        ? string.Empty
+                                        : deliveryPrice.DeliveryPriceCreditRef.CreditRef.Trim();
+                        }
+
                     }
+
 
                     ISet<DTODeliveryPrice> itemsGroup;
                     if (!groupsDictionary.TryGetValue(currentDeliveryPriceCreditRef, out itemsGroup))
