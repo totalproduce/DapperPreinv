@@ -36,14 +36,14 @@
                 Command="{Binding Path=CategoryAdd}"
                 CommandParameter="{Binding ElementName=grdGroupCategory, Path=SelectedItems}" >
             <Button.Background>
-                <ImageBrush Stretch="None" ImageSource="/Bsdl.FreshTrade.UI.PreInv;component/Images/ArrowRight.png"/>
+                <ImageBrush Stretch="None" ImageSource="../Images/ArrowRight.png"/>
             </Button.Background>
         </Button>
         <Button Name="btnRemoveCat" HorizontalAlignment="Left" Height="30" Margin="583,160,0,0" VerticalAlignment="Top" Width="40" 
                 Command="{Binding Path=CategoryRemove}"
                 CommandParameter="{Binding ElementName=grdSelectedCategory, Path=SelectedItems}" >
             <Button.Background>
-                <ImageBrush Stretch="None" ImageSource="/Bsdl.FreshTrade.UI.PreInv;component/Images/ArrowLeft.png"/>
+                <ImageBrush Stretch="None" ImageSource="../Images/ArrowLeft.png"/>
             </Button.Background>
         </Button>
         <Button Content="Finished" Name="btnClose" HorizontalAlignment="Left" Height="32" Margin="768,297,0,0" VerticalAlignment="Top" Width="82" Click="Button_Click_1"/>

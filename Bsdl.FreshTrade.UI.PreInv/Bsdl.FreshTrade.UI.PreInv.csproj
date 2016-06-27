@@ -401,9 +401,9 @@
     <None Include="Service References\AccountService\configuration91.svcinfo" />
     <None Include="Service References\AccountService\AccountService.disco" />
     <Resource Include="FreshTrade.ico" />
-    <Content Include="Images\ArrowLeft.png">
+    <Resource Include="Images\ArrowLeft.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <None Include="Service References\CustomerService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -413,9 +413,9 @@
     <None Include="Service References\CustomerService\CustomerService.disco" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\ArrowRight.png">
+    <Resource Include="Images\ArrowRight.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\" />
