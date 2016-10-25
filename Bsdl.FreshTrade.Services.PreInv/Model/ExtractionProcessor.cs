@@ -1478,8 +1478,19 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
             var vatLinks =
                 _vatLinkRepository.GetData(null, CachingStrategy.PerRequest) //TODO: discuss CachingStrategy.GlobalCache
-                    .Where(i => (i.AccountType == DTOAccountType.Customer) && (i.FromCountryNo == stockLocation.InCountry.Value))
+                    .Where(
+                        i =>
+                            (i.AccountType == DTOAccountType.Customer) &&
+                            (i.FromCountryNo == stockLocation.InCountry.Value))
+                    .OrderBy(o => o.AccountType)
+                    .ThenBy(o => o.FromCountryNo)
+                    .ThenBy(o => o.DeliveryCountryNo)
+                    .ThenBy(o => o.SalesOfficeNo)
+                    .ThenBy(o => o.DeliveryTypeId)
+                    .ThenBy(o => o.ChargeType)
                     .ToList();
+                    
+            //VATACCCSTSUP, VATFROMCOUNTRYNO, VATDLVCOUNTRYNO, VATSALESOFFICE, VATDLVTYPE, VATCTYNO
 
             if (vatLinks.Count == 0)
             {
