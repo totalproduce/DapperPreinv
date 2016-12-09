@@ -1872,14 +1872,21 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                             updateInfo.AccAllValAdditions.Add(accAllVal);
 
-                            int siDrCrTo = _context.siPstRecNo == EnumPostType.SALESCNTPSTRECNO
-                                ? -1 //post as credit to the 'allocated to' ACCTRNFIL.
-                                : 1; // post as debit  to the 'allocated to' ACCTRNFIL
+                            //int siDrCrTo = _context.siPstRecNo == EnumPostType.SALESCNTPSTRECNO
+                            //    ? -1 //post as credit to the 'allocated to' ACCTRNFIL.
+                            //    : 1; // post as debit  to the 'allocated to' ACCTRNFIL
+
+                            int siDrCrTo = 1;
+
+                            if (_context.siPstRecNo == EnumPostType.SALESCNTPSTRECNO)
+                            {
+                                siDrCrTo = -1;
+                            }
 
                             var accAllocMinus = new DTOAccAlloc
                                                     {
-                                                        Acaatrrecnofrom = accTrnFil.AtrRecNo,
-                                                        Acaatrrecnoto = _context.AccTrnFil.AtrRecNo,
+                                                        Acaatrrecnofrom = _context.AccTrnFil.AtrRecNo,
+                                                        Acaatrrecnoto = accTrnFil.AtrRecNo,
                                                         Acaaavrecno = liNxtRecNo,
                                                         Acadrcr = siDrCrTo * -1
                                                     };
@@ -1887,8 +1894,8 @@ namespace Bsdl.FreshTrade.Services.PreInv.Model
 
                             var accAllocPlus = new DTOAccAlloc
                                                     {
-                                                        Acaatrrecnofrom = _context.AccTrnFil.AtrRecNo,
-                                                        Acaatrrecnoto = accTrnFil.AtrRecNo,
+                                                        Acaatrrecnofrom = accTrnFil.AtrRecNo,
+                                                        Acaatrrecnoto = _context.AccTrnFil.AtrRecNo,
                                                         Acaaavrecno = liNxtRecNo,
                                                         Acadrcr = siDrCrTo
                                                     };
