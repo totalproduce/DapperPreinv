@@ -55,10 +55,10 @@ namespace Bsdl.FreshTrade.Domain.PreInv.Entities
         public decimal DelToBaseRate {get; set;}
         public bool DelTriangulate {get;set;}
         public decimal DelEuroNettVal {get;set;}
-        public decimal DelEuroVatValue {get;set;}
+        public decimal? DelEuroVatValue {get;set;}
         public decimal DelBaseNettVal {get;set;}
-        public decimal DelBaseVatValue {get;set;}
-        public decimal DelVatValue {get;set;}
+        public decimal? DelBaseVatValue {get;set;}
+        public decimal? DelVatValue {get;set;}
         public int? Delallwkrecno { get; set; }
         public bool Delisguideprice { get; set; }
         public int? Delprccomno { get; set; }
